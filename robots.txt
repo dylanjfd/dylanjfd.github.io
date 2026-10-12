@@ -1,0 +1,6 @@
+# Autorise l'indexation de tout le portfolio.
+# Remplace https://prenom-nom.fr/ par l'adresse publique du site.
+User-agent: *
+Allow: /
+
+Sitemap: https://prenom-nom.fr/sitemap.xml

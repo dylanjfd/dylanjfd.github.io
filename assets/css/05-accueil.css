@@ -1,0 +1,381 @@
+/* ==========================================================================
+   Portfolio BTS SIO — 05-accueil.css
+   Page d'accueil : hero (carte, rose des vents, particules) et fiche de personnage
+   (importé par style.css ; la numérotation des sections est celle du sommaire général)
+   --------------------------------------------------------------------------
+   9. Hero d'accueil : carte topographique, rose des vents, particules
+   11. Fiche de personnage : classe, niveau, attributs
+   ========================================================================== */
+
+
+/* ==========================================================================
+   9. Hero d'accueil : carte topographique, rose des vents, particules
+   Tous les décors sont dans .hero__decor (aria-hidden="true").
+   ========================================================================== */
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(3rem, 1.5rem + 6vw, 6.5rem) clamp(3.5rem, 2rem + 6vw, 7rem);
+  background:
+    radial-gradient(55rem 32rem at 88% 8%, var(--hero-glow-1), transparent 62%),
+    radial-gradient(40rem 24rem at 8% 78%, var(--hero-glow-2), transparent 65%),
+    var(--bg);
+}
+
+/* Fondu vers la section suivante (pas de coupure nette sous le décor) */
+.hero::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  height: 9rem;
+  background: linear-gradient(180deg, transparent, var(--bg-alt));
+  pointer-events: none;
+}
+
+.hero__decor,
+.page-hero__decor {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Fond de carte topographique (assets/img/topo.svg, dessin original) */
+.topo {
+  position: absolute;
+  inset: -2%;
+  background: url("../img/topo.svg") center / cover no-repeat;
+  opacity: var(--topo-opacity);
+  filter: var(--topo-filter);
+  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent);
+  mask-image: linear-gradient(180deg, #000 55%, transparent);
+}
+
+/* Rose des vents décorative (SVG original dans index.html) */
+.hero__compass {
+  position: absolute;
+  top: 50%;
+  right: clamp(-14rem, -10vw, -5rem);
+  width: clamp(22rem, 48vw, 40rem);
+  height: auto;
+  aspect-ratio: 1;
+  color: var(--gold);
+  opacity: var(--compass-opacity);
+  transform: translateY(-50%);
+}
+
+.compass__ring {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: compass-turn 240s linear infinite;
+}
+
+.compass__needle {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: compass-sway 16s ease-in-out infinite;
+}
+
+@keyframes compass-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes compass-sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+/* Particules lumineuses (canvas animé par main.js, 30 maximum) */
+.hero__particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(2.5rem, 1rem + 5vw, 5rem);
+  align-items: center;
+}
+
+.hero__title {
+  margin-bottom: 1.1rem;
+}
+
+.hero__name {
+  color: var(--gold-text);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 100%;
+  margin: 0 0 1.4rem;
+  padding: 0.4rem 0.9rem 0.4rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.status-pill__dot {
+  position: relative;
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 3px var(--success-soft);
+}
+
+.status-pill__dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 1px solid var(--success);
+  border-radius: 50%;
+  opacity: 0;
+  animation: pulse 2.6s ease-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.6);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+.lead {
+  max-width: 38rem;
+  color: var(--text-muted);
+  font-size: clamp(1.04rem, 0.98rem + 0.3vw, 1.18rem);
+}
+
+.lead strong {
+  color: var(--text);
+}
+
+/* Réglage personnalisé : espacement des lettres de la phrase d'accroche de l'accueil */
+.hero .lead {
+  letter-spacing: 2.3px;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.9rem;
+}
+
+
+/* ==========================================================================
+   11. Fiche de personnage : classe, niveau, attributs
+   Classe = option SISR/SLAM (CONFIG.OPTION dans main.js),
+   niveau = année de BTS, attributs = savoir-être.
+   ========================================================================== */
+.sheet {
+  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  background: linear-gradient(165deg, var(--surface-2), var(--surface) 60%);
+  box-shadow: var(--shadow);
+}
+
+.sheet__label {
+  margin-bottom: 1.15rem;
+}
+
+.sheet__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.15rem;
+  align-items: center;
+}
+
+/* Cadre du portrait : remplace le SVG par <img src="assets/img/photo.jpg" alt="…"> */
+.portrait {
+  position: relative;
+  width: 6.75rem;
+  aspect-ratio: 1;
+  padding: 3px;
+  border-radius: 12px;
+  background: linear-gradient(140deg, var(--gold-hover), var(--gold) 40%, var(--gold-soft) 70%, var(--gold));
+}
+
+.portrait__frame {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 9px;
+  background: radial-gradient(circle at 50% 28%, var(--surface-2), var(--bg) 78%);
+  color: var(--gold);
+}
+
+.portrait__frame svg {
+  width: 80%;
+  height: 80%;
+}
+
+.portrait__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.portrait__hint {
+  position: absolute;
+  bottom: -0.55rem;
+  left: 50%;
+  color: var(--text);
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.portrait__hint .todo {
+  background: var(--surface);
+}
+
+.sheet__name {
+  margin: 0 0 0.55rem;
+  font-size: 1.25rem;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.sheet-stats {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.sheet-stats > div {
+  display: grid;
+  grid-template-columns: 4.7rem minmax(0, 1fr);
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.sheet-stats dt,
+.info-list dt,
+.meta-list dt {
+  color: var(--gold-text);
+  font-family: var(--font-rpg);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sheet-stats dd {
+  margin: 0;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.sheet-stats__hint {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 400;
+}
+
+.sheet__subtitle {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 0.9rem;
+  color: var(--gold-text);
+  font-family: var(--font-rpg);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sheet__subtitle span {
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.attributes {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.attribute {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.4rem 0.75rem;
+  align-items: baseline;
+}
+
+.attribute__name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.attribute__value {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.attribute .gauge {
+  grid-column: 1 / -1;
+}
+
+/* Liste d'informations (biographie) */
+.info-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1.75rem 0 0;
+  padding: 1.15rem 1.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.info-list > div {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.info-list dd {
+  margin: 0;
+}

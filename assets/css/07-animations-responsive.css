@@ -1,0 +1,281 @@
+/* ==========================================================================
+   Portfolio BTS SIO — 07-animations-responsive.css
+   Apparitions, responsive, mouvement réduit et impression (toujours en dernier)
+   (importé par style.css ; la numérotation des sections est celle du sommaire général)
+   --------------------------------------------------------------------------
+   25. Apparition au défilement
+   26. Responsive (aucun défilement horizontal de 320 px à 1440 px)
+   27. Mouvement réduit (prefers-reduced-motion)
+   28. Impression
+   ========================================================================== */
+
+
+/* ==========================================================================
+   25. Apparition au défilement
+   main.js ajoute .is-visible quand l'élément entre à l'écran.
+   Sans JavaScript (pas de classe .js), tout reste visible.
+   ========================================================================== */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-group > .reveal:nth-child(2) {
+  --reveal-delay: 0.08s;
+}
+
+.reveal-group > .reveal:nth-child(3) {
+  --reveal-delay: 0.16s;
+}
+
+.reveal-group > .reveal:nth-child(4) {
+  --reveal-delay: 0.24s;
+}
+
+.reveal-group > .reveal:nth-child(5) {
+  --reveal-delay: 0.32s;
+}
+
+.reveal-group > .reveal:nth-child(6) {
+  --reveal-delay: 0.4s;
+}
+
+
+/* ==========================================================================
+   26. Responsive (aucun défilement horizontal de 320 px à 1440 px)
+   ========================================================================== */
+@media (max-width: 63.99rem) {
+  /* Menu mobile */
+  .js .nav-toggle {
+    display: inline-flex;
+  }
+
+  .js .site-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: none;
+    max-height: calc(100vh - var(--header-h));
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+    padding: 0.5rem var(--gutter) 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-alt);
+    box-shadow: var(--shadow);
+  }
+
+  .js .site-nav.is-open {
+    display: block;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .site-nav a {
+    padding: 0.8rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    font-size: 1rem;
+  }
+
+  .site-nav li:last-child a {
+    border-bottom: 0;
+  }
+
+  .site-nav a[aria-current]::after {
+    top: 50%;
+    right: 0.75rem;
+    bottom: auto;
+    left: auto;
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  /* Sans JavaScript, la navigation reste affichée sous le logo */
+  html:not(.js) .site-header {
+    position: static;
+  }
+
+  html:not(.js) .header__inner {
+    flex-wrap: wrap;
+    padding-block: 0.5rem;
+  }
+
+  html:not(.js) .site-nav {
+    width: 100%;
+  }
+
+  .hero__grid,
+  .quest-layout,
+  .contact-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero__sheet {
+    max-width: 34rem;
+  }
+
+  .quest-aside {
+    position: static;
+  }
+
+  .footer__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .footer__about {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 39.99rem) {
+  .footer__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .info-list > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.1rem;
+  }
+
+  .hero__actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .hero__compass {
+    top: 12rem;
+    right: -9rem;
+  }
+}
+
+@media (max-width: 26rem) {
+  .nav-toggle__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .nav-toggle {
+    padding: 0 0.7rem;
+  }
+
+  .header__inner {
+    gap: 0.5rem;
+  }
+
+  .sheet__head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sheet-stats > div {
+    grid-template-columns: 4.4rem minmax(0, 1fr);
+  }
+}
+
+
+/* ==========================================================================
+   27. Mouvement réduit (prefers-reduced-motion)
+   Désactive toutes les animations : apparitions, jauges, particules,
+   rose des vents, pulsation, notification et effets de survol.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .js .gauge {
+    --progress: 1;
+  }
+
+  .hero__particles {
+    display: none;
+  }
+
+  .compass__ring,
+  .compass__needle,
+  .status-pill__dot::after,
+  .quest-toast {
+    animation: none !important;
+  }
+
+  .btn:hover,
+  .card--link:hover {
+    transform: none;
+  }
+}
+
+
+/* ==========================================================================
+   28. Impression
+   ========================================================================== */
+@media print {
+  :root,
+  :root[data-theme="light"] {
+    --bg: #fff;
+    --bg-alt: #fff;
+    --surface: #fff;
+    --surface-2: #fff;
+    --footer-bg: #fff;
+    --text: #000;
+    --text-muted: #333;
+    --gold-text: #5a4318;
+    --border: #bbb;
+  }
+
+  .site-header,
+  .hero__decor,
+  .page-hero__decor,
+  .skip-link,
+  .filters,
+  .hero__actions,
+  .footer__grid nav {
+    display: none !important;
+  }
+
+  .js .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .js .gauge {
+    --progress: 1;
+  }
+
+  .card {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+
+  .table-wrap {
+    overflow: visible;
+  }
+
+  .e5-table {
+    min-width: 0;
+    font-size: 9pt;
+  }
+}

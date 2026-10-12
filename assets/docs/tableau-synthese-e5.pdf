@@ -1,0 +1,54 @@
+%PDF-1.4
+%âãÏÓ
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Length 710 >>
+stream
+0.055 0.075 0.125 rg
+0 722 595 120 re f
+0.788 0.639 0.357 rg
+297.5 700 m 309.5 712 l 297.5 724 l 285.5 712 l f
+BT /F1 24 Tf 56 782 Td (Tableau de synthèse E5 - Prénom NOM) Tj ET
+0.937 0.902 0.824 rg
+BT /F2 12 Tf 56 756 Td (Portfolio BTS SIO - épreuve E5) Tj ET
+0.165 0.129 0.086 rg
+BT /F1 15 Tf 56 650 Td (Fichier provisoire) Tj ET
+BT /F2 11 Tf 56 626 Td (Remplace ce fichier par l'export PDF du modèle officiel complété :) Tj ET
+BT /F2 11 Tf 56 608 Td ([E5]_Epreuve_support_modele_tableau_synthese_annexe_BTS_SIO_2026.xlsx) Tj ET
+BT /F2 11 Tf 56 590 Td (en gardant le même nom : assets/docs/tableau-synthese-e5.pdf) Tj ET
+BT /F2 11 Tf 56 572 Td (Le bouton de la page Tableau E5 pointe vers ce fichier.) Tj ET
+
+endstream
+endobj
+7 0 obj
+<< /Title (Tableau de synthèse E5 - Prénom NOM) /Producer (Portfolio BTS SIO) >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000257 00000 n 
+0000000359 00000 n 
+0000000456 00000 n 
+0000001217 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R /Info 7 0 R >>
+startxref
+1313
+%%EOF

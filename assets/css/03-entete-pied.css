@@ -1,0 +1,233 @@
+/* ==========================================================================
+   Portfolio BTS SIO — 03-entete-pied.css
+   En-tête, navigation, bouton de thème et pied de page
+   (importé par style.css ; la numérotation des sections est celle du sommaire général)
+   --------------------------------------------------------------------------
+   6. En-tête, navigation et bouton de thème
+   24. Pied de page
+   ========================================================================== */
+
+
+/* ==========================================================================
+   6. En-tête, navigation et bouton de thème
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
+  background: var(--header-bg);
+  -webkit-backdrop-filter: saturate(150%) blur(12px);
+  backdrop-filter: saturate(150%) blur(12px);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: var(--header-h);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+  margin-right: auto;
+  color: var(--text);
+  font-size: 1.02rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--text);
+}
+
+.brand__mark {
+  width: 1.9rem;
+  height: 1.9rem;
+  color: var(--gold);
+  filter: drop-shadow(0 0 8px var(--glow));
+  transition: color 0.2s;
+}
+
+.brand:hover .brand__mark {
+  color: var(--gold-hover);
+}
+
+.brand__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav a {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.62rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 0.93rem;
+  font-weight: 550;
+  text-decoration: none;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.site-nav a:hover {
+  background: var(--gold-soft);
+  color: var(--text);
+}
+
+/* Page courante (ou rubrique parente : aria-current="true") :
+   couleur or + petit losange (pas seulement la couleur) */
+.site-nav a[aria-current] {
+  color: var(--gold-text);
+}
+
+.site-nav a[aria-current]::after {
+  content: "";
+  position: absolute;
+  bottom: 0.1rem;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.theme-toggle,
+.nav-toggle {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.theme-toggle:hover,
+.nav-toggle:hover {
+  border-color: var(--gold);
+  color: var(--gold-text);
+  box-shadow: 0 0 16px -4px var(--glow);
+}
+
+/* Les boutons de l'en-tête n'apparaissent que si JavaScript est actif */
+.theme-toggle {
+  display: none;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
+}
+
+.js .theme-toggle {
+  display: inline-grid;
+}
+
+.theme-toggle svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.theme-toggle .icon-moon,
+:root[data-theme="light"] .theme-toggle .icon-sun {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-toggle .icon-moon {
+  display: block;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.6rem;
+  padding: 0 0.85rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.nav-toggle svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+
+/* ==========================================================================
+   24. Pied de page
+   ========================================================================== */
+.site-footer {
+  position: relative;
+  padding-top: clamp(3rem, 2.5rem + 2vw, 4rem);
+  background: var(--footer-bg);
+  color: var(--text-muted);
+  font-size: 0.94rem;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2rem 3rem;
+}
+
+.footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 0.6rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.footer__brand svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  color: var(--gold);
+}
+
+.footer__title {
+  margin: 0 0 0.85rem;
+  color: var(--text);
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+
+.footer__list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer__list a {
+  color: var(--text-muted);
+}
+
+.footer__list a:hover {
+  color: var(--gold-hover);
+}
+
+.footer__bottom {
+  margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  padding-block: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+.footer__bottom p {
+  margin: 0;
+}

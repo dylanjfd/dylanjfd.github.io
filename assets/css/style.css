@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Portfolio BTS SIO — feuille de style principale (point d'entrée)
+   Thème « Quête d'aventure » : interface de RPG d'aventure moderne,
+   cinématique et sobre. Les titres restent classiques ; le vocabulaire RPG
+   est réservé aux petits libellés (.eyebrow), aux badges et aux détails.
+   --------------------------------------------------------------------------
+   Ce fichier ne contient que le sommaire et l'import des modules.
+   L'ordre des imports compte : les règles responsives, « mouvement réduit »
+   et d'impression sont chargées en dernier pour pouvoir tout surcharger.
+
+   SOMMAIRE                                             MODULE
+    0. Police locale : Cinzel (SIL OFL 1.1)             01-variables.css
+    1. Variables du thème (sombre, clair, ornements)    01-variables.css
+    2. Base : reset léger et typographie                02-base.css
+    3. Accessibilité : évitement, focus or, sr-only     02-base.css
+    4. Mise en page : conteneur, sections, grilles      02-base.css
+    5. Libellés RPG (.eyebrow) et séparateurs           02-base.css
+    6. En-tête, navigation et bouton de thème           03-entete-pied.css
+   24. Pied de page                                     03-entete-pied.css
+    7. Boutons et liens-pastilles                       04-composants.css
+    8. Cases à compléter (.todo)                        04-composants.css
+   12. Jauges segmentées (attributs et XP)              04-composants.css
+   13. Cartes et coins ornementaux                      04-composants.css
+   14. Badges, étiquettes et légendes                   04-composants.css
+   15. Chapitres de l'aventure (frise chronologique)    04-composants.css
+   30. Aperçu des PDF (fenêtre du CV)                   04-composants.css
+    9. Hero d'accueil (carte, rose des vents, particules)  05-accueil.css
+   11. Fiche de personnage (classe, niveau, attributs)  05-accueil.css
+   10. En-tête des pages intérieures, fil d'Ariane      06-pages.css
+   16. Journal de quêtes (filtre, cartes projet)        06-pages.css
+   17. Fiche de quête (pages projet), stages            06-pages.css
+   18. Arbre de talents (compétences)                   06-pages.css
+   19. Codex (veille technologique)                     06-pages.css
+   20. Succès (certifications)                          06-pages.css
+   21. Progression (tableau de synthèse E5)             06-pages.css
+   22. Formulaire de contact et notification de quête   06-pages.css
+   23. Pages d'information (mentions, confidentialité)  06-pages.css
+   29. Contenu Markdown : chargement, erreur, sans JS   06-pages.css
+   25. Apparition au défilement                         07-animations-responsive.css
+   26. Responsive (320 → 1440 px)                       07-animations-responsive.css
+   27. Mouvement réduit (prefers-reduced-motion)        07-animations-responsive.css
+   28. Impression                                       07-animations-responsive.css
+   ========================================================================== */
+
+@import url("01-variables.css");
+@import url("02-base.css");
+@import url("03-entete-pied.css");
+@import url("04-composants.css");
+@import url("05-accueil.css");
+@import url("06-pages.css");
+@import url("07-animations-responsive.css");

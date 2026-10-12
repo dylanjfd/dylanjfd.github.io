@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact · Portfolio BTS SIO</title>
+  <meta name="description" content="Contact : proposition de stage, d'alternance, d'emploi ou question sur un projet.">
+  <meta name="color-scheme" content="dark light">
+  <!-- theme-color : bleu nuit (thème sombre) ; passe à #f3ecdd en thème clair -->
+  <meta name="theme-color" content="#0e1320">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../assets/fonts/cinzel-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <!-- Thème mémorisé, appliqué avant l'affichage -->
+  <script src="../assets/js/theme-init.js"></script>
+  <!-- Analyse du Markdown, construction de la page, interface -->
+  <script src="../assets/js/icones.js" defer></script>
+  <script src="../assets/js/markdown.js" defer></script>
+  <script src="../assets/js/rendu.js" defer></script>
+  <script src="../assets/js/interface.js" defer></script>
+  <script src="../assets/js/formulaire.js" defer></script>
+  <script src="../assets/js/main.js" defer></script>
+</head>
+<body data-racine="../" data-contenu="contenu/contact.md">
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="site-header">
+    <div class="container header__inner">
+      <a class="brand" href="../index.html">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M16 1.5 30.5 16 16 30.5 1.5 16ZM16 8 8 16l8 8 8-8Z"/><path fill="currentColor" d="M16 12.2 19.8 16 16 19.8 12.2 16Z"/></svg>
+        <span class="brand__name" data-site="nom">Portfolio BTS SIO</span>
+      </a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        <span class="nav-toggle__label">Menu</span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="Navigation principale">
+        <ul>
+          <li><a href="../index.html">Accueil</a></li>
+          <li><a href="../pages/projets.html">Projets</a></li>
+          <li><a href="../pages/competences.html">Compétences</a></li>
+          <li><a href="../pages/veille.html">Veille</a></li>
+          <li><a href="../pages/stages.html">Stages</a></li>
+          <li><a href="../pages/certifications.html">Certifications</a></li>
+          <li><a href="../pages/tableau-e5.html">Tableau E5</a></li>
+          <li><a href="../pages/contact.html" aria-current="page">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" title="Changer de thème">
+        <span class="sr-only">Thème clair</span>
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Le texte de cette page est rédigé en Markdown dans contenu/contact.md et affiché par assets/js/rendu.js -->
+  <main id="contenu" tabindex="-1" aria-busy="true">
+    <noscript>
+      <div class="container contenu-etat">
+        <p class="notice notice--info"><strong class="notice__title">JavaScript désactivé</strong> Ce portfolio affiche son contenu grâce à JavaScript. Version texte de cette page : <a href="../contenu/contact.md">contenu/contact.md</a>.</p>
+      </div>
+    </noscript>
+    <!--
+      Formulaire de contact : structure ici, comportement dans assets/js/formulaire.js.
+      Envoi : Formspree ou contact.php, à régler dans assets/js/main.js (CONFIG.FORM_ENDPOINT).
+      Sans JavaScript, le formulaire est envoyé à contact.php (hébergement PHP).
+    -->
+    <form class="card form" action="../contact.php" method="post" data-contact-form aria-labelledby="formulaire-title">
+      <div>
+        <h2 id="formulaire-title">Envoyer un message</h2>
+        <p class="form__note">Tous les champs sont obligatoires.</p>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="name">Nom et prénom</label>
+          <input id="name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="100" aria-describedby="name-error">
+          <p class="field__error" id="name-error"></p>
+        </div>
+        <div class="field">
+          <label for="email">Adresse e-mail</label>
+          <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" aria-describedby="email-hint email-error">
+          <p class="field__hint" id="email-hint">Exemple : prenom.nom@exemple.fr</p>
+          <p class="field__error" id="email-error"></p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="subject">Objet</label>
+        <select id="subject" name="subject" required aria-describedby="subject-error">
+          <option value="">Choisissez un objet</option>
+          <option value="Proposition de stage">Proposition de stage</option>
+          <option value="Proposition d'alternance">Proposition d'alternance</option>
+          <option value="Offre d'emploi">Offre d'emploi</option>
+          <option value="Question sur un projet">Question sur un projet</option>
+          <option value="Autre demande">Autre demande</option>
+        </select>
+        <p class="field__error" id="subject-error"></p>
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="7" required minlength="20" maxlength="5000" aria-describedby="message-hint message-error"></textarea>
+        <p class="field__hint" id="message-hint">20 caractères minimum.</p>
+        <p class="field__error" id="message-error"></p>
+      </div>
+
+      <div class="field checkbox">
+        <input id="consent" name="consent" type="checkbox" value="oui" required aria-describedby="consent-error">
+        <label for="consent">J'accepte que les informations saisies soient utilisées uniquement pour répondre à ma demande (voir la <a href="../pages/confidentialite.html">politique de confidentialité</a>).</label>
+        <p class="field__error" id="consent-error"></p>
+      </div>
+
+      <!-- Pot de miel anti-spam : champ invisible, ne pas supprimer -->
+      <div class="hp" aria-hidden="true">
+        <label for="website">Ne pas remplir ce champ</label>
+        <input id="website" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <input type="hidden" name="_subject" value="Nouveau message depuis le portfolio">
+
+      <div class="form__actions">
+        <button class="btn btn--primary" type="submit">
+          Envoyer le message
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 20 4l-4 16-4-7Z"/><path d="m12 13 8-9"/></svg>
+        </button>
+      </div>
+
+      <!-- Zone d'état annoncée aux lecteurs d'écran : erreurs, aide, confirmation et notification de quête -->
+      <div class="form-status" role="status" data-form-status></div>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer__grid">
+      <div class="footer__about">
+        <p class="footer__brand">
+          <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M16 1.5 30.5 16 16 30.5 1.5 16ZM16 8 8 16l8 8 8-8Z"/><path fill="currentColor" d="M16 12.2 19.8 16 16 19.8 12.2 16Z"/></svg>
+          <span data-site="nom">Portfolio BTS SIO</span>
+        </p>
+        <!-- Texte tiré de contenu/site.md -->
+        <div data-site="pied"><p>Portfolio réalisé dans le cadre du BTS SIO. Support de présentation pour l'épreuve E5.</p></div>
+      </div>
+      <nav aria-labelledby="footer-nav-title">
+        <h2 class="footer__title" id="footer-nav-title">Navigation</h2>
+        <ul class="footer__list">
+          <li><a href="../pages/projets.html">Projets</a></li>
+          <li><a href="../pages/competences.html">Compétences</a></li>
+          <li><a href="../pages/veille.html">Veille</a></li>
+          <li><a href="../pages/tableau-e5.html">Tableau de synthèse E5</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h2 class="footer__title">Informations</h2>
+        <ul class="footer__list">
+          <li><a href="../pages/mentions-legales.html">Mentions légales</a></li>
+          <li><a href="../pages/confidentialite.html">Politique de confidentialité</a></li>
+          <li><a href="../pages/plan-du-site.html">Plan du site</a></li>
+          <li><a href="../pages/contact.html" aria-current="page">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <p>© <span data-year>2026</span> <span data-site="nom">Portfolio BTS SIO</span> · Code sous licence MIT · Aucun cookie de suivi</p>
+    </div>
+  </footer>
+</body>
+</html>

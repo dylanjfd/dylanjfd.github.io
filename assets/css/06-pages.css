@@ -1,0 +1,1310 @@
+/* ==========================================================================
+   Portfolio BTS SIO — 06-pages.css
+   Pages intérieures : en-tête de page, projets, compétences, veille, stages, certifications, tableau E5, contact, textes
+   (importé par style.css ; la numérotation des sections est celle du sommaire général)
+   --------------------------------------------------------------------------
+   10. En-tête des pages intérieures et fil d'Ariane
+   16. Journal de quêtes (filtre et cartes projet)
+   17. Fiche de quête (pages projet)
+   18. Arbre de talents (compétences)
+   19. Codex (veille technologique)
+   20. Succès (certifications)
+   21. Progression (tableau de synthèse E5) : coches dorées
+   22. Formulaire de contact et notification de quête
+   23. Pages d'information (mentions légales, confidentialité, plan du site)
+   29. Contenu Markdown : chargement, erreur et version sans JavaScript
+   ========================================================================== */
+
+
+/* ==========================================================================
+   10. En-tête des pages intérieures et fil d'Ariane
+   ========================================================================== */
+.page-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(2.5rem, 1.5rem + 4vw, 4.5rem) clamp(2.75rem, 2rem + 3vw, 4.25rem);
+  background:
+    radial-gradient(48rem 24rem at 92% 0%, var(--hero-glow-1), transparent 62%),
+    var(--bg);
+}
+
+.page-hero .topo {
+  opacity: calc(var(--topo-opacity) * 0.85);
+  -webkit-mask-image: linear-gradient(100deg, transparent 15%, #000 70%);
+  mask-image: linear-gradient(100deg, transparent 15%, #000 70%);
+}
+
+.page-hero h1 {
+  margin-bottom: 0.9rem;
+}
+
+.page-hero__intro {
+  max-width: 46rem;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: clamp(1.02rem, 0.98rem + 0.25vw, 1.15rem);
+}
+
+.page-hero__intro + .page-hero__intro {
+  margin-top: 0.75rem;
+}
+
+.breadcrumb {
+  margin-bottom: 1.6rem;
+  font-size: 0.88rem;
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-muted);
+}
+
+.breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.breadcrumb li + li::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--gold);
+  transform: rotate(45deg);
+}
+
+.breadcrumb a {
+  color: var(--text-muted);
+}
+
+.breadcrumb a:hover {
+  color: var(--gold-hover);
+}
+
+.breadcrumb [aria-current="page"] {
+  color: var(--text);
+}
+
+
+/* ==========================================================================
+   16. Journal de quêtes (filtre et cartes projet)
+   Quête principale = projet en entreprise ; quête secondaire = en formation.
+   ========================================================================== */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.6rem;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.filter-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold-text);
+}
+
+/* Filtre actif : fond doré + losange (l'état ne repose pas que sur la couleur) */
+.filter-btn[aria-pressed="true"] {
+  border-color: var(--btn-gold-border);
+  background: linear-gradient(180deg, var(--btn-gold-top), var(--btn-gold-bottom));
+  color: var(--on-gold);
+}
+
+.filter-btn[aria-pressed="true"]::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.filter-btn__hint {
+  font-weight: 450;
+}
+
+.filters__count {
+  margin: 0 0 1.75rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Sans JavaScript, le filtre est masqué : tous les projets restent affichés */
+html:not(.js) .filters,
+html:not(.js) .filters__count {
+  display: none;
+}
+
+.quest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19.5rem), 1fr));
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quest-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.quest-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.quest-card__title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.quest-card__meta {
+  margin: -0.4rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.quest-card__desc {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.rewards {
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px dashed var(--border);
+}
+
+.rewards__label {
+  margin: 0 0 0.45rem;
+  color: var(--gold-text);
+  font-family: var(--font-rpg);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rewards__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.87rem;
+}
+
+.rewards__list li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.rewards__list li::before {
+  content: "";
+  flex: none;
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  transform: translateY(-2px) rotate(45deg);
+}
+
+.quest-card .card__more {
+  padding-top: 0;
+}
+
+.rewards__label--spaced {
+  margin-top: 1.25rem;
+}
+
+/* Variante empilée (colonne latérale des fiches de quête) */
+.rewards__list--stack {
+  flex-direction: column;
+  gap: 0.55rem;
+  font-size: 0.92rem;
+}
+
+
+/* ==========================================================================
+   17. Fiche de quête (pages projet)
+   Contexte = « Briefing de mission », Objectifs = liste à losanges ◆,
+   Solution = « Étapes de la quête », Résultats = « Butin et bilan ».
+   ========================================================================== */
+.meta-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.5rem), 1fr));
+  gap: 1rem 1.5rem;
+  margin: 2rem 0 0;
+  padding: 1.15rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.meta-list dd {
+  margin: 0.25rem 0 0;
+  font-weight: 600;
+}
+
+.card .meta-list {
+  margin-top: 1.25rem;
+  background: var(--surface-2);
+}
+
+.page-hero__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1.4rem;
+}
+
+.quest-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 19rem;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.quest-aside {
+  position: sticky;
+  top: calc(var(--header-h) + 1.5rem);
+  display: grid;
+  gap: 1.25rem;
+}
+
+.quest-aside h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+}
+
+.quest-section + .quest-section {
+  margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+}
+
+.quest-section h2 {
+  font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.8rem);
+}
+
+/* Liste à losanges ◆ */
+.list-diamond {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.list-diamond li {
+  position: relative;
+  margin-bottom: 0.6rem;
+  padding-left: 1.6rem;
+}
+
+.list-diamond li::before {
+  content: "";
+  position: absolute;
+  top: 0.62em;
+  left: 0.2rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--glow);
+  transform: rotate(45deg);
+}
+
+/* Étapes numérotées dans des losanges, reliées par un fil doré */
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps > li {
+  position: relative;
+  padding: 0 0 1.6rem 3.4rem;
+  counter-increment: step;
+}
+
+.steps > li:not(:last-child) {
+  background: linear-gradient(var(--gold-line), var(--gold-line)) no-repeat 1.32rem 2.6rem / 1px calc(100% - 2.9rem);
+}
+
+.steps > li::before {
+  content: "";
+  position: absolute;
+  top: 0.2rem;
+  left: 0.45rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--gold);
+  background: var(--section-bg);
+  transform: rotate(45deg);
+}
+
+.steps > li::after {
+  content: counter(step);
+  position: absolute;
+  top: 0.2rem;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 2.65rem;
+  height: 1.75rem;
+  color: var(--gold-text);
+  font-family: var(--font-rpg);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.steps h3 {
+  margin-bottom: 0.3rem;
+  font-size: 1.05rem;
+}
+
+.steps p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.callout {
+  padding: 1.1rem 1.3rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--surface);
+}
+
+.callout > :last-child {
+  margin-bottom: 0;
+}
+
+.shot-placeholder {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  margin: 0 0 0.6rem;
+  padding: 1rem;
+  border: 1px dashed var(--todo-border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+figure {
+  margin: 1.5rem 0;
+}
+
+figcaption {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Fiches de stage (« Chapitres ») */
+.stage + .stage {
+  margin-top: 2rem;
+}
+
+.stage__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+}
+
+.stage__head h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 1.15rem + 0.9vw, 1.75rem);
+}
+
+.stage__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 1.75rem 2.75rem;
+  margin-top: 1.75rem;
+}
+
+.stage__grid h3 {
+  margin-bottom: 0.6rem;
+  font-size: 1.05rem;
+}
+
+.stage__grid p:last-child,
+.stage__grid ul:last-child {
+  margin-bottom: 0;
+}
+
+.stage__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.75rem;
+  font-weight: 650;
+}
+
+.stage__link svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Recommandation (appréciation du tuteur) */
+.quote {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--surface-2);
+}
+
+.quote blockquote {
+  margin: 0;
+  font-style: italic;
+}
+
+.quote blockquote p {
+  margin: 0;
+}
+
+.quote figcaption {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+/* Liens de ressources (code source, démo, justificatifs) */
+.resource-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resource-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.resource-list svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  color: var(--gold);
+}
+
+.resource-list a {
+  font-weight: 600;
+}
+
+
+/* ==========================================================================
+   18. Arbre de talents (compétences)
+   ========================================================================== */
+.xp-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.75rem;
+  margin: 0 0 2.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.xp-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.xp-legend .gauge {
+  width: 5.5rem;
+  height: 0.5rem;
+}
+
+.talent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  gap: 1.5rem;
+}
+
+.branch__head {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.branch__icon {
+  display: grid;
+  place-items: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  border: 1px solid var(--gold-line);
+  border-radius: 50%;
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+
+.branch__icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.branch__title {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.branch__head .card__kicker {
+  margin-bottom: 0.15rem;
+}
+
+.skill-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.4rem 1rem;
+  align-items: baseline;
+  padding: 0.8rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.skill:first-child {
+  padding-top: 0.2rem;
+  border-top: 0;
+}
+
+.skill__name {
+  font-weight: 600;
+}
+
+.skill__detail {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  font-weight: 400;
+}
+
+.skill__level {
+  color: var(--gold-text);
+  font-family: var(--font-rpg);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.skill .gauge {
+  grid-column: 1 / -1;
+}
+
+
+/* ==========================================================================
+   19. Codex (veille technologique)
+   ========================================================================== */
+.codex-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.codex-entry__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+.codex-entry__title {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.codex-entry p {
+  margin: 0;
+}
+
+.source-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.source-list li {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.source-list span {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+
+/* ==========================================================================
+   20. Succès (certifications)
+   Obtenue = succès débloqué (trophée or) ;
+   en cours ou prévue = succès verrouillé (grisé, cadenas, « Verrouillé »).
+   ========================================================================== */
+.achievements {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.achievement {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem 1.1rem;
+  align-items: start;
+}
+
+.achievement__icon {
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border: 1px solid var(--gold-line);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, var(--gold-soft), transparent 70%), var(--surface-2);
+  box-shadow: 0 0 22px -6px var(--glow);
+  color: var(--gold);
+}
+
+.achievement__icon svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.achievement__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.35rem;
+  color: var(--gold-text);
+  font-family: var(--font-rpg);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.achievement__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.08rem;
+}
+
+.achievement__desc {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.achievement__meta {
+  margin: 0 0 0.5rem;
+  font-size: 0.88rem;
+}
+
+.achievement__proof {
+  margin: 0.75rem 0 0;
+  font-size: 0.88rem;
+}
+
+.achievement__proof a {
+  font-weight: 600;
+}
+
+.achievement--locked {
+  border-style: dashed;
+  background: var(--locked-bg);
+}
+
+.achievement--locked::before {
+  background: var(--text-muted);
+  opacity: 0.3;
+}
+
+.achievement--locked .achievement__icon {
+  border-color: var(--border);
+  background: var(--surface-2);
+  box-shadow: none;
+  color: var(--text-muted);
+}
+
+.achievement--locked .achievement__title,
+.achievement--locked .achievement__status {
+  color: var(--text-muted);
+}
+
+
+/* ==========================================================================
+   21. Progression (tableau de synthèse E5) : coches dorées
+   ========================================================================== */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.e5-table {
+  width: 100%;
+  min-width: 54rem;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+/* Tableau Markdown ordinaire (sans colonnes à cocher) : pas de largeur minimale */
+.e5-table--simple {
+  min-width: 0;
+}
+
+.e5-table caption {
+  padding: 1.1rem 1.25rem 0.6rem;
+  color: var(--text);
+  font-weight: 700;
+  text-align: left;
+}
+
+.e5-table th,
+.e5-table td {
+  padding: 0.8rem 0.9rem;
+  border-top: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* En-têtes en police système : chiffres plus lisibles que Cinzel (« C1 » ≠ « CI ») */
+.e5-table thead th {
+  background: var(--surface-2);
+  color: var(--gold-text);
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: bottom;
+}
+
+.e5-table th[scope="row"] {
+  font-weight: 650;
+}
+
+.e5-table th[scope="rowgroup"] {
+  background: var(--bg-alt);
+  color: var(--gold-text);
+  font-family: var(--font-rpg);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.e5-table .col-check,
+.e5-table .cell-check {
+  width: 6.5rem;
+  text-align: center;
+}
+
+.e5-table tbody tr:hover {
+  background: var(--gold-soft);
+}
+
+.check {
+  display: inline-grid;
+  place-items: center;
+  color: var(--gold);
+}
+
+.check svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  filter: drop-shadow(0 0 6px var(--glow));
+}
+
+.competence-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 0.75rem 2rem;
+  margin: 0 0 2rem;
+  padding: 0;
+  list-style: none;
+  counter-reset: competence;
+}
+
+.competence-list li {
+  display: flex;
+  gap: 0.75rem;
+  counter-increment: competence;
+}
+
+.competence-list li::before {
+  content: "C" counter(competence);
+  flex: none;
+  min-width: 2.2rem;
+  color: var(--gold-text);
+  font-weight: 800;
+}
+
+.table-note {
+  margin: 1rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Indication de défilement, utile seulement quand le tableau dépasse l'écran */
+.table-hint {
+  display: none;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.table-hint span {
+  color: var(--gold-text);
+}
+
+@media (max-width: 58rem) {
+  .table-hint {
+    display: flex;
+  }
+}
+
+
+/* ==========================================================================
+   22. Formulaire de contact et notification de quête
+   ========================================================================== */
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.form {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 1.35rem;
+}
+
+.field {
+  display: grid;
+  align-content: start;
+  gap: 0.45rem;
+}
+
+.field > label {
+  font-weight: 650;
+}
+
+.field__req {
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  font-weight: 400;
+}
+
+.field__hint {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+.field input:not([type="checkbox"]),
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 2.95rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius-sm);
+  background: var(--input-bg);
+  color: var(--text);
+  font: inherit;
+  line-height: 1.4;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field textarea {
+  min-height: 9.5rem;
+  resize: vertical;
+}
+
+.field select {
+  padding-right: 2.6rem;
+  background-image: var(--select-arrow);
+  background-position: right 0.95rem center;
+  background-repeat: no-repeat;
+  background-size: 0.8rem;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field input:not([type="checkbox"]):hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: var(--gold);
+}
+
+.field input:not([type="checkbox"]):focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  border-color: var(--gold);
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.field [aria-invalid="true"] {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 1px var(--danger);
+}
+
+.field input[type="checkbox"][aria-invalid="true"] {
+  outline: 2px solid var(--danger);
+  outline-offset: 2px;
+}
+
+/* Message d'erreur : texte + losange (pas seulement la couleur) */
+.field__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.field__error:empty {
+  display: none;
+}
+
+.field__error::before {
+  content: "";
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: 0.42rem;
+  border: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.checkbox {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.45rem 0.75rem;
+  align-items: start;
+}
+
+.checkbox input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0.2rem 0 0;
+  accent-color: var(--btn-gold-bottom);
+}
+
+.field.checkbox > label {
+  font-weight: 400;
+}
+
+.checkbox .field__error {
+  grid-column: 1 / -1;
+}
+
+/* Pot de miel anti-spam : invisible pour les humains */
+.hp {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form__note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+/* Zone role="status" : messages du formulaire */
+.form-status {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.notice {
+  margin: 0;
+  padding: 0.95rem 1.1rem;
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.notice__title {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-weight: 700;
+}
+
+.notice--success {
+  border-color: var(--success);
+}
+
+.notice--error {
+  border-color: var(--danger);
+}
+
+.notice--info {
+  border-color: var(--steel);
+}
+
+/* Notification façon jeu : « ✦ Quête mise à jour — message envoyé » */
+.quest-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.9rem 1.15rem;
+  border: 1px solid var(--gold);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, var(--gold-soft), transparent 85%), var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--gold-line), 0 12px 30px -14px var(--glow), 0 0 26px -10px var(--glow);
+  animation: toast-in 0.6s var(--ease) both;
+}
+
+.quest-toast__icon {
+  flex: none;
+  color: var(--gold);
+  font-size: 1.35rem;
+  line-height: 1;
+  text-shadow: 0 0 12px var(--glow);
+}
+
+.quest-toast__text {
+  margin: 0;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.quest-toast__title {
+  color: var(--gold-text);
+  font-family: var(--font-rpg);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.contact-list {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact-list li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.contact-list svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.2rem;
+  color: var(--gold);
+}
+
+.contact-list strong {
+  display: block;
+  font-size: 0.92rem;
+}
+
+.contact-aside {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.contact-aside h2 {
+  font-size: 1.15rem;
+}
+
+.contact-aside p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* ==========================================================================
+   23. Pages d'information (mentions légales, confidentialité, plan du site)
+   ========================================================================== */
+/* Colonne de lecture alignée à gauche sur l'en-tête de page */
+.prose > * {
+  max-width: 46rem;
+}
+
+.prose h2 {
+  margin-top: 2.75rem;
+  font-size: clamp(1.35rem, 1.2rem + 0.7vw, 1.7rem);
+}
+
+.prose h2:first-child {
+  margin-top: 0;
+}
+
+.prose h3 {
+  margin-top: 1.75rem;
+}
+
+.prose li {
+  margin-bottom: 0.4rem;
+}
+
+.prose li::marker {
+  color: var(--gold);
+}
+
+.prose address {
+  font-style: normal;
+}
+
+.sitemap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1.5rem;
+}
+
+.sitemap h2 {
+  font-size: 1.15rem;
+}
+
+.sitemap ul {
+  margin: 0;
+}
+
+.sitemap li {
+  margin-bottom: 0.45rem;
+}
+
+.sitemap li ul {
+  margin-top: 0.45rem;
+}
+
+.prose-date {
+  margin-top: 2.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+
+/* ==========================================================================
+   29. Contenu Markdown : chargement, erreur et version sans JavaScript
+   Le texte des pages est rédigé dans contenu/*.md et affiché par rendu.js.
+   ========================================================================== */
+main[aria-busy="true"] {
+  min-height: 70vh;
+}
+
+.contenu-etat {
+  padding-block: clamp(3rem, 2rem + 4vw, 5rem);
+}
+
+.contenu-etat .notice {
+  max-width: 46rem;
+}
+
+.contenu-etat code {
+  overflow-wrap: anywhere;
+}
+
+/* Images ajoutées dans le Markdown : ![légende](assets/img/capture.png) */
+.figure-md img {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.figure-md figcaption {
+  margin-top: 0.6rem;
+}
