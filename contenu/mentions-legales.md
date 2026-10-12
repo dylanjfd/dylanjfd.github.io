@@ -21,9 +21,9 @@ Contact : [{{email}}](mailto:{{email}}) ou via le [formulaire de contact](pages/
 
 ## Hébergement
 
-[[Nom de l'hébergeur, adresse postale et site web (ex. : GitHub Pages — GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis — https://pages.github.com).]]
+GitHub Pages — GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis — [pages.github.com](https://pages.github.com).
 
-Le site est servi en HTTPS (certificat fourni par l'hébergeur ou Let's Encrypt).
+Le site est servi en HTTPS (certificat fourni par GitHub Pages).
 
 ## Propriété intellectuelle
 
@@ -46,4 +46,4 @@ Le traitement des données envoyées via le formulaire de contact est décrit da
 
 Ce site a été conçu en suivant les principales recommandations du RGAA : structure sémantique, alternatives textuelles, contrastes vérifiés (niveau AA), navigation complète au clavier, respect du réglage « réduire les animations ». Pour signaler une difficulté d'accès, utilisez le [formulaire de contact](pages/contact.html).
 
-*Dernière mise à jour : [[octobre 2026]]*
+*Dernière mise à jour : octobre 2026*

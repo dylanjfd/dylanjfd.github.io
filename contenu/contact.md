@@ -17,7 +17,7 @@ Une proposition de stage, d'alternance ou d'emploi, ou une question sur l'un de 
 ## Point de ralliement | Coordonnées
 E-mail professionnel: [{{email}}](mailto:{{email}})
 LinkedIn: [linkedin.com/in/dylan-joffredo-1212342a0]({{linkedin}})
-GitHub: [[[github.com/ton-pseudo]]]({{github}})
+GitHub: [github.com/dylanjfd]({{github}})
 Localisation: [[Ville (département) — mobilité : …]]
 Disponibilité: [[Stage / alternance à partir de …]]
 :::
