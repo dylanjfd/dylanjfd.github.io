@@ -13,9 +13,9 @@ parent: [Projets](pages/projets.html)
       ![Légende de la capture](assets/img/projet-1-capture.png)
 -->
 
-# Fiche de quête · Quête principale | [[Titre du projet 1]]
+# Fiche de quête · Quête principale | Projet serveur web
 
-[[Résumé en une ou deux phrases : le besoin de l'organisation et la solution que tu as mise en place.]]
+Mise en place d'un hébergement web pour le portfolio sur un serveur Debian sécurisé, en HTTPS, sauvegardé et supervisé.
 
 ::: badges
 principale, terminée
