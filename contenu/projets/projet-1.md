@@ -30,13 +30,16 @@ Rôle: Administrateur système, en autonomie
 
 ## Briefing de mission | Contexte
 
-Mission : mettre en ligne le portfolio du BTS SIO, accessible à tous en HTTPS.
+### Mission
+Mettre en ligne le portfolio du BTS SIO, accessible à tous en HTTPS.
 
-Choix du héros : plutôt que de confier le site à un hébergeur, construire et défendre son propre serveur web, puis en assurer l’administration et l’entretien au quotidien.
+### Choix du héros
+Plutôt que de confier le site à un hébergeur, construire et défendre son propre serveur web, puis en assurer l’administration et l’entretien au quotidien.
 
-Objectif de la quête : un hébergement sécurisé et complet, avec sauvegardes et supervision.
+### Objectif de la quête
+Un hébergement sécurisé et complet, avec sauvegardes et supervision.
 
-Conditions de la mission :
+### Conditions de la mission
 
 - Ressources limitées : matériel récupéré, seul le nom de domaine est payant.
 - Défense du camp : aucun port ouvert sur la box, accès SSH par clé uniquement.
