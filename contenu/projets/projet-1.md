@@ -18,19 +18,27 @@ parent: [Projets](pages/projets.html)
 Mise en place d'un hébergement web pour le portfolio sur un serveur Debian sécurisé, en HTTPS, sauvegardé et supervisé.
 
 ::: badges
-principale, terminée
+principale, en cours
 :::
 
 ::: infos
-Cadre: Stage de 1re année
-Organisation: [[Nom de l'entreprise]]
-Période: [[Mai – juin 2026 (6 semaines)]]
-Rôle: [[Technicien·ne systèmes, en autonomie]]
+Cadre: Projet personnel
+organisation: Personnel
+Période: [2026/2028]
+Rôle: [Administrateur système, en autonomie]
 :::
 
 ## Briefing de mission | Contexte
 
-[[Présente l'organisation (activité, taille, organisation du service informatique) et la situation de départ : quel problème fallait-il résoudre ?]]
+[Mission : mettre en ligne le portfolio du BTS SIO, accessible à tous en HTTPS.
+Choix du héros : plutôt que de confier le site à un hébergeur, construire et défendre son propre serveur web, puis en assurer l’administration et l’entretien au quotidien.
+Objectif de la quête : un hébergement sécurisé et complet, avec sauvegardes et supervision
+Conditions de la mission :
+
+Ressources limitées : matériel récupéré, seul le nom de domaine est payant.
+Défense du camp : aucun port ouvert sur la box, accès SSH par clé uniquement.
+Échec interdit : le site doit répondre le jour de l’épreuve, une copie de secours est prévue.
+Code d’honneur : respect du RGPD pour le formulaire de contact.]
 
 [[Précise les contraintes : budget, délais, sécurité, existant à conserver, utilisateurs concernés.]]
 
