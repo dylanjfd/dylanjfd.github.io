@@ -44,6 +44,18 @@
     trophee: svg('0 0 24 24', trait(1.7), '<path d="M7.5 4h9v5a4.5 4.5 0 0 1-9 0Z"/><path d="M7.5 6H5a2.5 2.5 0 0 0 2.7 3.6M16.5 6H19a2.5 2.5 0 0 1-2.7 3.6M12 13.5V17M8.5 20h7M10 17h4"/><path d="M12 5.6l1.1 1.1L12 7.8l-1.1-1.1Z" fill="currentColor"/>'),
     cadenas: svg('0 0 24 24', trait(1.7), '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5M12 14.5V17"/>'),
 
+    // Médaille des objectifs (« - 🥉 … » dans le Markdown) : métal coloré en CSS selon le rang
+    medaille: svg('0 0 32 40', '',
+      '<path class="medal__ribbon medal__ribbon--back" d="M20 1h8l-7 18h-8Z"/>' +
+      '<path class="medal__stripe medal__stripe--back" d="M23 1h2l-7 18h-2Z"/>' +
+      '<path class="medal__ribbon" d="M4 1h8l7 18h-8Z"/>' +
+      '<path class="medal__stripe" d="M7 1h2l7 18h-2Z"/>' +
+      '<circle class="medal__disc" cx="16" cy="27" r="11.4"/>' +
+      '<circle class="medal__ticks" cx="16" cy="27" r="10"/>' +
+      '<circle class="medal__ring" cx="16" cy="27" r="8.4"/>' +
+      '<path class="medal__shine" d="M9.4 24.6a7 7 0 0 1 4.6-4.6"/>' +
+      '<path class="medal__emblem" d="M16 20.6Q16.9 26.1 22.4 27 16.9 27.9 16 33.4 15.1 27.9 9.6 27 15.1 26.1 16 20.6Z"/>'),
+
     // Coche dorée du tableau E5
     cocheTableau: svg('0 0 24 24', 'fill="none" stroke="currentColor"', '<path d="M12 2.5 21.5 12 12 21.5 2.5 12Z" stroke-width="1.2" opacity=".5"/><path d="m7.6 12.3 3 3 5.9-6.3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'),
 

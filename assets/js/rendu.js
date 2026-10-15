@@ -273,11 +273,29 @@
     return el('p', { class: ctx.classe || null }, ligne(texteDe(b)));
   }
 
+  /** Médaille en tête d'élément : « - 🥉 … », « - 🥈 … » ou « - 🥇 … » (l'emoji est remplacé par l'icône). */
+  const MEDAILLES = {
+    '🥉': { rang: 'bronze', texte: 'Médaille de bronze' },
+    '🥈': { rang: 'argent', texte: "Médaille d'argent" },
+    '🥇': { rang: 'or', texte: "Médaille d'or" },
+  };
+  const RE_MEDAILLE = /^(🥉|🥈|🥇)\s*/u;
+
+  function elementListe(texte) {
+    const m = RE_MEDAILLE.exec(texte);
+    if (!m) return el('li', null, ligne(texte));
+    const medaille = MEDAILLES[m[1]];
+    return el('li', { class: `medal-item medal-item--${medaille.rang}` }, [
+      el('span', { class: 'medal', role: 'img', 'aria-label': medaille.texte }, ICO.medaille),
+      ligne(texte.slice(m[0].length)),
+    ]);
+  }
+
   function liste(b, ctx) {
     const simple = ctx.disposition === 'texte' || ctx.simple;
     const l = el(b.ordonnee ? 'ol' : 'ul', { class: !b.ordonnee && !simple ? 'list-diamond' : null });
     b.elements.forEach((item) => {
-      const li = el('li', null, ligne(item.texte));
+      const li = elementListe(item.texte);
       item.enfants.forEach((sous) => li.appendChild(liste(sous, ctx)));
       l.appendChild(li);
     });

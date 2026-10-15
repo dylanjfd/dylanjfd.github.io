@@ -48,9 +48,9 @@ Un hébergement sécurisé et complet, avec sauvegardes et supervision.
 
 ## Objectifs de la quête | Objectifs
 
-- [Objectif 1 — Ouvrir la porte : Mettre le portfolio en ligne sur mon serveur Debian, accessible en HTTPS depuis mon nom de domaine.]
-- [Objectif 2 — Fortifier : Sécuriser le serveur : accès SSH par clé uniquement, pare-feu actif, Fail2ban, aucun port ouvert sur la box. ]
-- [Objectif 3 — Garantir : Garantir la continuité du service : sauvegardes automatiques, supervision avec alerte, et retour du site après une panne. ]
+- 🥉 Objectif 1 — Ouvrir la porte : mettre le portfolio en ligne sur mon serveur Debian, accessible en HTTPS depuis mon nom de domaine.
+- 🥈 Objectif 2 — Fortifier : sécuriser le serveur : accès SSH par clé uniquement, pare-feu actif, Fail2ban, aucun port ouvert sur la box.
+- 🥇 Objectif 3 — Garantir : garantir la continuité du service : sauvegardes automatiques, supervision avec alerte et retour du site après une panne.
 
 ## Étapes de la quête | Solution
 

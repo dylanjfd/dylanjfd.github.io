@@ -69,6 +69,7 @@
   --glow: rgba(201, 163, 91, 0.3);
   --selection: rgba(201, 163, 91, 0.35);
   --shadow: 0 22px 44px -22px rgba(0, 0, 0, 0.7);
+  --medal-shadow: 0 3px 4px rgba(0, 0, 0, 0.45);   /* ombre des médailles d'objectifs */
   --todo-bg: rgba(201, 163, 91, 0.12);
   --todo-border: rgba(227, 194, 125, 0.7);
   --segment-empty: rgba(239, 230, 210, 0.07);
@@ -133,6 +134,7 @@
   --glow: rgba(138, 106, 43, 0.22);
   --selection: rgba(138, 106, 43, 0.25);
   --shadow: 0 22px 44px -26px rgba(72, 52, 20, 0.45);
+  --medal-shadow: 0 2px 3px rgba(72, 52, 20, 0.35);
   --todo-bg: rgba(138, 106, 43, 0.1);
   --todo-border: rgba(114, 85, 34, 0.65);
   --segment-empty: rgba(42, 33, 22, 0.06);
