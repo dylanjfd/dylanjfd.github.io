@@ -1,6 +1,6 @@
 # Portfolio BTS SIO — Dylan JOFFREDO
 
-Site statique (HTML, CSS et JavaScript, sans framework ni bibliothèque) qui sert de support à l'épreuve **E5 du BTS SIO** : présentation, projets, compétences, veille technologique, stages, certifications, tableau de synthèse et contact.
+Site statique (HTML, CSS et JavaScript, sans framework ni bibliothèque) qui sert de support à l'épreuve **E5 du BTS SIO** : présentation, projets, compétences, veille technologique, alternance, certifications, tableau de synthèse et contact.
 
 Thème visuel : **« Quête d'aventure »**, une interface inspirée des jeux d'aventure / RPG modernes, sobre et professionnelle (titres classiques, vocabulaire RPG réservé aux petits libellés).
 
@@ -28,7 +28,7 @@ index.html, pages/*.html      Structure des pages (en-tête, menu, pied de page)
 pages/projets/projet-*.html   Structure des 3 fiches projet
 contenu/                      TEXTE DES PAGES, un fichier Markdown par page
   site.md                     Ton nom, ton e-mail, tes liens, le texte du pied de page
-  accueil.md, projets.md, competences.md, veille.md, stages.md,
+  accueil.md, projets.md, competences.md, veille.md, alternance.md,
   certifications.md, tableau-e5.md, contact.md,
   mentions-legales.md, confidentialite.md, plan-du-site.md
   projets/projet-1.md … projet-3.md
@@ -40,7 +40,7 @@ assets/css/
   03-entete-pied.css          En-tête, menu, bouton de thème, pied de page
   04-composants.css           Boutons, cases à compléter, jauges, cartes, badges, frise
   05-accueil.css              Hero d'accueil et fiche de personnage
-  06-pages.css                Pages intérieures (projets, compétences, veille, stages…)
+  06-pages.css                Pages intérieures (projets, compétences, veille, alternance…)
   07-animations-responsive.css  Apparitions, responsive, mouvement réduit, impression
 assets/js/
   theme-init.js               Thème mémorisé, appliqué avant l'affichage
@@ -179,7 +179,7 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 | Compétences : langages, outils / frameworks, systèmes et réseaux, bases de données, niveaux | `contenu/competences.md` | Prêt, à adapter |
 | Veille : sujet, outils, sources fiables, synthèses régulières, analyse critique | `contenu/veille.md` | Prêt, à compléter |
 | Tableau E5 : compétences du référentiel, projets, contexte et durée, PDF officiel | `contenu/tableau-e5.md`, `assets/docs/tableau-synthese-e5.pdf` | PDF à remplacer |
-| Stages : entreprises, missions, technologies, bilan, recommandations | `contenu/stages.md` | Prêt, à compléter |
+| Alternance : entreprise, poste, maître d'apprentissage, rythme, contrat, missions, évolution | `contenu/alternance.md` | Prêt, à compléter |
 | Certifications : éditeurs (Cisco, Microsoft, AWS…), langues, formations, badges, justificatifs | `contenu/certifications.md` | Prêt, à compléter |
 | Contact : formulaire, e-mail pro, localisation, disponibilité, réseaux | `contenu/contact.md`, `pages/contact.html` | Envoi à configurer |
 | Adaptation à l'option SISR / SLAM | `CONFIG.OPTION` + branches de compétences dédiées | Fait |

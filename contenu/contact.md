@@ -11,7 +11,7 @@ mise-en-page: contact
 
 # Rejoindre l'équipe | Contact
 
-Une proposition de stage, d'alternance ou d'emploi, ou une question sur l'un de mes projets ? Écrivez-moi, je vous réponds rapidement.
+Une proposition d'alternance ou d'emploi, ou une question sur l'un de mes projets ? Écrivez-moi, je vous réponds rapidement.
 
 ::: encart coordonnees
 ## Point de ralliement | Coordonnées
@@ -19,7 +19,7 @@ E-mail professionnel: [{{email}}](mailto:{{email}})
 LinkedIn: [linkedin.com/in/dylan-joffredo-1212342a0]({{linkedin}})
 GitHub: [github.com/dylanjfd]({{github}})
 Localisation: [[Ville (département) — mobilité : …]]
-Disponibilité: [[Stage / alternance à partir de …]]
+Disponibilité: En alternance chez MyDigitalSchool jusqu'en [[2028]]
 :::
 
 ::: encart

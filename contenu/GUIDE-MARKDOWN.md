@@ -9,7 +9,7 @@ Tout le texte du portfolio se trouve dans ce dossier `contenu/` : **un fichier `
 | Projets détaillés | `projets/projet-1.md`, `projet-2.md`, `projet-3.md` |
 | Compétences | `competences.md` |
 | Veille | `veille.md` |
-| Stages | `stages.md` |
+| Alternance | `alternance.md` |
 | Certifications | `certifications.md` |
 | Tableau E5 | `tableau-e5.md` |
 | Contact | `contact.md` (le formulaire lui-même est dans `pages/contact.html`) |
@@ -167,7 +167,7 @@ Chaque ligne `Libellé: valeur` devient une ligne du tableau d'informations.
 type: principale          (principale = entreprise, secondaire = formation)
 statut: terminée          (terminée ou en cours)
 fiche: pages/projets/projet-1.html
-contexte: Stage de 1re année · Entreprise · 2026
+contexte: Alternance — 1re année · Entreprise · 2026
 technologies: Windows Server, Active Directory, GLPI
 récompenses: Gérer le patrimoine informatique, Mettre à disposition un service
 
@@ -227,28 +227,41 @@ Niveau en fin de ligne : `1` Notions, `2` Intermédiaire, `3` Avancé, `4` Maît
 :::
 ```
 
-### Stages — `::: stage`
+### Alternance — `::: alternance` et `::: chronologie`
 
 ```markdown
-::: stage
-## Chapitre I · 1re année | Stage de 1re année — Entreprise
-statut: terminé
-Période: Mai – juin 2026
-Lieu: Ville (département)
+::: alternance
+## Contrat d'apprentissage · 2026 – 2028 | Poste — Entreprise
+statut: en cours
+Entreprise: Nom de l'entreprise, ville
+Poste: Technicien support & systèmes
+Maître d'apprentissage: Fonction du maître d'apprentissage
+Rythme: 2 jours à l'école, 3 jours en entreprise
+Dates du contrat: Septembre 2026 – août 2028
 
-### Missions réalisées
+### Missions confiées
 - Mission 1
+
+### Projets menés en alternance
+- [Titre du projet](pages/projets/projet-3.html) — précision
 
 ### Technologies utilisées
 technologies: GLPI, Active Directory
 
 ### Recommandation
-> « Appréciation du tuteur. »
-> — Fonction du tuteur
+> « Appréciation du maître d'apprentissage. »
+> — Fonction du maître d'apprentissage
 
-[Voir le projet réalisé pendant ce stage](pages/projets/projet-1.html)
+[Voir tous mes projets](pages/projets.html)
+:::
+
+::: chronologie
+- 2026 – 2027 | 1re année — titre | Précision | en cours
+- 2027 – 2028 | 2e année — titre | Précision | à venir
 :::
 ```
+
+Le lien seul en dernière ligne s'affiche en bas de la fiche. Dans `::: chronologie`, une ligne par étape : date | titre | précision | statut.
 
 ### Certifications — `::: succes`
 

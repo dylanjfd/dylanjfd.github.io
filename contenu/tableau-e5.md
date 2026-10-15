@@ -41,8 +41,8 @@ Bloc 1 du BTS SIO, évalué à l'épreuve E5. Chaque compétence est mobilisée 
 | [Veille technologique](pages/veille.html) | Formation · individuel | [[2025 – 2027]] | | | | | | x |
 | [Portfolio de compétences (ce site)](index.html) | Formation · individuel | [[2025 – 2027]] | | | x | | | x |
 | **En milieu professionnel** | | | | | | | | |
-| [[[Titre du projet 1]]](pages/projets/projet-1.html) | Stage de 1re année · [[entreprise]] | [[6 semaines, 2026]] | x | x | | | x | |
-| [[[Titre du projet 3]]](pages/projets/projet-3.html) | Stage de 2e année · [[entreprise]] | [[7 semaines, 2027]] | x | | | x | | x |
+| [[[Titre du projet 1]]](pages/projets/projet-1.html) | Alternance — 1re année · [[entreprise]] | [[6 semaines, 2026]] | x | x | | | x | |
+| [[[Titre du projet 3]]](pages/projets/projet-3.html) | Alternance — 2e année · [[entreprise]] | [[7 semaines, 2027]] | x | | | x | | x |
 :::
 
 Document de référence pour l'épreuve : le modèle officiel `[E5]_Epreuve_support_modele_tableau_synthese_annexe_BTS_SIO_2026.xlsx`, complété puis exporté en PDF (bouton « Télécharger » ci-dessus). Ce tableau en ligne en reprend l'essentiel.

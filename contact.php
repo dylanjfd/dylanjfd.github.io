@@ -20,7 +20,6 @@ const CONTACT_TO = '';      // ex. 'prenom.nom@example.com'
 const CONTACT_FROM = '';    // ex. 'no-reply@ton-domaine.fr' (adresse du domaine de l'hébergeur)
 const SUBJECT_PREFIX = '[Portfolio] ';
 const ALLOWED_SUBJECTS = [
-    'Proposition de stage',
     "Proposition d'alternance",
     "Offre d'emploi",
     'Question sur un projet',

@@ -17,7 +17,7 @@ Les titres principaux (h1/h2) restent clairs et classiques : « Projets », « C
 - Pages projet → fiche de quête : « Contexte » = « Briefing de mission », « Objectifs » = liste à losanges ◆, « Solution » = « Étapes de la quête », « Résultats » = « Butin et bilan » (en libellé seulement).
 - Compétences → « Arbre de talents » : les barres de niveau deviennent des jauges d'XP segmentées (4 segments = Notions / Intermédiaire / Avancé / Maîtrise), animées au défilement.
 - Veille → « Codex ».
-- Stages → « Chapitres ».
+- Alternance → « Chapitres ».
 - Certifications → « Succès » : obtenue = succès débloqué (icône trophée or) ; en cours ou prévue = succès verrouillé (grisé, icône cadenas, avec le texte « Verrouillé » pour les lecteurs d'écran).
 - Tableau E5 → « Progression » : coches dorées.
 - Contact → « Rejoindre l'équipe ». Après un envoi réussi, affiche une notification façon jeu « ✦ Quête mise à jour — message envoyé », en plus du message existant, toujours dans la zone role="status".

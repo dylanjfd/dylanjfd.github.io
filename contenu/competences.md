@@ -10,7 +10,7 @@
 
 # Arbre de talents | Compétences
 
-Les compétences techniques acquises en formation, en stage et en autoformation, avec leur niveau de maîtrise.
+Les compétences techniques acquises en formation, en alternance et en autoformation, avec leur niveau de maîtrise.
 
 ## Compétences par domaine {masque}
 

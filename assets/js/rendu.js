@@ -403,7 +403,7 @@
       case 'competences': return competences(b);
       case 'sources': return sources(b);
       case 'succes': return succes(b);
-      case 'stage': return stage(b);
+      case 'alternance': return alternance(b);
       case 'competences-e5': return competencesE5(b);
       case 'tableau':
       case 'tableau-e5': {
@@ -705,8 +705,8 @@
     return ul;
   }
 
-  /** Fiche de stage : titre, champs (statut + infos), sous-parties « ### », lien final. */
-  function stage(b) {
+  /** Fiche d'alternance : titre, champs (statut + infos), sous-parties « ### », lien final. */
+  function alternance(b) {
     const groupes = parTitres(b.enfants);
     const tete = groupes.shift();
     if (!tete || !tete.titre) return null;
@@ -715,8 +715,8 @@
     const f = extraireChamps(blocs);
     const statut = valeurChamp(f, 'statut');
     const meta = f.filter((c) => c.cle !== 'statut');
-    const article = el('article', { class: 'card stage reveal', 'aria-labelledby': id }, [
-      el('div', { class: 'stage__head' }, [
+    const article = el('article', { class: 'card alternance reveal', 'aria-labelledby': id }, [
+      el('div', { class: 'alternance__head' }, [
         el('div', null, [
           tete.titre.surtitre ? el('p', { class: 'card__kicker' }, ligne(tete.titre.surtitre)) : null,
           el(`h${tete.titre.niveau}`, { id }, ligne(tete.titre.texte)),
@@ -726,7 +726,7 @@
       meta.length ? listeDefinitions(meta, 'meta-list') : null,
     ]);
     blocs.forEach((x) => ajouter(article, bloc(x, {})));
-    const grille = el('div', { class: 'stage__grid' });
+    const grille = el('div', { class: 'alternance__grid' });
     let lienFinal = null;
     groupes.forEach((g) => {
       const sid = identifiant(g.titre.texte);
@@ -744,7 +744,7 @@
       grille.appendChild(partie);
     });
     if (grille.childNodes.length) article.appendChild(grille);
-    if (lienFinal) article.appendChild(el('a', { class: 'stage__link', href: lienFinal.href }, [lienFinal.html, ICO.fleche]));
+    if (lienFinal) article.appendChild(el('a', { class: 'alternance__link', href: lienFinal.href }, [lienFinal.html, ICO.fleche]));
     return article;
   }
 

@@ -1,6 +1,6 @@
 ---
 mise-en-page: accueil
-disponibilite: Alternant technicien support & systèmes chez MyDigitalSchool · Nantes
+disponibilite: En alternance chez MyDigitalSchool jusqu'en [[2028]]
 ---
 
 <!--
@@ -90,7 +90,7 @@ Langages, outils, systèmes et réseaux, bases de données, avec niveaux.
 ### Codex | [Veille](pages/veille.html)
 Mon sujet de veille technologique, mes outils, sources et synthèses.
 
-### Chapitres | [Apprentisage](pages/stages.html)
+### Chapitres | [Alternance](pages/alternance.html)
 Missions réalisées et bilan.
 
 ### Succès | [Certifications](pages/certifications.html)

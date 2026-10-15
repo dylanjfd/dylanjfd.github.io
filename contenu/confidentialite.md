@@ -21,7 +21,7 @@ Seules les données saisies dans le formulaire de contact sont collectées : nom
 
 ## Finalité et base légale
 
-Ces données servent uniquement à répondre à votre demande (proposition de stage, d'alternance, d'emploi ou question). Le traitement repose sur votre consentement (article 6.1.a du RGPD), recueilli par la case à cocher du formulaire. Vous pouvez le retirer à tout moment.
+Ces données servent uniquement à répondre à votre demande (proposition d'alternance, d'emploi ou question). Le traitement repose sur votre consentement (article 6.1.a du RGPD), recueilli par la case à cocher du formulaire. Vous pouvez le retirer à tout moment.
 
 ## Destinataires
 

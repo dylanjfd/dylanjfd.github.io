@@ -27,7 +27,7 @@ Mes réalisations professionnelles, en entreprise et en formation. Chaque fiche 
 type: principale
 statut: terminée
 fiche: pages/projets/projet-1.html
-contexte: [[Stage de 1re année · Nom de l'entreprise · 2026]]
+contexte: [[Alternance — 1re année · Nom de l'entreprise · 2026]]
 technologies: [[Windows Server]], [[Active Directory]], [[GLPI]]
 récompenses: Gérer le patrimoine informatique, Répondre aux incidents et aux demandes, Mettre à disposition un service
 
@@ -47,7 +47,7 @@ récompenses: Développer la présence en ligne, Travailler en mode projet, Mett
 type: principale
 statut: en cours
 fiche: pages/projets/projet-3.html
-contexte: [[Stage de 2e année · Nom de l'entreprise · 2027]]
+contexte: [[Alternance — 2e année · Nom de l'entreprise · 2027]]
 technologies: [[VLAN]], [[pfSense]], [[Supervision]]
 récompenses: Gérer le patrimoine informatique, Travailler en mode projet, Organiser son développement professionnel
 

@@ -18,7 +18,7 @@ principale, en cours
 :::
 
 ::: infos
-Cadre: Stage de 2e année
+Cadre: [[Alternance — 2e année]]
 Organisation: [[Nom de l'entreprise]]
 Période: [[Janvier – février 2027 (7 semaines)]]
 Rôle: [[Assistant·e administrateur réseau]]
@@ -62,7 +62,7 @@ Rôle: [[Assistant·e administrateur réseau]]
 
 ## Butin et bilan | Résultats
 
-[[Projet en cours : indique les premiers résultats et ceux attendus d'ici la fin du stage.]]
+[[Projet en cours : indique les premiers résultats et ceux attendus d'ici la fin de la 2e année.]]
 
 - [[Premier résultat (ex. : maquette validée par le tuteur)]]
 - [[Résultat attendu (ex. : réseau segmenté en 4 VLAN, flux filtrés)]]
