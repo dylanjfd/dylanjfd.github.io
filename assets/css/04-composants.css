@@ -427,6 +427,12 @@
   color: var(--steel);
 }
 
+.badge--personal {
+  border-color: var(--arcane-line);
+  background: var(--arcane-soft);
+  color: var(--arcane);
+}
+
 .badge--done {
   border-color: var(--success-line);
   background: var(--success-soft);

@@ -164,18 +164,18 @@ Chaque ligne `Libellé: valeur` devient une ligne du tableau d'informations.
 ```markdown
 ::: quetes
 ### Titre du projet
-type: principale          (principale = entreprise, secondaire = formation)
+type: principale          (principale = entreprise, secondaire = formation, annexe = personnel)
 statut: terminée          (terminée ou en cours)
 fiche: pages/projets/projet-1.html
-contexte: Alternance — 1re année · Entreprise · 2026
+résumé: Le projet en une phrase.
+cadre: Alternance — 1re année
+période: depuis octobre 2026
 technologies: Windows Server, Active Directory, GLPI
-récompenses: Gérer le patrimoine informatique, Mettre à disposition un service
-
-Description du projet en deux phrases.
+récompenses: Patrimoine, Incidents, Mise à disposition
 :::
 ```
 
-Le filtre (« Quêtes principales / secondaires ») est créé automatiquement.
+La carte affiche dans l'ordre : badges, titre, résumé, « cadre · période » en petit et en gris, technologies, récompenses (3 au maximum), lien « Voir la fiche ». Récompenses en version courte : `Patrimoine`, `Incidents`, `Présence en ligne`, `Mode projet`, `Mise à disposition`, `Développement pro.` (un intitulé complet du référentiel est raccourci automatiquement). Une ligne sans « champ: » devant est ignorée et signalée dans la console du navigateur (F12). Le filtre (« Quêtes principales / secondaires / annexes ») est créé automatiquement.
 
 ### Page projet — `::: badges`, `::: etapes`, `::: capture`, `::: encart`, `::: navigation`
 
@@ -205,7 +205,7 @@ Ce qui a été fait.
 
 - Une image seule sur sa ligne devient une figure avec légende. Tant que tu n'as pas la capture, garde le bloc `::: capture` (emplacement en pointillés).
 - Types d'encart : `competences`, `technologies`, `ressources` (icônes code / vidéo / document selon le texte), `coordonnees`, ou rien.
-- Mots-clés de badges : `principale`, `secondaire`, `terminée`, `en cours`, `prévue`, `débloqué`, `verrouillé`.
+- Mots-clés de badges : `principale`, `secondaire`, `annexe`, `terminée`, `en cours`, `prévue`, `débloqué`, `verrouillé`.
 
 ### Compétences — `::: competences`
 

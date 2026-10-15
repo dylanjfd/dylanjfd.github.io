@@ -6,19 +6,19 @@ parent: [Projets](pages/projets.html)
 
 <!--
   FICHE DE QUÊTE — PROJET 1 (pages/projets/projet-1.html)
-  - L'en-tête : titre, résumé, badges (principale/secondaire, terminée/en cours) et infos.
+  - L'en-tête : titre, résumé, badges (principale/secondaire/annexe, terminée/en cours) et infos.
   - Chaque « ## Surtitre | Titre » est une partie de la fiche.
   - Les blocs « ::: encart » s'affichent dans la colonne de droite.
   - Pour ajouter une vraie capture, remplace le bloc « ::: capture » par :
       ![Légende de la capture](assets/img/projet-1-capture.png)
 -->
 
-# Fiche de quête · Quête principale | Projet serveur web
+# Fiche de quête · Quête annexe | Projet serveur web
 
 Mise en place d'un hébergement web pour le portfolio sur un serveur Debian sécurisé, en HTTPS, sauvegardé et supervisé.
 
 ::: badges
-principale, en cours
+annexe, en cours
 :::
 
 ::: infos

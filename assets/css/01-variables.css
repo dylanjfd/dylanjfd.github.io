@@ -44,6 +44,7 @@
   --gold-hover: #e3c27d;    /* or au survol */
   --gold-text: #c9a35b;     /* or utilisé pour du texte */
   --steel: #6fa8c7;         /* accent secondaire bleu acier */
+  --arcane: #b79be0;        /* accent améthyste : quêtes annexes (projets personnels) */
   --success: #7bc47f;
   --danger: #e07a6b;
 
@@ -64,6 +65,8 @@
   --gold-soft: rgba(201, 163, 91, 0.12);
   --steel-line: rgba(111, 168, 199, 0.45);
   --steel-soft: rgba(111, 168, 199, 0.1);
+  --arcane-line: rgba(183, 155, 224, 0.45);
+  --arcane-soft: rgba(183, 155, 224, 0.1);
   --success-line: rgba(123, 196, 127, 0.45);
   --success-soft: rgba(123, 196, 127, 0.1);
   --glow: rgba(201, 163, 91, 0.3);
@@ -111,6 +114,7 @@
   --gold-hover: #6f5420;
   --gold-text: #725522;     /* or foncé renforcé pour les petits textes (AA sur parchemin) */
   --steel: #2c5f7c;
+  --arcane: #6b4a99;
   --success: #2b6430;
   --danger: #a63d2e;
 
@@ -129,6 +133,8 @@
   --gold-soft: rgba(138, 106, 43, 0.1);
   --steel-line: rgba(44, 95, 124, 0.4);
   --steel-soft: rgba(44, 95, 124, 0.08);
+  --arcane-line: rgba(107, 74, 153, 0.4);
+  --arcane-soft: rgba(107, 74, 153, 0.08);
   --success-line: rgba(43, 100, 48, 0.4);
   --success-soft: rgba(43, 100, 48, 0.08);
   --glow: rgba(138, 106, 43, 0.22);

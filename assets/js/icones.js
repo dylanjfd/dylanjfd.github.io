@@ -35,6 +35,7 @@
     // Badges (type de quête, statut)
     losangePlein: svg('0 0 16 16', '', losangePlein),
     losangeVide: svg('0 0 16 16', '', '<path d="M8 2.2 13.8 8 8 13.8 2.2 8Z" fill="none" stroke="currentColor" stroke-width="1.6"/>'),
+    etoile: svg('0 0 16 16', '', '<path d="M8 1.2Q9 7 14.8 8 9 9 8 14.8 7 9 1.2 8 7 7 8 1.2Z" fill="currentColor"/>'),
     coche: svg('0 0 16 16', trait(2), '<path d="m3 8.5 3.2 3.2L13 4.8"/>'),
     horloge: svg('0 0 16 16', trait(1.6), '<circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.6"/>'),
     tropheePetit: svg('0 0 24 24', trait(2), '<path d="M7.5 4h9v5a4.5 4.5 0 0 1-9 0Z"/><path d="M12 13.5V17M8.5 20h7"/>'),

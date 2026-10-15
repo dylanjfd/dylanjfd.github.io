@@ -215,7 +215,7 @@
 
   /* ========================================================================
      5. Filtre du journal de quêtes (projets)
-     Boutons [data-filter] ; cartes [data-type="entreprise" | "academique"].
+     Boutons [data-filter] ; cartes [data-type="entreprise" | "academique" | "personnel"].
      ======================================================================== */
   function initQuestFilter() {
     const buttons = document.querySelectorAll('[data-filter]');

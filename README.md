@@ -91,7 +91,7 @@ Tout texte entre **doubles crochets** `[[…]]` s'affiche encadré en pointillé
 - **Photo** : dépose ta photo dans `assets/img/` puis indique son chemin dans `contenu/accueil.md` (`photo: assets/img/photo.jpg`, bloc `::: fiche`).
 - **Niveau et attributs** de la fiche de personnage : bloc `::: fiche` de `accueil.md` (attributs notés sur 5, la jauge suit).
 - **Compétences** : une ligne `- Nom — précisions : niveau` (1 Notions, 2 Intermédiaire, 3 Avancé, 4 Maîtrise).
-- **Projets** : bloc `::: quetes` de `projets.md` (type principale/secondaire, statut, compétences E5…) et un fichier par fiche dans `contenu/projets/`.
+- **Projets** : bloc `::: quetes` de `projets.md` (type principale/secondaire/annexe, statut, compétences E5…) et un fichier par fiche dans `contenu/projets/`.
 - **Certifications** : `statut: obtenue` (succès débloqué) ou `en cours` / `prévue` (verrouillé).
 - **Tableau E5** : un `x` dans une case = coche dorée. Remplace aussi `assets/docs/tableau-synthese-e5.pdf` par l'export PDF du modèle officiel `[E5]_Epreuve_support_modele_tableau_synthese_annexe_BTS_SIO_2026.xlsx` complété.
 - **CV** : `assets/docs/cv.pdf` (copie de « CV Dylan Joffredo.pdf »). Pour le mettre à jour, remplace ce fichier en gardant le même nom.
@@ -139,12 +139,14 @@ Les couleurs sont des variables CSS (`assets/css/01-variables.css`). Ratios de c
 | Sombre | texte secondaire `#a59c88` | surface `#1e2638` | 5,55:1 |
 | Sombre | or `#c9a35b` | surface `#1e2638` | 6,39:1 |
 | Sombre | bleu acier `#6fa8c7` | surface `#171e2e` | 6,42:1 |
+| Sombre | améthyste `#b79be0` (quêtes annexes) | surface `#171e2e` | 6,96:1 |
 | Sombre | succès `#7bc47f` / danger `#e07a6b` | surfaces | 7,96:1 / 5,16:1 |
 | Sombre | bouton : texte `#0e1320` | or `#c9a35b` | 7,83:1 |
 | Clair « parchemin » | texte `#2a2116` | fond `#f3ecdd` | 13,45:1 |
 | Clair | texte secondaire `#5f5443` | fond alterné `#ebe2ce` | 5,75:1 |
 | Clair | or texte `#725522` | fond alterné `#ebe2ce` | 5,37:1 |
 | Clair | bleu acier `#2c5f7c` / succès `#2b6430` / danger `#a63d2e` | surface `#fbf7ee` | 6,47 / 6,61 / 5,90:1 |
+| Clair | améthyste `#6b4a99` (quêtes annexes) | surface `#fbf7ee` | 6,41:1 |
 | Clair | bouton : texte `#2a2116` | or `#c9a35b` | 6,68:1 |
 
 Fonds : `#0e1320` (bleu nuit), `#121826` (alterné), surfaces `#171e2e` / `#1e2638`, bordures `#2e3648` ; en clair : `#f3ecdd`, surfaces `#fbf7ee`, bordures `#d8ccb2`.
