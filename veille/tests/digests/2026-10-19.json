@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-19",
+  "articles": [
+    {
+      "numero": 1,
+      "titre": "G7 choisit le cloud SecNumCloud de S3NS",
+      "source": "Le Monde Informatique",
+      "date": "2026-10-19T12:00:00+00:00",
+      "lien": "https://example.com/articles/g7-secnumcloud",
+      "extrait": "Article d'exemple pour les tests."
+    },
+    {
+      "numero": 2,
+      "titre": "On a testé VPS1Euro : 1,2 euro c'est déjà beaucoup trop cher",
+      "source": "Next",
+      "date": "2026-10-19T08:00:00+00:00",
+      "lien": "https://example.com/articles/vps1euro",
+      "extrait": "Article d'exemple pour les tests."
+    },
+    {
+      "numero": 3,
+      "titre": "Cloud de confiance : Snowflake se rapproche de Bleu et d'Orange Business",
+      "source": "LeMagIT",
+      "date": "2026-10-19T07:00:00+00:00",
+      "lien": "https://example.com/articles/snowflake-bleu",
+      "extrait": "Article d'exemple pour les tests."
+    }
+  ]
+}

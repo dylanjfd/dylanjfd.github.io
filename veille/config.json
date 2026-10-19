@@ -1,0 +1,30 @@
+{
+  "_aide": "Flux RSS lus par collect.py et mots-clés recherchés (titre ou résumé, sans tenir compte des majuscules ni des accents). Pour ajouter une alerte Google : sur google.fr/alerts, crée l'alerte, choisis « Envoyer à : Flux RSS », puis colle l'adresse du flux dans google_alerts avec un nom.",
+  "flux": [
+    { "nom": "CERT-FR (ANSSI)", "url": "https://www.cert.ssi.gouv.fr/feed/" },
+    { "nom": "CNIL", "url": "https://www.cnil.fr/fr/rss.xml" },
+    { "nom": "Next", "url": "https://next.ink/feed/" },
+    { "nom": "LeMagIT", "url": "https://www.lemagit.fr/rss/ContentSyndication.xml" },
+    { "nom": "Le Monde Informatique", "url": "https://www.lemondeinformatique.fr/flux-rss/thematique/toutes-les-actualites/rss.xml" }
+  ],
+  "google_alerts": [],
+  "_exemple_google_alerts": [
+    { "nom": "Google Alerts — souveraineté numérique", "url": "https://www.google.fr/alerts/feeds/00000000000000000000/0000000000000000000" }
+  ],
+  "mots_cles": [
+    "souveraineté numérique",
+    "cloud souverain",
+    "SecNumCloud",
+    "Cloud Act",
+    "hébergement",
+    "hébergeur",
+    "RGPD",
+    "données personnelles",
+    "PME",
+    "cloud de confiance",
+    "OVHcloud",
+    "Scaleway"
+  ],
+  "jours": 7,
+  "articles_max": 10
+}

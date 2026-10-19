@@ -148,7 +148,7 @@
     blocs.shift();
     return liste;
   }
-  const CLES_CARTE = ['date', 'source', 'auteur', 'lieu', 'periode', 'duree', 'niveau'];
+  const CLES_CARTE = ['date', 'source', 'sources', 'auteur', 'lieu', 'periode', 'duree', 'niveau'];
   const CLES_QUETE = ['type', 'statut', 'fiche', 'lien', 'resume', 'cadre', 'periode', 'contexte', 'technologies', 'recompenses', 'competences'];
 
   /**
@@ -408,7 +408,7 @@
           tr.appendChild(el('td', { class: 'cell-check' }, RE_COCHE.test(valeur)
             ? `<span class="check">${ICO.cocheTableau}<span class="sr-only">Oui</span></span>`
             : '<span class="sr-only">Non</span>'));
-        } else tr.appendChild(el('td', null, ligne(valeur)));
+        } else tr.appendChild(el('td', { 'data-label': large ? null : brut(b.entetes[c]) }, ligne(valeur))); // intitulé affiché sur mobile
       }
       corps.appendChild(tr);
     });
@@ -490,7 +490,7 @@
       if (lien) carte.appendChild(el('span', { class: 'card__more', 'aria-hidden': 'true' }, ['Découvrir ', ICO.fleche]));
       ul.appendChild(el('li', { class: 'reveal' }, carte));
     });
-    return ul;
+    return ul.children.length ? ul : null; // aucune carte (ex. pas encore de synthèse) : pas de liste vide
   }
 
   /** Journal de quêtes : filtre + cartes projet (type, statut, fiche, contexte, technologies, récompenses). */

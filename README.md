@@ -16,6 +16,7 @@ Thème visuel : **« Quête d'aventure »**, une interface inspirée des jeux d'
 6. [Thème « Quête d'aventure »](#6-thème--quête-daventure-)
 7. [Conformité aux consignes E5](#7-conformité-aux-consignes-e5)
 8. [Accessibilité, RGPD et licence](#8-accessibilité-rgpd-et-licence)
+9. [Veille automatisée](#9-veille-automatisée)
 
 ---
 
@@ -54,6 +55,16 @@ assets/img/                   favicon.svg, topo.svg (carte topographique origina
 assets/fonts/                 Police Cinzel + licence OFL.txt
 assets/docs/                  cv.pdf (ton CV), tableau-synthese-e5.pdf (provisoire)
 outils/serveur-local.bat      Serveur local de prévisualisation (Windows)
+veille/                       Veille automatisée (voir section 9)
+  config.json                 Flux RSS, mots-clés, alertes Google
+  collect.py                  Collecte des actualités et e-mail du lundi
+  fetch_replies.py            Lecture de tes réponses (#numéro + avis)
+  seen.json, digests/         Liens déjà envoyés, articles de chaque e-mail (écrits par GitHub Actions)
+  processed.json              Réponses déjà utilisées dans une synthèse
+  tests/                      Tests des deux scripts
+.github/workflows/veille.yml  Collecte quotidienne et envoi du lundi (GitHub Actions)
+.claude/commands/veille.md    Commande /veille de Claude Code (synthèse du mois)
+.env.example                  Modèle du fichier .env (identifiants Gmail locaux, jamais publiés)
 contact.php                   Envoi du formulaire sur un hébergement PHP
 sitemap.xml, robots.txt       Référencement
 .nojekyll                     Indique à GitHub Pages de publier les fichiers tels quels
@@ -179,7 +190,7 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 | Présentation : photo, biographie, CV PDF, LinkedIn / GitHub, projet professionnel | `contenu/accueil.md`, `contenu/site.md`, `assets/docs/cv.pdf` | CV en place ; photo et textes à compléter |
 | Projets en entreprise et académiques : contexte, objectifs, solutions, captures, démos, code source | `contenu/projets.md` + 3 fiches dans `contenu/projets/` | Prêt, à compléter |
 | Compétences : langages, outils / frameworks, systèmes et réseaux, bases de données, niveaux | `contenu/competences.md` | Prêt, à adapter |
-| Veille : sujet, outils, sources fiables, synthèses régulières, analyse critique | `contenu/veille.md` | Prêt, à compléter |
+| Veille : sujet, outils, sources fiables, synthèses régulières, analyse critique | `contenu/veille.md`, `veille/` (section 9) | Sujet, méthode et sources en place ; synthèses mensuelles avec `/veille` |
 | Tableau E5 : compétences du référentiel, projets, contexte et durée, PDF officiel | `contenu/tableau-e5.md`, `assets/docs/tableau-synthese-e5.pdf` | PDF à remplacer |
 | Alternance : entreprise, poste, maître d'apprentissage, rythme, contrat, missions, évolution | `contenu/alternance.md` | Prêt, à compléter |
 | Certifications : éditeurs (Cisco, Microsoft, AWS…), langues, formations, badges, justificatifs | `contenu/certifications.md` | Prêt, à compléter |
@@ -203,3 +214,48 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 - **Accessibilité** : lien d'évitement, navigation complète au clavier, focus visible en or, flèches directionnelles (← → : page précédente / suivante dans l'ordre du menu, ou boutons de bas de page sur une fiche projet ; après Tab, les quatre flèches déplacent la sélection vers l'élément le plus proche dans toute la page, Échap la retire), menu mobile utilisable au clavier (Échap pour fermer), textes alternatifs, décors masqués aux lecteurs d'écran, aucune information portée uniquement par la couleur (icônes et textes sur les badges, statuts et jauges), contrastes AA vérifiés dans les deux thèmes, respect de `prefers-reduced-motion`. Sans JavaScript, chaque page indique où lire sa version texte (fichier Markdown) et le formulaire de contact reste utilisable.
 - **RGPD** : aucun cookie, aucun outil de mesure d'audience, aucune ressource chargée depuis un service tiers. Seul le choix du thème est mémorisé dans le navigateur (`localStorage`, clé `theme`). Le formulaire demande un consentement explicite.
 - **Licence** : code sous licence MIT (`LICENSE`). La police Cinzel reste sous SIL Open Font License 1.1 ; les contenus personnels restent la propriété de leur auteur.
+
+## 9. Veille automatisée
+
+La page Veille (la souveraineté numérique est-elle accessible aux PME ?) s'appuie sur une collecte automatique des actualités :
+
+1. **Chaque jour**, GitHub Actions (`.github/workflows/veille.yml`) lit les flux RSS de `veille/config.json` et met de côté les articles des 7 derniers jours qui contiennent un mot-clé (titre ou résumé, sans tenir compte des majuscules ni des accents).
+2. **Chaque lundi vers 7 h 45** (heure de Paris), tu reçois un e-mail « [Veille souveraineté] Semaine du JJ/MM/AAAA — N actualités » : 10 articles au plus, numérotés, du plus récent au plus ancien. Le workflow enregistre ensuite dans le dépôt `veille/seen.json` (liens déjà envoyés, jamais renvoyés) et `veille/digests/AAAA-MM-JJ.json` (les articles de l'e-mail, avec leur numéro).
+3. **Tu réponds à l'e-mail** en écrivant `#numéro` suivi de ton avis, par exemple `#2 je pense que…`. Tu peux ignorer les articles qui ne t'intéressent pas.
+4. **Une fois par mois**, dans Claude Code, tape `/veille` : tes réponses sont lues, corrigées et reformulées sans changer ton avis, puis regroupées en une synthèse. Tu la valides (« OK ») avant qu'elle soit ajoutée à `contenu/veille.md`, puis tu valides le diff avant le commit et le push.
+
+### Mise en place (une seule fois)
+
+1. **Mot de passe d'application Gmail.** La validation en deux étapes doit être activée sur le compte Gmail qui envoie les e-mails (<https://myaccount.google.com/signinoptions/twosv>). Crée ensuite un mot de passe d'application sur <https://myaccount.google.com/apppasswords> (nom : « Veille portfolio ») et copie les 16 lettres. Ce mot de passe ne sert qu'aux e-mails de veille et se révoque à tout moment depuis la même page.
+2. **Secrets GitHub.** Sur la page du dépôt : *Settings → Secrets and variables → Actions → New repository secret*. Crée ces trois secrets :
+
+   | Secret | Valeur |
+   |---|---|
+   | `GMAIL_USER` | l'adresse Gmail qui envoie les e-mails |
+   | `GMAIL_APP_PASSWORD` | le mot de passe d'application (16 lettres) |
+   | `VEILLE_TO` | l'adresse qui reçoit les e-mails (la tienne) |
+
+   En ligne de commande, `gh secret set GMAIL_USER` demande la valeur sans l'afficher ni l'écrire dans l'historique.
+3. **Fichier `.env` local** (pour `/veille`). Copie `.env.example` sous le nom `.env`, à la racine du dépôt, et remplis `GMAIL_USER` et `GMAIL_APP_PASSWORD` (plus `VEILLE_TO` si tu réponds depuis une autre adresse que `GMAIL_USER`). `.env` est listé dans `.gitignore` : il ne part jamais sur GitHub.
+4. **Python en local** (pour `/veille` et les tests) : Python 3.12, puis `python -m pip install -r veille/requirements.txt`. Dans un terminal déjà ouvert avant l'installation de Python, ferme-le et rouvre-le pour que la commande `python` soit trouvée.
+5. **Test manuel.** Onglet *Actions → Veille souveraineté → Run workflow* : le mode `essai` affiche l'e-mail dans le journal sans l'envoyer, le mode `envoyer` l'envoie vraiment. En ligne de commande : `gh workflow run veille.yml -f mode=essai`. Sur ton ordinateur : `python veille/collect.py --dry-run` (rien n'est envoyé ni enregistré).
+
+### Utiliser `/veille`
+
+Dans Claude Code, à la racine du dépôt, tape `/veille`. La commande (`.claude/commands/veille.md`) :
+
+1. fait `git pull`, puis lance `python veille/fetch_replies.py --dry-run` (lecture de tes réponses par IMAP, sans rien marquer comme lu) ;
+2. corrige et reformule chaque avis en gardant ton opinion, sans inventer de fait, de chiffre ni de source ;
+3. regroupe les avis du mois en une seule synthèse (titre, résumé de l'actualité, « Mon analyse », liens vers les sources) ;
+4. te montre la synthèse à côté de tes phrases d'origine et attend ton « OK » ou tes corrections ;
+5. après ton « OK », ajoute la carte entre les marqueurs `<!-- SYNTHESES:START -->` et `<!-- SYNTHESES:END -->` de `contenu/veille.md`, note les réponses utilisées dans `veille/processed.json`, puis te montre le diff et attend un dernier « OK » avant le commit et le push.
+
+### Bon à savoir
+
+- **Heure d'envoi** : le cron de GitHub est en UTC. Deux heures sont programmées le lundi (5 h 45 et 6 h 45 UTC) ; seule celle qui tombe à 7 h 45 à Paris envoie l'e-mail, en heure d'été comme en heure d'hiver. GitHub peut retarder une tâche planifiée de quelques minutes.
+- **Collecte quotidienne** : certains flux ne gardent que leurs derniers articles (environ 5 jours pour Next et LeMagIT). Les articles trouvés chaque jour sont gardés dans le cache de GitHub Actions (`veille/tampon.json`, jamais dans le dépôt).
+- **Pas d'actualité** : si aucun article ne correspond, tu reçois un court e-mail « Pas d'actualité cette semaine ».
+- **Ajouter une alerte Google** : sur <https://www.google.fr/alerts>, crée l'alerte, choisis « Envoyer à : Flux RSS », puis ajoute l'adresse du flux dans `google_alerts` de `veille/config.json` (un exemple est donné à côté).
+- **Workflow désactivé** : GitHub met en pause les tâches planifiées d'un dépôt sans activité pendant 60 jours ; réactive-les dans l'onglet *Actions* si besoin.
+- **Dépôt public** : `seen.json`, les digests et `processed.json` sont visibles de tous. Ils ne contiennent ni adresse e-mail ni mot de passe (`processed.json` garde une empreinte de chaque e-mail, pas son identifiant).
+- **Tests** : `python -m unittest discover -s veille/tests -v` (mots-clés, découpage des avis « #numéro », retrait du texte cité, sur un faux e-mail de réponse).

@@ -1,0 +1,2 @@
+feedparser==6.0.14
+tzdata==2026.5

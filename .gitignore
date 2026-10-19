@@ -1,0 +1,12 @@
+# Identifiants Gmail de la veille (voir .env.example) : jamais sur GitHub
+.env
+
+# Articles mis de côté entre deux collectes (gardés dans le cache de GitHub Actions)
+veille/tampon.json
+*.json.tmp
+
+# Python
+__pycache__/
+
+# Réglages locaux de Claude Code
+.claude/settings.local.json
