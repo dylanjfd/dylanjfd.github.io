@@ -14,10 +14,10 @@ Informations sur l'éditeur et l'hébergeur du site, conformément à la loi pou
 
 ## Éditeur du site
 
-{{nom}}, étudiant en BTS Services Informatiques aux Organisations, option {{option}}, à [[nom de l'établissement, ville]].\
+{{nom}}, étudiant en BTS Services Informatiques aux Organisations, option {{option}}, à MyDigitalSchool, Nantes.\
 Responsable de la publication : {{nom}}.
 
-Contact : [{{email}}](mailto:{{email}}) ou via le [formulaire de contact](pages/contact.html).
+Contact : via le [formulaire de contact](pages/contact.html).
 
 ## Hébergement
 
@@ -35,7 +35,6 @@ Le code source du site est distribué sous licence MIT (fichier `LICENSE` à la 
 
 - **Police Cinzel** — créée par Natanael Gama, © 2020 The Cinzel Project Authors ([github.com/NDISCOVER/Cinzel](https://github.com/NDISCOVER/Cinzel)). Distribuée sous licence SIL Open Font License 1.1 et hébergée sur ce site (aucun appel à un service externe). Texte de la licence : [OFL.txt](assets/fonts/OFL.txt).
 - **Illustrations et icônes** — carte topographique, rose des vents, ornements, favicon et icônes : créations originales en SVG réalisées pour ce portfolio. Aucun personnage, logo, nom ou visuel issu d'un jeu vidéo, d'un manga ou d'un anime n'est utilisé.
-- **Photographies** — [[photo de profil : © {{nom}} (ou crédit du photographe / de la banque d'images libre de droits utilisée).]]
 - **Texte courant** — polices système de l'appareil du visiteur.
 
 ## Données personnelles

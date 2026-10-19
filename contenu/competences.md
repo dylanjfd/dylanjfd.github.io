@@ -14,10 +14,6 @@ Les compétences techniques acquises en formation, en alternance et en autoforma
 
 ## Compétences par domaine {masque}
 
-::: note
-À adapter : ces compétences sont des exemples. Garde celles que tu maîtrises vraiment et ajuste chaque niveau (1 = Notions, 2 = Intermédiaire, 3 = Avancé, 4 = Maîtrise).
-:::
-
 ::: competences
 ### Branche I | Systèmes {icone=serveur option=SISR}
 - Windows Server — AD DS, DNS, DHCP, stratégies de groupe : 3
@@ -69,7 +65,6 @@ Les compétences techniques acquises en formation, en alternance et en autoforma
 
 ### Branche VI | Langues {icone=langue}
 - Anglais — Documentation technique, échanges écrits : 2
-- [[Autre langue]] — [[Contexte d'utilisation]] : 1
 :::
 
 ## En situation | Ces compétences dans mes réalisations {centre}

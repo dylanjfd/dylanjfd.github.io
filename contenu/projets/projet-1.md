@@ -52,38 +52,6 @@ Un hébergement sécurisé et complet, avec sauvegardes et supervision.
 - 🥈 Objectif 2 — Fortifier : sécuriser le serveur : accès SSH par clé uniquement, pare-feu actif, Fail2ban, aucun port ouvert sur la box.
 - 🥇 Objectif 3 — Garantir : garantir la continuité du service : sauvegardes automatiques, supervision avec alerte et retour du site après une panne.
 
-## Étapes de la quête | Solution
-
-[[Décris la solution retenue et pourquoi elle a été choisie (comparaison rapide avec les autres solutions envisagées).]]
-
-::: etapes
-### Analyse du besoin et choix de la solution
-[[Recueil des besoins, comparaison des outils, validation avec le tuteur.]]
-
-### Installation et configuration
-[[Serveur, services, comptes, droits d'accès : les étapes clés et les choix techniques.]]
-
-### Tests et recette
-[[Scénarios de test, problèmes rencontrés et corrections apportées.]]
-
-### Mise en service et documentation
-[[Déploiement, documentation technique, accompagnement des utilisateurs.]]
-:::
-
-::: capture
-[[Capture d'écran à ajouter (ex. : assets/img/projet-1-capture.png)]]
-
-[[Légende : ce que montre la capture.]]
-:::
-
-## Butin et bilan | Résultats
-
-- [[Résultat mesurable 1 (ex. : 45 postes inventoriés automatiquement)]]
-- [[Résultat mesurable 2 (ex. : délai moyen de prise en charge divisé par deux)]]
-- [[Livrables : documentation technique, procédure utilisateur…]]
-
-> **Bilan personnel :** [[ce que tu as appris, les difficultés rencontrées et comment tu les as surmontées, ce que tu améliorerais.]]
-
 ::: encart competences
 ## Récompenses | Compétences E5 mobilisées
 - Gérer le patrimoine informatique
@@ -93,21 +61,13 @@ Un hébergement sécurisé et complet, avec sauvegardes et supervision.
 
 ::: encart technologies
 ## Équipement | Technologies
-- [[Windows Server]]
-- [[Active Directory]]
-- [[GLPI]]
-:::
-
-<!-- Remplace https://github.com/ par l'adresse de ton dépôt ; ajoute tes PDF dans assets/docs/ -->
-::: encart ressources
-## Archives | Code source et documents
-- [[[Scripts et configurations (GitHub)]]](https://github.com/)
-- [[Démonstration vidéo]]
-- [[Documentation technique (PDF)]]
-- [[Procédure utilisateur (PDF)]]
+- Debian
+- Nginx
+- Cloudflare
+- Git
+- Uptime Kuma
 :::
 
 ::: navigation Navigation entre les projets
 - [Retour aux projets](pages/projets.html)
-- [Projet suivant](pages/projets/projet-2.html)
 :::

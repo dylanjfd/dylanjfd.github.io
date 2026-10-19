@@ -17,8 +17,6 @@ Toutes les pages du portfolio, regroupées par thème.
 ## Réalisations
 - [Projets](pages/projets.html)
   - [Projet 1](pages/projets/projet-1.html)
-  - [Projet 2](pages/projets/projet-2.html)
-  - [Projet 3](pages/projets/projet-3.html)
 - [Tableau de synthèse E5](pages/tableau-e5.html)
 
 ## Parcours et compétences

@@ -15,11 +15,9 @@ Une proposition d'alternance ou d'emploi, ou une question sur l'un de mes projet
 
 ::: encart coordonnees
 ## Point de ralliement | Coordonnées
-E-mail professionnel: [{{email}}](mailto:{{email}})
 LinkedIn: [linkedin.com/in/dylan-joffredo-1212342a0]({{linkedin}})
 GitHub: [github.com/dylanjfd]({{github}})
-Localisation: [[Ville (département) — mobilité : …]]
-Disponibilité: En alternance chez MyDigitalSchool jusqu'en [[2028]]
+Disponibilité: En alternance chez MyDigitalSchool jusqu'en 2028
 :::
 
 ::: encart

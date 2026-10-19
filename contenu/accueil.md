@@ -82,7 +82,7 @@ Créer mon entreprise de réparation d'ordinateurs, de location de PC haute perf
 
 ::: cartes numerotees
 ### Journal de quêtes | [Projets](pages/projets.html)
-3 réalisations détaillées : contexte, objectifs, solution, résultats.
+Mes réalisations détaillées : contexte, objectifs, solution, résultats.
 
 ### Arbre de talents | [Compétences](pages/competences.html)
 Langages, outils, systèmes et réseaux, bases de données, avec niveaux.

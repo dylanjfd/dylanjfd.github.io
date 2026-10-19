@@ -13,7 +13,7 @@ Comment les données envoyées via ce site sont utilisées et protégées, confo
 
 ## Responsable du traitement
 
-{{nom}}, éditeur du site. Contact : [{{email}}](mailto:{{email}}) ou le [formulaire de contact](pages/contact.html).
+{{nom}}, éditeur du site. Contact : via le [formulaire de contact](pages/contact.html).
 
 ## Données collectées
 
@@ -25,15 +25,15 @@ Ces données servent uniquement à répondre à votre demande (proposition d'alt
 
 ## Destinataires
 
-Les messages sont destinés à {{nom}} uniquement. Ils transitent par [[Formspree (service d'envoi de formulaires, États-Unis) ou par l'hébergeur du site si le script contact.php est utilisé]], en tant que sous-traitant. Ils ne sont ni vendus ni transmis à des tiers.
+Les messages sont destinés à {{nom}} uniquement. Ils ne sont ni vendus ni transmis à des tiers.
 
 ## Durée de conservation
 
-Les messages sont conservés le temps nécessaire au traitement de la demande, puis supprimés au plus tard [[12 mois]] après le dernier échange.
+Les messages sont conservés le temps nécessaire au traitement de la demande, puis supprimés.
 
 ## Vos droits
 
-Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de vos données, ainsi que du droit de retirer votre consentement. Pour les exercer, écrivez à l'adresse ci-dessus. Vous pouvez également adresser une réclamation à la CNIL ([www.cnil.fr](https://www.cnil.fr/)).
+Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de vos données, ainsi que du droit de retirer votre consentement. Pour les exercer, utilisez le formulaire de contact. Vous pouvez également adresser une réclamation à la CNIL ([www.cnil.fr](https://www.cnil.fr/)).
 
 ## Cookies et traceurs
 
@@ -41,4 +41,4 @@ Ce site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience ni
 
 Le choix du thème clair ou sombre est mémorisé dans votre navigateur (stockage local, clé `theme`). Cette information, nécessaire à la fonctionnalité que vous demandez, n'est jamais transmise et peut être effacée depuis les réglages de votre navigateur.
 
-*Dernière mise à jour : [[octobre 2026]]*
+*Dernière mise à jour : octobre 2026*

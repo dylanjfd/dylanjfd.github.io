@@ -37,25 +37,6 @@ période: depuis octobre 2026
 technologies: Debian, Nginx, Cloudflare, Git, Uptime Kuma
 récompenses: Patrimoine, Présence en ligne, Mode projet
 
-### [[Titre du projet 2]]
-type: secondaire
-statut: terminée
-fiche: pages/projets/projet-2.html
-résumé: [[En une phrase : le contexte fourni par l'établissement et ta réalisation (ex. : serveur web Linux et site vitrine pour une organisation fictive).]]
-cadre: [[Projet en formation · 1re année]]
-période: [[2026]]
-technologies: [[Debian]], [[Apache]], [[HTML / CSS]]
-récompenses: Présence en ligne, Mode projet, Mise à disposition
-
-### [[Titre du projet 3]]
-type: principale
-statut: en cours
-fiche: pages/projets/projet-3.html
-résumé: [[En une phrase : le besoin et la solution en cours de réalisation (ex. : segmentation du réseau en VLAN et supervision des équipements).]]
-cadre: [[Alternance — 2e année · Nom de l'entreprise]]
-période: [[2027]]
-technologies: [[VLAN]], [[pfSense]], [[Supervision]]
-récompenses: Patrimoine, Mode projet, Développement pro.
 :::
 
 ## Progression | Tableau de synthèse E5 {centre}
