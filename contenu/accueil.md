@@ -1,6 +1,6 @@
 ---
 mise-en-page: accueil
-disponibilite: En alternance chez MyDigitalSchool jusqu'en [[2028]]
+disponibilite: En alternance chez MyDigitalSchool jusqu'en 2028
 ---
 
 <!--
