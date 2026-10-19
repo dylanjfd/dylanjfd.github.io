@@ -231,3 +231,29 @@
 .footer__bottom p {
   margin: 0;
 }
+
+/* Astuce « flèches ← → » ajoutée par interface.js (inutile sur écran tactile) */
+.footer__bottom .footer__hint {
+  margin-top: 0.4rem;
+  color: var(--text-muted);
+}
+
+.footer__hint kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0 0.3em;
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  color: var(--gold);
+  font: inherit;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (hover: none) {
+  .footer__hint {
+    display: none;
+  }
+}

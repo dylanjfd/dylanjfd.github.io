@@ -7,7 +7,7 @@
      icones.js      icônes SVG originales
      markdown.js    analyseur Markdown maison
      rendu.js       construction des pages à partir de contenu/*.md
-     interface.js   thème, menu mobile, apparitions, particules, filtre
+     interface.js   thème, menu mobile, apparitions, particules, filtre, flèches
      formulaire.js  formulaire de contact (page contact uniquement)
      main.js        ce fichier : réglages CONFIG puis démarrage
    Le texte des pages se modifie dans les fichiers Markdown du dossier contenu/.

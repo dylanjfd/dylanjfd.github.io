@@ -47,7 +47,7 @@ assets/js/
   icones.js                   Icônes SVG originales
   markdown.js                 Analyseur Markdown maison
   rendu.js                    Construit chaque page à partir de son fichier .md
-  interface.js                Thème, menu mobile, apparitions, particules, filtre des projets
+  interface.js                Thème, menu mobile, apparitions, particules, filtre des projets, flèches
   formulaire.js               Formulaire de contact
   main.js                     Réglages CONFIG (option SISR/SLAM, formulaire) + démarrage
 assets/img/                   favicon.svg, topo.svg (carte topographique originale)
@@ -200,6 +200,6 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 
 ## 8. Accessibilité, RGPD et licence
 
-- **Accessibilité** : lien d'évitement, navigation complète au clavier, focus visible en or, menu mobile utilisable au clavier (Échap pour fermer), textes alternatifs, décors masqués aux lecteurs d'écran, aucune information portée uniquement par la couleur (icônes et textes sur les badges, statuts et jauges), contrastes AA vérifiés dans les deux thèmes, respect de `prefers-reduced-motion`. Sans JavaScript, chaque page indique où lire sa version texte (fichier Markdown) et le formulaire de contact reste utilisable.
+- **Accessibilité** : lien d'évitement, navigation complète au clavier, focus visible en or, flèches directionnelles (← → : page précédente / suivante dans l'ordre du menu, ou projet précédent / suivant sur une fiche projet ; dans le menu, les filtres et les grilles de cartes, les flèches passent d'un élément à l'autre), menu mobile utilisable au clavier (Échap pour fermer), textes alternatifs, décors masqués aux lecteurs d'écran, aucune information portée uniquement par la couleur (icônes et textes sur les badges, statuts et jauges), contrastes AA vérifiés dans les deux thèmes, respect de `prefers-reduced-motion`. Sans JavaScript, chaque page indique où lire sa version texte (fichier Markdown) et le formulaire de contact reste utilisable.
 - **RGPD** : aucun cookie, aucun outil de mesure d'audience, aucune ressource chargée depuis un service tiers. Seul le choix du thème est mémorisé dans le navigateur (`localStorage`, clé `theme`). Le formulaire demande un consentement explicite.
 - **Licence** : code sous licence MIT (`LICENSE`). La police Cinzel reste sous SIL Open Font License 1.1 ; les contenus personnels restent la propriété de leur auteur.

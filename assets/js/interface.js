@@ -9,8 +9,9 @@
     4. Particules lumineuses du hero (30 maximum)
     5. Filtre du journal de quêtes (projets)
     6. Aperçu des PDF (CV, tableau E5) avec bouton de téléchargement
-    7. Divers : année du pied de page, cases à compléter
-    8. Initialisation : en-tête (immédiat) puis contenu (après rendu.js)
+    7. Navigation aux flèches directionnelles (pages, menu, filtres, cartes)
+    8. Divers : année du pied de page, cases à compléter
+    9. Initialisation : en-tête (immédiat) puis contenu (après rendu.js)
    ========================================================================== */
 (function () {
   'use strict';
@@ -309,7 +310,108 @@
   }
 
   /* ========================================================================
-     7. Divers : année du pied de page, cases à compléter
+     7. Navigation aux flèches directionnelles
+     ← / → : page précédente / suivante. Sur une fiche projet, ce sont les
+     boutons de bas de page (.pager) ; ailleurs, l'ordre du menu principal.
+     Dans un groupe (menu, filtres, grille de cartes, boutons de bas de page),
+     les flèches déplacent le focus d'un élément à l'autre, selon leur position
+     à l'écran. ↑ / ↓ font défiler la page comme d'habitude hors des groupes.
+     ======================================================================== */
+  const GROUPES_FLECHES = '#site-nav ul, .filters, .grid, .quest-grid, .pager';
+  const FOCUSABLES = 'a[href], button:not([disabled])';
+  const DIRECTIONS = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
+
+  /** Liens vers la page précédente et la page suivante (null s'il n'y en a pas). */
+  function pagesVoisines() {
+    const pager = document.querySelectorAll('.pager a[href]');
+    if (pager.length) {
+      return { precedente: pager[0], suivante: pager.length > 1 ? pager[pager.length - 1] : null };
+    }
+    const menu = Array.from(document.querySelectorAll('#site-nav a[href]'));
+    const i = menu.findIndex((a) => a.hasAttribute('aria-current'));
+    if (i < 0) return { precedente: null, suivante: null };
+    return { precedente: menu[i - 1] || null, suivante: menu[i + 1] || null };
+  }
+
+  /** Élément suivant du groupe dans la direction donnée, d'après sa position à l'écran. */
+  function voisinDansGroupe(groupe, actuel, [dx, dy]) {
+    const cible = (item) => (item.matches(FOCUSABLES) ? item : item.querySelector(FOCUSABLES));
+    const items = Array.from(groupe.children).filter((item) => !item.hidden && cible(item) && item.getClientRects().length);
+    const depart = items.find((item) => item.contains(actuel));
+    if (!depart) return null;
+    const a = depart.getBoundingClientRect();
+    let meilleur = null;
+    let meilleurScore = Infinity;
+    items.forEach((item) => {
+      if (item === depart) return;
+      const b = item.getBoundingClientRect();
+      // Distance entre les bords dans la direction voulue (négative : l'élément n'est pas de ce côté)
+      const avance = dx > 0 ? b.left - a.right : dx < 0 ? a.left - b.right : dy > 0 ? b.top - a.bottom : a.top - b.bottom;
+      if (avance < -2) return;
+      // Décalage sur le côté : nul si les deux éléments sont sur la même ligne (ou la même colonne)
+      const ecart = dx ? Math.max(0, b.top - a.bottom, a.top - b.bottom) : Math.max(0, b.left - a.right, a.left - b.right);
+      const decentrage = dx ? Math.abs(b.top + b.bottom - a.top - a.bottom) : Math.abs(b.left + b.right - a.left - a.right);
+      const score = avance + ecart * 3 + decentrage * 0.05;
+      if (score < meilleurScore) {
+        meilleurScore = score;
+        meilleur = item;
+      }
+    });
+    // ← / → en bout de ligne : élément précédent ou suivant dans l'ordre de lecture
+    if (!meilleur && dx) meilleur = items[items.indexOf(depart) + dx] || null;
+    return meilleur ? cible(meilleur) : null;
+  }
+
+  /** Vrai si les flèches doivent garder leur rôle habituel (saisie, lecteur, zone défilante…). */
+  function flechesNatives(cible) {
+    if (cible.closest('input, textarea, select, video, audio, [contenteditable]:not([contenteditable="false"])')) return true;
+    for (let n = cible; n && n !== document.body; n = n.parentElement) {
+      if (n.scrollWidth > n.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(n).overflowX)) return true;
+    }
+    return false;
+  }
+
+  function initArrowNav() {
+    const voisines = pagesVoisines();
+
+    document.addEventListener('keydown', (event) => {
+      const direction = DIRECTIONS[event.key];
+      if (!direction || event.defaultPrevented || event.isComposing) return;
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      if (document.querySelector('dialog[open]')) return;
+      const cible = event.target instanceof Element ? event.target : document.body;
+
+      const groupe = cible.closest(GROUPES_FLECHES);
+      if (groupe && cible.matches(FOCUSABLES)) {
+        const voisin = voisinDansGroupe(groupe, cible, direction);
+        if (voisin) {
+          event.preventDefault();
+          voisin.focus();
+        } else if (direction[0]) {
+          event.preventDefault(); // bout du groupe : on reste sur place
+        }
+        return;
+      }
+
+      if (!direction[0] || event.repeat || flechesNatives(cible)) return;
+      const lien = direction[0] < 0 ? voisines.precedente : voisines.suivante;
+      if (!lien) return;
+      event.preventDefault();
+      window.location.assign(lien.href);
+    });
+
+    // Astuce dans le pied de page (masquée sur les écrans tactiles, voir 03-entete-pied.css)
+    const pied = document.querySelector('.footer__bottom');
+    if (pied && (voisines.precedente || voisines.suivante)) {
+      const astuce = document.createElement('p');
+      astuce.className = 'footer__hint';
+      astuce.innerHTML = 'Astuce : utilisez les flèches <kbd>←</kbd> <kbd>→</kbd> du clavier pour changer de page.';
+      pied.appendChild(astuce);
+    }
+  }
+
+  /* ========================================================================
+     8. Divers : année du pied de page, cases à compléter
      ======================================================================== */
   function initYear() {
     const year = String(new Date().getFullYear());
@@ -324,7 +426,7 @@
   }
 
   /* ========================================================================
-     8. Initialisation
+     9. Initialisation
      ======================================================================== */
   P.interface = {
     /** En-tête présent dans le HTML : utilisable tout de suite. */
@@ -338,6 +440,7 @@
       initParticles();
       initQuestFilter();
       initPdfPreview();
+      initArrowNav();
       initYear();
       reportTodos();
     },
