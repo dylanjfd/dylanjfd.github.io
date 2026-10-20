@@ -190,6 +190,15 @@ function lireFlux_(source) {
         };
       }).filter(a => a.titre && a.lien);
     }
+    if (racine.getName() === 'RDF') {                       // RSS 1.0 (ex. Le Monde Informatique)
+      const rss = XmlService.getNamespace('http://purl.org/rss/1.0/');
+      return racine.getChildren('item', rss).map(e => ({
+        titre: texte_(e, 'title', rss),
+        lien: texte_(e, 'link', rss),
+        resume: nettoyerHtml_(texte_(e, 'description', rss)),
+        date: date_(texteNs_(e, 'date', 'http://purl.org/dc/elements/1.1/')),
+      })).filter(a => a.titre && a.lien);
+    }
     console.warn(`${source.nom} → format inconnu (${racine.getName()})`);
     return [];
   } catch (err) {
