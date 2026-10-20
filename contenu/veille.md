@@ -6,7 +6,7 @@ fil-ariane: Veille
   PAGE VEILLE (pages/veille.html) — « Codex »
   Sujet : la souveraineté numérique est-elle accessible aux PME ?
   - Synthèses : une carte par mois entre les marqueurs SYNTHESES ci-dessous, la plus récente en premier.
-    La commande /veille de Claude Code les rédige à partir de tes réponses aux e-mails de veille
+    Claude les rédige à partir de tes réponses aux e-mails de veille
     (voir le README, section « Veille automatisée »). Ne supprime pas les marqueurs.
     Format : « ### Entrée I | Titre », lignes date: et sources:, puis « Résumé » et « Mon analyse ».
   - Sources : tableau Markdown (source, type, pourquoi elle est fiable).
@@ -56,8 +56,8 @@ Projet lié : [Projet serveur web](pages/projets/projet-1.html).
 
 - **Alertes par mots-clés** — souveraineté numérique, cloud souverain, SecNumCloud, Cloud Act, hébergeur, RGPD, données personnelles, PME, OVHcloud, Scaleway…
 - **Flux RSS** — les sites des sources ci-dessous, lus automatiquement chaque jour.
-- **Collecte hebdomadaire par e-mail** — un script (GitHub Actions) garde les articles des sept derniers jours qui contiennent un mot-clé ; chaque lundi matin, je reçois par e-mail les dix plus récents, numérotés.
-- **Synthèses relues** — je réponds à l'e-mail en donnant mon avis sur les articles qui m'intéressent (« #2 je pense que… ») ; chaque mois, mes avis sont regroupés et reformulés avec un assistant IA (Claude Code), puis je relis et valide la synthèse avant de la publier ici.
+- **Collecte hebdomadaire par e-mail** — un script Google Apps Script garde les articles des sept derniers jours qui contiennent un mot-clé ; chaque lundi matin, je reçois par e-mail les dix plus récents, numérotés.
+- **Synthèses relues** — je réponds à l'e-mail en donnant mon avis sur les articles qui m'intéressent (« #2 je pense que… ») ; chaque mois, mes avis sont regroupés et reformulés avec un assistant IA (Claude), puis je relis et valide la synthèse avant de la publier ici.
 - **Rythme** — une collecte par semaine, une synthèse par mois.
 
 Le code de cette automatisation est public : [dossier veille sur GitHub](https://github.com/dylanjfd/dylanjfd.github.io/tree/main/veille).
