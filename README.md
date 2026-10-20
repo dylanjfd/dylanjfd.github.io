@@ -217,6 +217,11 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 
 ## 9. Veille automatisée
 
+> **Depuis octobre 2026, la collecte et l'e-mail du lundi passent par Google Apps Script** ([`veille/apps-script/Code.gs`](veille/apps-script/Code.gs)) : l'e-mail part directement du compte Google, sans mot de passe d'application ni secret GitHub. Le workflow `veille.yml` est désactivé (onglet *Actions*) ; les étapes GitHub Actions, secrets et `.env` ci-dessous ne servent plus.
+>
+> - **Apps Script** (script.google.com, projet « Veille souveraineté numérique ») : `collecter` chaque jour vers 18 h, `envoyerLundi` le lundi vers 7 h 45 (Paris), mêmes flux, mots-clés et format d'e-mail que `veille/config.json`. `apercu` affiche l'e-mail sans l'envoyer ; `installer` recrée les déclencheurs.
+> - **Synthèse du mois** : le premier lundi du mois, l'e-mail le rappelle. Dans Claude (Claude in Chrome), demande « fais la synthèse de ma veille » : tes réponses sont lues dans Gmail, corrigées et reformulées sans changer ton avis, puis montrées à côté de tes phrases d'origine. Après ton « OK », la carte est ajoutée à `contenu/veille.md` et publiée.
+
 La page Veille (la souveraineté numérique est-elle accessible aux PME ?) s'appuie sur une collecte automatique des actualités :
 
 1. **Chaque jour**, GitHub Actions (`.github/workflows/veille.yml`) lit les flux RSS de `veille/config.json` et met de côté les articles des 7 derniers jours qui contiennent un mot-clé (titre ou résumé, sans tenir compte des majuscules ni des accents).
