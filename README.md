@@ -105,7 +105,7 @@ Tout texte entre **doubles crochets** `[[…]]` s'affiche encadré en pointillé
 - **Projets** : bloc `::: quetes` de `projets.md` (type principale/secondaire/annexe, statut, compétences E5…) et un fichier par fiche dans `contenu/projets/`.
 - **Certifications** : `statut: obtenue` (succès débloqué) ou `en cours` / `prévue` (verrouillé).
 - **Tableau E5** : un `x` dans une case = coche dorée. Remplace aussi `assets/docs/tableau-synthese-e5.pdf` par l'export PDF du modèle officiel `[E5]_Epreuve_support_modele_tableau_synthese_annexe_BTS_SIO_2026.xlsx` complété.
-- **CV** : `assets/docs/cv.pdf` (copie de « CV Dylan Joffredo.pdf »). Pour le mettre à jour, remplace ce fichier en gardant le même nom.
+- **CV** : `assets/docs/cv.pdf`. Pour le mettre à jour, remplace ce fichier en gardant le même nom.
 
 ## 4. Formulaire de contact
 
