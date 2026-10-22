@@ -8,7 +8,8 @@ Tout le texte du portfolio se trouve dans ce dossier `contenu/` : **un fichier `
 | Projets | `projets.md` |
 | Projets détaillés | `projets/projet-1.md`, `projet-2.md`, `projet-3.md` |
 | Compétences | `competences.md` |
-| Veille | `veille.md` |
+| Veille (liste des veilles) | `veille.md` |
+| Veilles détaillées | `veille/veille-1.md`, `veille-2.md`… |
 | Alternance | `alternance.md` |
 | Certifications | `certifications.md` |
 | Tableau E5 | `tableau-e5.md` |
@@ -177,7 +178,9 @@ récompenses: Patrimoine, Incidents, Mise à disposition
 
 La carte affiche dans l'ordre : badges, titre, résumé, « cadre · période » en petit et en gris, technologies, récompenses (3 au maximum), lien « Voir la fiche ». Récompenses en version courte : `Patrimoine`, `Incidents`, `Présence en ligne`, `Mode projet`, `Mise à disposition`, `Développement pro.` (un intitulé complet du référentiel est raccourci automatiquement). Une ligne sans « champ: » devant est ignorée et signalée dans la console du navigateur (F12). Le filtre (« Quêtes principales / secondaires / annexes ») est créé automatiquement.
 
-### Page projet — `::: badges`, `::: etapes`, `::: capture`, `::: encart`, `::: navigation`
+**Page Veille** : même bloc, écrit `::: quetes veilles`. Chaque carte porte le badge « Veille » : pas de ligne `type:`, ni de légende, ni de filtre. Remplace `technologies:` par `thèmes:` (ex. `thèmes: RGPD, Cloud Act, SecNumCloud`).
+
+### Page projet ou veille — `::: badges`, `::: etapes`, `::: capture`, `::: encart`, `::: navigation`
 
 ```markdown
 ::: badges
@@ -205,7 +208,7 @@ Ce qui a été fait.
 
 - Une image seule sur sa ligne devient une figure avec légende. Tant que tu n'as pas la capture, garde le bloc `::: capture` (emplacement en pointillés).
 - Types d'encart : `competences`, `technologies`, `ressources` (icônes code / vidéo / document selon le texte), `coordonnees`, ou rien.
-- Mots-clés de badges : `principale`, `secondaire`, `annexe`, `terminée`, `en cours`, `prévue`, `débloqué`, `verrouillé`.
+- Mots-clés de badges : `principale`, `secondaire`, `annexe`, `veille`, `terminée`, `en cours`, `prévue`, `débloqué`, `verrouillé`.
 
 ### Compétences — `::: competences`
 
@@ -301,3 +304,13 @@ Un `x` = coche dorée ; une ligne dont seule la première case est en **gras** =
 2. Dans cette copie, change `<title>`, la `description` et l'attribut `data-contenu="contenu/ma-page.md"` de la balise `<body>`.
 3. Crée `contenu/ma-page.md`.
 4. Ajoute la page au menu (dans chaque page HTML), à `plan-du-site.md` et à `sitemap.xml`.
+
+## 8. Ajouter une veille
+
+Chaque veille a sa fiche, comme un projet :
+
+1. Copie `pages/veille/veille-1.html` en `pages/veille/veille-2.html`.
+2. Dans la copie, change `<title>`, la `description`, `data-contenu="contenu/veille/veille-2.md"` dans la balise `<body>` et le lien de la `<noscript>`.
+3. Copie `contenu/veille/veille-1.md` en `contenu/veille/veille-2.md` et remplace son texte (garde l'en-tête `mise-en-page: fiche`). Retire les marqueurs `SYNTHESES` si cette veille n'utilise pas `/veille`, qui n'écrit que dans `veille-1.md`.
+4. Dans `veille.md`, ajoute une carte `### Titre` dans le bloc `::: quetes veilles` avec `fiche: pages/veille/veille-2.html`.
+5. Ajoute la fiche à `plan-du-site.md`, à `sitemap.xml` et, si besoin, au tableau E5 (`tableau-e5.md`).

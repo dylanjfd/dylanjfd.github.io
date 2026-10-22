@@ -27,12 +27,14 @@ Chaque langage a ses propres fichiers : **HTML** pour la structure, **Markdown**
 ```
 index.html, pages/*.html      Structure des pages (en-tête, menu, pied de page)
 pages/projets/projet-*.html   Structure des 3 fiches projet
+pages/veille/veille-*.html    Structure des fiches de veille (une par sujet)
 contenu/                      TEXTE DES PAGES, un fichier Markdown par page
   site.md                     Ton nom, ton e-mail, tes liens, le texte du pied de page
   accueil.md, projets.md, competences.md, veille.md, alternance.md,
   certifications.md, tableau-e5.md, contact.md,
   mentions-legales.md, confidentialite.md, plan-du-site.md
   projets/projet-1.md … projet-3.md
+  veille/veille-1.md          Fiche de la veille « souveraineté numérique » (synthèses de /veille)
   GUIDE-MARKDOWN.md           Mode d'emploi de la syntaxe
 assets/css/
   style.css                   Point d'entrée : sommaire + import des modules ci-dessous
@@ -190,7 +192,7 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 | Présentation : photo, biographie, CV PDF, LinkedIn / GitHub, projet professionnel | `contenu/accueil.md`, `contenu/site.md`, `assets/docs/cv.pdf` | CV en place ; photo et textes à compléter |
 | Projets en entreprise et académiques : contexte, objectifs, solutions, captures, démos, code source | `contenu/projets.md` + 3 fiches dans `contenu/projets/` | Prêt, à compléter |
 | Compétences : langages, outils / frameworks, systèmes et réseaux, bases de données, niveaux | `contenu/competences.md` | Prêt, à adapter |
-| Veille : sujet, outils, sources fiables, synthèses régulières, analyse critique | `contenu/veille.md`, `veille/` (section 9) | Sujet, méthode et sources en place ; synthèses mensuelles avec `/veille` |
+| Veille : sujet, outils, sources fiables, synthèses régulières, analyse critique | `contenu/veille.md` (liste) + une fiche par veille dans `contenu/veille/`, `veille/` (section 9) | Sujet, méthode et sources en place ; synthèses mensuelles avec `/veille` |
 | Tableau E5 : compétences du référentiel, projets, contexte et durée, PDF officiel | `contenu/tableau-e5.md`, `assets/docs/tableau-synthese-e5.pdf` | PDF à remplacer |
 | Alternance : entreprise, poste, maître d'apprentissage, rythme, contrat, missions, évolution | `contenu/alternance.md` | Prêt, à compléter |
 | Certifications : éditeurs (Cisco, Microsoft, AWS…), langues, formations, badges, justificatifs | `contenu/certifications.md` | Prêt, à compléter |
@@ -220,14 +222,14 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 > **Depuis octobre 2026, la collecte et l'e-mail du lundi passent par Google Apps Script** ([`veille/apps-script/Code.gs`](veille/apps-script/Code.gs)) : l'e-mail part directement du compte Google, sans mot de passe d'application ni secret GitHub. Le workflow `veille.yml` est désactivé (onglet *Actions*) ; les étapes GitHub Actions, secrets et `.env` ci-dessous ne servent plus.
 >
 > - **Apps Script** (script.google.com, projet « Veille souveraineté numérique ») : `collecter` chaque jour vers 18 h, `envoyerLundi` le lundi vers 7 h 45 (Paris), mêmes flux, mots-clés et format d'e-mail que `veille/config.json`. `apercu` affiche l'e-mail sans l'envoyer ; `installer` recrée les déclencheurs.
-> - **Synthèse du mois** : le premier lundi du mois, l'e-mail le rappelle. Dans Claude (Claude in Chrome), demande « fais la synthèse de ma veille » : tes réponses sont lues dans Gmail, corrigées et reformulées sans changer ton avis, puis montrées à côté de tes phrases d'origine. Après ton « OK », la carte est ajoutée à `contenu/veille.md` et publiée.
+> - **Synthèse du mois** : le premier lundi du mois, l'e-mail le rappelle. Dans Claude (Claude in Chrome), demande « fais la synthèse de ma veille » : tes réponses sont lues dans Gmail, corrigées et reformulées sans changer ton avis, puis montrées à côté de tes phrases d'origine. Après ton « OK », la carte est ajoutée à `contenu/veille/veille-1.md` et publiée.
 
-La page Veille (la souveraineté numérique est-elle accessible aux PME ?) s'appuie sur une collecte automatique des actualités :
+La veille « souveraineté numérique » (fiche `pages/veille/veille-1.html` : la souveraineté numérique est-elle accessible aux PME ?) s'appuie sur une collecte automatique des actualités :
 
 1. **Chaque jour**, GitHub Actions (`.github/workflows/veille.yml`) lit les flux RSS de `veille/config.json` et met de côté les articles des 7 derniers jours qui contiennent un mot-clé (titre ou résumé, sans tenir compte des majuscules ni des accents).
 2. **Chaque lundi vers 7 h 45** (heure de Paris), tu reçois un e-mail « [Veille souveraineté] Semaine du JJ/MM/AAAA — N actualités » : 10 articles au plus, numérotés, du plus récent au plus ancien. Le workflow enregistre ensuite dans le dépôt `veille/seen.json` (liens déjà envoyés, jamais renvoyés) et `veille/digests/AAAA-MM-JJ.json` (les articles de l'e-mail, avec leur numéro).
 3. **Tu réponds à l'e-mail** en écrivant `#numéro` suivi de ton avis, par exemple `#2 je pense que…`. Tu peux ignorer les articles qui ne t'intéressent pas.
-4. **Une fois par mois**, dans Claude Code, tape `/veille` : tes réponses sont lues, corrigées et reformulées sans changer ton avis, puis regroupées en une synthèse. Tu la valides (« OK ») avant qu'elle soit ajoutée à `contenu/veille.md`, puis tu valides le diff avant le commit et le push.
+4. **Une fois par mois**, dans Claude Code, tape `/veille` : tes réponses sont lues, corrigées et reformulées sans changer ton avis, puis regroupées en une synthèse. Tu la valides (« OK ») avant qu'elle soit ajoutée à `contenu/veille/veille-1.md`, puis tu valides le diff avant le commit et le push.
 
 ### Mise en place (une seule fois)
 
@@ -253,7 +255,7 @@ Dans Claude Code, à la racine du dépôt, tape `/veille`. La commande (`.claude
 2. corrige et reformule chaque avis en gardant ton opinion, sans inventer de fait, de chiffre ni de source ;
 3. regroupe les avis du mois en une seule synthèse (titre, résumé de l'actualité, « Mon analyse », liens vers les sources) ;
 4. te montre la synthèse à côté de tes phrases d'origine et attend ton « OK » ou tes corrections ;
-5. après ton « OK », ajoute la carte entre les marqueurs `<!-- SYNTHESES:START -->` et `<!-- SYNTHESES:END -->` de `contenu/veille.md`, note les réponses utilisées dans `veille/processed.json`, puis te montre le diff et attend un dernier « OK » avant le commit et le push.
+5. après ton « OK », ajoute la carte entre les marqueurs `<!-- SYNTHESES:START -->` et `<!-- SYNTHESES:END -->` de `contenu/veille/veille-1.md`, note les réponses utilisées dans `veille/processed.json`, puis te montre le diff et attend un dernier « OK » avant le commit et le push.
 
 ### Bon à savoir
 

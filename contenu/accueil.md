@@ -88,7 +88,7 @@ Mes réalisations détaillées : contexte, objectifs, solution, résultats.
 Langages, outils, systèmes et réseaux, bases de données, avec niveaux.
 
 ### Codex | [Veille](pages/veille.html)
-Mon sujet de veille technologique, mes outils, sources et synthèses.
+Mes sujets de veille technologique : outils, sources et synthèses.
 
 ### Chapitres | [Alternance](pages/alternance.html)
 Missions réalisées et bilan.

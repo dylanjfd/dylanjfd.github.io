@@ -22,6 +22,7 @@ Toutes les pages du portfolio, regroupées par thème.
 ## Parcours et compétences
 - [Compétences](pages/competences.html)
 - [Veille technologique](pages/veille.html)
+  - [Souveraineté numérique des PME](pages/veille/veille-1.html)
 - [Alternance](pages/alternance.html)
 - [Certifications](pages/certifications.html)
 

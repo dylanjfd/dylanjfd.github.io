@@ -47,6 +47,7 @@
     principale: { classe: 'badge--main', icone: 'losangePlein', texte: 'Quête principale' },
     secondaire: { classe: 'badge--side', icone: 'losangeVide', texte: 'Quête secondaire' },
     annexe: { classe: 'badge--personal', icone: 'etoile', texte: 'Quête annexe' },
+    veille: { classe: 'badge--main', icone: 'loupe', texte: 'Veille' },
     terminee: { classe: 'badge--done', icone: 'coche', texte: 'Terminée' },
     termine: { classe: 'badge--done', icone: 'coche', texte: 'Terminé' },
     'en-cours': { classe: 'badge--progress', icone: 'horloge', texte: 'En cours' },
@@ -149,7 +150,7 @@
     return liste;
   }
   const CLES_CARTE = ['date', 'source', 'sources', 'auteur', 'lieu', 'periode', 'duree', 'niveau'];
-  const CLES_QUETE = ['type', 'statut', 'fiche', 'lien', 'resume', 'cadre', 'periode', 'contexte', 'technologies', 'recompenses', 'competences'];
+  const CLES_QUETE = ['type', 'statut', 'fiche', 'lien', 'resume', 'cadre', 'periode', 'contexte', 'technologies', 'themes', 'recompenses', 'competences'];
 
   /**
    * Champs d'une carte projet : les lignes « clé: valeur » reconnues sont lues ; les autres lignes
@@ -493,31 +494,30 @@
     return ul.children.length ? ul : null; // aucune carte (ex. pas encore de synthèse) : pas de liste vide
   }
 
-  /** Journal de quêtes : filtre + cartes projet (type, statut, fiche, contexte, technologies, récompenses). */
+  /**
+   * Journal de quêtes : filtre + cartes projet (type, statut, fiche, contexte, technologies, récompenses).
+   * « ::: quetes veilles » : mêmes cartes, avec le badge « Veille » et des thèmes, sans type ni filtre.
+   */
   function quetes(b) {
-    const filtres = el('div', { class: 'filters', role: 'group', 'aria-label': 'Filtrer les projets' }, [
-      el('button', { class: 'filter-btn', type: 'button', 'data-filter': 'all', 'aria-pressed': 'true' }, 'Tous les projets'),
-      el('button', { class: 'filter-btn', type: 'button', 'data-filter': 'entreprise', 'aria-pressed': 'false' }, 'Quêtes principales <span class="filter-btn__hint">(entreprise)</span>'),
-      el('button', { class: 'filter-btn', type: 'button', 'data-filter': 'academique', 'aria-pressed': 'false' }, 'Quêtes secondaires <span class="filter-btn__hint">(formation)</span>'),
-      el('button', { class: 'filter-btn', type: 'button', 'data-filter': 'personnel', 'aria-pressed': 'false' }, 'Quêtes annexes <span class="filter-btn__hint">(personnel)</span>'),
-    ]);
+    const veilles = MD.normaliserCle(b.args.split(/\s+/)[0] || '') === 'veilles';
     const FILTRES_TYPES = { secondaire: 'academique', annexe: 'personnel' };
     const ul = el('ul', { class: 'quest-grid reveal-group' });
     parTitres(b.enfants).filter((g) => g.titre).forEach((g) => {
       const blocs = g.blocs.slice();
       const f = extraireChampsCarte(blocs, CLES_QUETE, brut(g.titre.texte));
-      const type = MD.normaliserCle(valeurChamp(f, 'type') || 'principale');
+      const type = veilles ? 'veille' : MD.normaliserCle(valeurChamp(f, 'type') || 'principale');
       const statut = valeurChamp(f, 'statut');
       const fiche = valeurChamp(f, 'fiche', 'lien');
       const resume = valeurChamp(f, 'resume');
       const cadrePeriode = [valeurChamp(f, 'cadre'), valeurChamp(f, 'periode')].filter(Boolean).join(' · ');
       const meta = cadrePeriode || valeurChamp(f, 'contexte');
       const technologies = valeurChamp(f, 'technologies');
+      const themes = valeurChamp(f, 'themes');
       const recompenses = decouperListe(valeurChamp(f, 'recompenses', 'competences')).map(competenceCourte);
       const href = fiche ? MD.resoudreAdresse(fiche, RACINE) : null;
       if (recompenses.length > 3) console.warn(`[Portfolio] Carte « ${brut(g.titre.texte)} » : 3 récompenses maximum, les suivantes sont masquées.`);
 
-      // Ordre : badges, titre, résumé, cadre · période, technologies, récompenses, lien
+      // Ordre : badges, titre, résumé, cadre · période, technologies (ou thèmes), récompenses, lien
       const article = el('article', { class: `card quest-card${href ? ' card--link' : ''}` });
       article.appendChild(el('div', { class: 'quest-card__badges' }, [badge(type), statut ? badge(statut) : null]));
       const h = el(`h${g.titre.niveau}`, { class: 'quest-card__title' });
@@ -528,6 +528,7 @@
       else blocs.forEach((x) => ajouter(article, bloc(x, { classe: 'quest-card__desc' })));
       if (meta) article.appendChild(el('p', { class: 'quest-card__meta' }, ligne(meta)));
       if (technologies) article.appendChild(etiquettes(decouperListe(technologies)));
+      else if (themes) article.appendChild(etiquettes(decouperListe(themes), 'Thèmes'));
       if (recompenses.length) {
         article.appendChild(el('div', { class: 'rewards rewards--inline' }, [
           el('p', { class: 'rewards__label' }, 'Récompenses :'),
@@ -535,8 +536,15 @@
         ]));
       }
       if (href) article.appendChild(el('span', { class: 'card__more', 'aria-hidden': 'true' }, ['Voir la fiche ', ICO.fleche]));
-      ul.appendChild(el('li', { class: 'reveal', 'data-type': FILTRES_TYPES[type] || 'entreprise' }, article));
+      ul.appendChild(el('li', { class: 'reveal', 'data-type': veilles ? null : FILTRES_TYPES[type] || 'entreprise' }, article));
     });
+    if (veilles) return ul;
+    const filtres = el('div', { class: 'filters', role: 'group', 'aria-label': 'Filtrer les projets' }, [
+      el('button', { class: 'filter-btn', type: 'button', 'data-filter': 'all', 'aria-pressed': 'true' }, 'Tous les projets'),
+      el('button', { class: 'filter-btn', type: 'button', 'data-filter': 'entreprise', 'aria-pressed': 'false' }, 'Quêtes principales <span class="filter-btn__hint">(entreprise)</span>'),
+      el('button', { class: 'filter-btn', type: 'button', 'data-filter': 'academique', 'aria-pressed': 'false' }, 'Quêtes secondaires <span class="filter-btn__hint">(formation)</span>'),
+      el('button', { class: 'filter-btn', type: 'button', 'data-filter': 'personnel', 'aria-pressed': 'false' }, 'Quêtes annexes <span class="filter-btn__hint">(personnel)</span>'),
+    ]);
     const n = ul.children.length;
     const compteur = el('p', { class: 'filters__count', role: 'status', 'data-filter-count': true },
       `${n} projet${n > 1 ? 's' : ''} affiché${n > 1 ? 's' : ''}`);
@@ -1040,7 +1048,7 @@
     return sec;
   }
 
-  /** Page projet : corps (sections) + colonne latérale (encarts) + navigation. */
+  /** Page projet ou veille : corps (sections) + colonne latérale (encarts) + navigation. */
   function sectionsFiche(sections, encarts, nav) {
     const corps = el('div', { class: 'quest-body' });
     sections.forEach((s) => {
@@ -1054,7 +1062,7 @@
       if (partie.childNodes.length) corps.appendChild(partie);
     });
     const disposition = el('div', { class: 'container quest-layout' }, corps);
-    if (encarts.length) disposition.appendChild(el('aside', { class: 'quest-aside', 'aria-label': 'Résumé du projet' }, encarts.map(encart)));
+    if (encarts.length) disposition.appendChild(el('aside', { class: 'quest-aside', 'aria-label': 'Résumé de la fiche' }, encarts.map(encart)));
     return [el('div', { class: 'section' }, disposition), nav ? navigation(nav) : null];
   }
 

@@ -61,7 +61,7 @@ sources: [Next — VPS à 1 euro](https://…), [LeMagIT — cloud de confiance]
 
 ## 5. Après mon « OK » sur la synthèse
 
-1. Dans `contenu/veille.md`, ajoute la carte juste après la ligne `<!-- SYNTHESES:START -->` : la plus récente en premier, avec une ligne vide entre deux cartes. S'il reste la carte à compléter (celle qui contient `[[Titre de la synthèse]]`), supprime-la. Ne touche à rien d'autre dans le fichier.
+1. Dans `contenu/veille/veille-1.md`, ajoute la carte juste après la ligne `<!-- SYNTHESES:START -->` : la plus récente en premier, avec une ligne vide entre deux cartes. S'il reste la carte à compléter (celle qui contient `[[Titre de la synthèse]]`), supprime-la. Ne touche à rien d'autre dans le fichier.
 2. Lance `python veille/fetch_replies.py --marquer <id> [<id> …]` avec les `id` des réponses utilisées : elles sont notées dans `veille/processed.json`.
-3. Montre-moi `git diff` (contenu/veille.md et veille/processed.json), puis **attends mon dernier « OK »**.
-4. Après ce « OK » seulement : `git add contenu/veille.md veille/processed.json`, commit « Veille : synthèse de <mois> <année> », puis `git push`.
+3. Montre-moi `git diff` (contenu/veille/veille-1.md et veille/processed.json), puis **attends mon dernier « OK »**.
+4. Après ce « OK » seulement : `git add contenu/veille/veille-1.md veille/processed.json`, commit « Veille : synthèse de <mois> <année> », puis `git push`.
