@@ -7,90 +7,109 @@ parent: [Projets](pages/projets.html)
 <!--
   FICHE DE QUÊTE — PROJET 2 (pages/projets/projet-2.html)
   Même organisation que projet-1.md (voir les explications en tête de ce fichier).
+  Documentation du TP : assets/docs/tp-installation-os-virtualbox.pdf
+    Pour la remplacer, dépose le nouveau PDF dans assets/docs/ sous le même nom :
+    les deux liens de cette fiche (section « Livrable » et encart « Archives ») suivent.
 -->
 
-# Fiche de quête · Quête secondaire | [[Titre du projet 2]]
+# Fiche de quête · Quête secondaire | Installation de systèmes sous VirtualBox
 
-[[Résumé en une ou deux phrases : le contexte fourni par l'établissement et ta réalisation.]]
+Six machines virtuelles Windows et Linux installées sur un même PC, reliées par un réseau virtuel commun, testées puis documentées pas à pas.
 
 ::: badges
 secondaire, terminée
 :::
 
 ::: infos
-Cadre: Projet en formation
-Organisation: [[Organisation fictive (contexte de l'établissement)]]
-Période: [[Janvier – mars 2026]]
-Rôle: [[Équipe de 3 étudiants, responsable du serveur web]]
+Cadre: Projet en formation (TP)
+Organisation: BTS SIO — 1re année
+Période: Octobre 2026 (2 séances)
+Rôle: En autonomie : installation, configuration et documentation
 :::
 
 ## Briefing de mission | Contexte
 
-[[Présente le contexte proposé par l'établissement (organisation, besoin exprimé, cahier des charges) et la situation de départ.]]
+### Ce que c'est
+Un TP de virtualisation : construire, sur un seul ordinateur, un petit parc informatique complet. Deux postes Windows 11, un serveur Windows Server 2025 et trois postes Linux (Ubuntu, Linux Mint, Kali Linux) fonctionnent en même temps dans VirtualBox et partagent le même réseau.
 
-[[Précise l'organisation du travail : équipe, répartition des rôles, outils de suivi, durée.]]
+### À quoi ça sert
+La virtualisation permet de tester un système, de préparer un déploiement ou de reproduire une panne sans toucher au matériel réel ni à la production. Ce TP reprend les gestes du quotidien d'un technicien : préparer un poste modèle puis le cloner, configurer l'adressage réseau, vérifier que les machines communiquent et pouvoir revenir en arrière grâce aux instantanés.
+
+### Conditions de la mission
+
+- Un seul PC hôte (16 Go de RAM) pour faire tourner toutes les machines.
+- Nommage et adressage imposés par l'énoncé (WIN-CLI-01, WIN-SRV-01, LNX-UBU-01…, réseau 192.168.50.0/24).
+- Cadre légal : les outils d'audit de Kali Linux ne sont utilisés que sur les machines du TP (articles 323-1 et suivants du Code pénal).
 
 ## Objectifs de la quête | Objectifs
 
-- [[Objectif 1 (ex. : installer et sécuriser un serveur web Linux)]]
-- [[Objectif 2 (ex. : publier le site vitrine de l'organisation)]]
-- [[Objectif 3 (ex. : améliorer son référencement et mesurer sa visibilité)]]
+- 🥉 Objectif 1 — Installer : créer les six machines virtuelles et installer chaque système, dont un poste Windows 11 généralisé avec Sysprep puis cloné.
+- 🥈 Objectif 2 — Relier : connecter toutes les machines au réseau NAT RN-TPOS (192.168.50.0/24), en DHCP pour les postes et en adresse fixe pour le serveur.
+- 🥇 Objectif 3 — Valider : prouver que tout fonctionne (ping, résolution de noms, scan du réseau) et qu'un instantané permet de restaurer un système.
 
 ## Étapes de la quête | Solution
 
-[[Décris la solution retenue et les choix techniques (système, serveur web, outils de développement).]]
-
 ::: etapes
-### Planification du projet
-[[Découpage en tâches, planning, répartition dans l'équipe.]]
+### Préparation de VirtualBox et du réseau
+Installation de VirtualBox et de son Extension Pack, création du réseau NAT RN-TPOS (192.168.50.0/24, DHCP activé) et d'un groupe pour ranger les machines.
 
-### Mise en place du serveur
-[[Installation, configuration, sécurisation (pare-feu, HTTPS, comptes).]]
+### Postes Windows 11 : modèle et clone
+Installation de WIN-CLI-01 (compte local, mises à jour, instantané), généralisation avec Sysprep puis clonage en WIN-CLI-02. Vérification avec `whoami /user` et `ipconfig /all` : chaque poste a son propre SID et sa propre adresse MAC.
 
-### Réalisation et publication du site
-[[Développement des pages, accessibilité, mise en ligne.]]
+### Serveur Windows Server 2025
+WIN-SRV-01 avec interface graphique : adresse IP fixe 192.168.50.10, fuseau horaire et nom configurés depuis le Gestionnaire de serveur.
 
-### Recette et présentation
-[[Tests, corrections, démonstration au « client ».]]
+### Postes Linux
+Ubuntu (mises à jour, serveur SSH), Linux Mint (miroirs de mises à jour français, sauvegarde système avec Timeshift) et Kali Linux (installation graphique, mise à jour complète).
+
+### Tests et instantanés
+Ping entre les machines, vers Internet (8.8.8.8) et par nom (www.debian.org), découverte du réseau avec nmap depuis Kali, puis restauration d'un instantané : le fichier de test créé après l'instantané a bien disparu.
 :::
 
-::: capture
-[[Capture d'écran à ajouter (ex. : assets/img/projet-2-capture.png)]]
-
-[[Légende : ce que montre la capture.]]
-:::
+![Scan nmap -sn 192.168.50.0/24 lancé depuis Kali : les machines démarrées, la passerelle et le serveur DHCP du réseau RN-TPOS répondent.](assets/img/projet-2-nmap.png)
 
 ## Butin et bilan | Résultats
 
-- [[Résultat 1 (ex. : site en ligne, accessible et conforme au cahier des charges)]]
-- [[Résultat 2 (ex. : temps de chargement, score d'accessibilité)]]
-- [[Livrables : dossier technique, planning, compte rendu de recette…]]
+- Six machines virtuelles opérationnelles, nommées et adressées conformément à l'énoncé.
+- Tous les tests validés : communication entre les machines, accès à Internet, résolution de noms, scan du réseau et restauration d'instantané.
+- Seize incidents rencontrés, diagnostiqués et résolus (Sysprep bloqué par le stockage réservé puis par BitLocker, machine restée hors du réseau, pare-feu Windows bloquant le ping, DNS muet…), chacun documenté : symptôme, diagnostic, cause, solution et vérification.
+- Livrable : une documentation technique de 53 pages, utilisable comme procédure pas à pas.
 
-> **Bilan personnel :** [[ce que le travail en équipe t'a appris, les difficultés rencontrées, ce que tu ferais différemment.]]
+> **Bilan personnel :** ce TP m'a appris à diagnostiquer avec méthode plutôt que de réessayer au hasard : lire les journaux (setupact.log a donné la cause exacte des deux échecs de Sysprep), isoler la couche en défaut (8.8.8.8 répond mais pas www.debian.org : c'est le DNS), relire mes commandes caractère par caractère et toujours prendre un instantané avant une opération risquée.
+
+## Livrable | Documentation technique
+
+La documentation complète du TP : la procédure pas à pas, illustrée de 133 captures, puis une annexe qui regroupe les 16 fiches de résolution d'incidents.
+
+::: actions
+- [Consulter la documentation technique (PDF)](assets/docs/tp-installation-os-virtualbox.pdf)
+:::
 
 ::: encart competences
 ## Récompenses | Compétences E5 mobilisées
-- Développer la présence en ligne
-- Travailler en mode projet
+- Gérer le patrimoine informatique
+- Répondre aux incidents et aux demandes
 - Mettre à disposition un service
 :::
 
 ::: encart technologies
 ## Équipement | Technologies
-- [[Debian]]
-- [[Apache]]
-- [[HTML / CSS]]
+- VirtualBox
+- Windows 11
+- Windows Server 2025
+- Ubuntu
+- Linux Mint
+- Kali Linux
+- Sysprep
+- nmap
 :::
 
 ::: encart ressources
-## Archives | Code source et documents
-- [[[Code source du site (GitHub)]]](https://github.com/)
-- [[Démonstration vidéo]]
-- [[Dossier technique (PDF)]]
-- [[Planning du projet (PDF)]]
+## Archives | Documents
+- [Documentation technique (PDF)](assets/docs/tp-installation-os-virtualbox.pdf)
 :::
 
 ::: navigation Navigation entre les projets
 - [Projet précédent](pages/projets/projet-1.html)
-- [Projet suivant](pages/projets/projet-3.html)
+- [Retour aux projets](pages/projets.html)
 :::

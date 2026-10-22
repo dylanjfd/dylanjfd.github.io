@@ -39,6 +39,7 @@ Bloc 1 du BTS SIO, évalué à l'épreuve E5. Chaque compétence est mobilisée 
 | **En formation** | | | | | | | | |
 | [Veille : souveraineté numérique des PME](pages/veille/veille-1.html) | Formation · individuel | 2026 – 2028 | | | | | | x |
 | [Portfolio de compétences (ce site)](index.html) | Formation · individuel | 2026 – 2028 |
+| [Installation d'OS sous VirtualBox](pages/projets/projet-2.html) | Formation · individuel (TP) | Octobre 2026 | x | x | | | x | |
 | [Serveur web personnel](pages/projets/projet-1.html) | Projet personnel · individuel | Depuis octobre 2026 | x | | x | x | | | | | x | | | x |
 :::
 

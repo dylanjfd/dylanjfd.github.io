@@ -70,4 +70,5 @@ Un hébergement sécurisé et complet, avec sauvegardes et supervision.
 
 ::: navigation Navigation entre les projets
 - [Retour aux projets](pages/projets.html)
+- [Projet suivant](pages/projets/projet-2.html)
 :::

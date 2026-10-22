@@ -55,7 +55,8 @@ assets/js/
   main.js                     Réglages CONFIG (option SISR/SLAM, formulaire) + démarrage
 assets/img/                   favicon.svg, topo.svg (carte topographique originale)
 assets/fonts/                 Police Cinzel + licence OFL.txt
-assets/docs/                  cv.pdf (ton CV), tableau-synthese-e5.pdf (provisoire)
+assets/docs/                  cv.pdf (ton CV), tableau-synthese-e5.pdf (provisoire),
+                              tp-installation-os-virtualbox.pdf (documentation du projet 2)
 outils/serveur-local.bat      Serveur local de prévisualisation (Windows)
 veille/                       Veille automatisée (voir section 9)
   config.json                 Flux RSS, mots-clés, alertes Google

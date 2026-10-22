@@ -37,6 +37,16 @@ période: depuis octobre 2026
 technologies: Debian, Nginx, Cloudflare, Git, Uptime Kuma
 récompenses: Patrimoine, Présence en ligne, Mode projet
 
+### Installation de systèmes d'exploitation sous VirtualBox
+type: secondaire
+statut: terminée
+fiche: pages/projets/projet-2.html
+résumé: Six machines virtuelles Windows et Linux installées, reliées en réseau, testées et documentées pas à pas, avec 16 incidents résolus.
+cadre: Projet en formation — 1re année
+période: octobre 2026
+technologies: VirtualBox, Windows 11, Windows Server 2025, Ubuntu, Linux Mint, Kali Linux
+récompenses: Patrimoine, Incidents, Mise à disposition
+
 :::
 
 ## Progression | Tableau de synthèse E5 {centre}
