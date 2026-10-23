@@ -1,13 +1,16 @@
 ---
 mise-en-page: fiche
-fil-ariane: Souveraineté numérique
+fil-ariane: Veille réseau
+titre-onglet: Veille réseau : souveraineté numérique
 parent: [Veille](pages/veille.html)
 ---
 
 <!--
-  FICHE DE VEILLE — VEILLE 1 (pages/veille/veille-1.html) — « Codex »
+  FICHE DE VEILLE — RÉSEAU (pages/veille/veille-1.html) — « Codex »
   Sujet : la souveraineté numérique est-elle accessible aux PME ?
-  - L'en-tête : titre, problématique, badges (veille, puis terminée ou en cours) et infos.
+  Veille de la catégorie réseau. Le fichier garde son nom (veille-1.md) : /veille écrit dedans.
+  Même structure que contenu/veille/systeme.md et cybersecurite.md.
+  - L'en-tête : titre, problématique, badges (catégorie, puis terminée ou en cours) et infos.
   - Chaque « ## Surtitre | Titre » est une partie de la fiche ; les blocs « ::: encart » vont dans la colonne de droite.
   - Synthèses : une carte par mois entre les marqueurs SYNTHESES ci-dessous, la plus récente en premier.
     Claude les rédige à partir de tes réponses aux e-mails de veille
@@ -18,15 +21,16 @@ parent: [Veille](pages/veille.html)
     en ligne. Remplace-les par ton texte et retire les marqueurs de commentaire.
 -->
 
-# Fiche de veille | Souveraineté numérique des PME
+# Codex · Veille réseau | Souveraineté numérique des PME
 
 La souveraineté numérique est-elle accessible aux PME ? Le sujet de ma veille, ma méthode, mes sources, mes synthèses mensuelles et mon analyse critique.
 
 ::: badges
-veille, en cours
+réseau, en cours
 :::
 
 ::: infos
+Catégorie: Réseau
 Cadre: Veille en formation (BTS SIO)
 Période: 2026 – 2028
 Rythme: Une collecte par semaine, une synthèse par mois
@@ -47,6 +51,10 @@ Elle repose sur trois questions simples :
 Être souverain ne signifie pas refuser tous les outils étrangers. Il s'agit de faire des choix en connaissance de cause : identifier les données sensibles, savoir où elles vont, et garder une porte de sortie.
 
 Pour une grande organisation, ces choix sont confiés à des équipes spécialisées. Mais qu'en est-il des petites structures ? C'est la question à laquelle cette veille tente de répondre : la souveraineté numérique est-elle accessible aux PME, ou reste-t-elle réservée aux grandes organisations ?
+
+## Question de la quête | Problématique
+
+> **La souveraineté numérique est-elle accessible aux PME, ou reste-t-elle réservée aux grandes organisations ?**
 
 ## Origine de la quête | Pourquoi ce sujet
 
@@ -72,18 +80,6 @@ Projet lié : [Projet serveur web](pages/projets/projet-1.html).
 
 Le code de cette automatisation est public : [dossier veille sur GitHub](https://github.com/dylanjfd/dylanjfd.github.io/tree/main/veille).
 
-## Bibliothèque | Sources
-
-Des sources reconnues, organismes publics et presse spécialisée, recoupées entre elles avant chaque synthèse.
-
-| Source | Type | Pourquoi elle est fiable |
-|---|---|---|
-| [ANSSI / CERT-FR](https://www.cert.ssi.gouv.fr/) | Agence de l'État | Autorité nationale de cybersécurité : elle publie les alertes officielles et délivre la qualification SecNumCloud. |
-| [CNIL](https://www.cnil.fr/) | Autorité administrative indépendante | Régulateur du RGPD en France : ses recommandations, décisions et sanctions sont des sources de première main. |
-| [Next](https://next.ink/) | Presse spécialisée | Média consacré au numérique, dont les articles renvoient vers les textes et documents d'origine. |
-| [LeMagIT](https://www.lemagit.fr/) | Presse professionnelle | Rédaction spécialisée dans l'informatique d'entreprise : cloud, infrastructures, sécurité. |
-| [Le Monde Informatique](https://www.lemondeinformatique.fr/) | Presse professionnelle | Titre historique de la presse informatique professionnelle, qui suit l'actualité des fournisseurs de cloud. |
-
 ## Entrées du codex | Synthèses
 
 Une synthèse par mois, de la plus récente à la plus ancienne : l'actualité, puis mon analyse.
@@ -104,6 +100,30 @@ Ce que ta veille t'a appris : la souveraineté numérique est-elle accessible au
 - Point de vigilance ou question ouverte
 -->
 
+## Bibliothèque | Sources
+
+Des sources reconnues, organismes publics et presse spécialisée, recoupées entre elles avant chaque synthèse.
+
+::: tableau Sources de la veille : type et fiabilité
+| Source | Type | Pourquoi elle est fiable |
+|---|---|---|
+| [ANSSI / CERT-FR](https://www.cert.ssi.gouv.fr/) | Agence de l'État | Autorité nationale de cybersécurité : elle publie les alertes officielles et délivre la qualification SecNumCloud. |
+| [CNIL](https://www.cnil.fr/) | Autorité administrative indépendante | Régulateur du RGPD en France : ses recommandations, décisions et sanctions sont des sources de première main. |
+| [Next](https://next.ink/) | Presse spécialisée | Média consacré au numérique, dont les articles renvoient vers les textes et documents d'origine. |
+| [LeMagIT](https://www.lemagit.fr/) | Presse professionnelle | Rédaction spécialisée dans l'informatique d'entreprise : cloud, infrastructures, sécurité. |
+| [Le Monde Informatique](https://www.lemondeinformatique.fr/) | Presse professionnelle | Titre historique de la presse informatique professionnelle, qui suit l'actualité des fournisseurs de cloud. |
+:::
+
+## Du codex au terrain | Mise en pratique
+
+> Le choix de l'hébergement de mon portfolio met cette veille en pratique : [Projet serveur web](pages/projets/projet-1.html). Mes tests en machines virtuelles sont regroupés dans ma fiche projet [Labo : gestion et sécurisation d'un parc de PC gaming](pages/projets/labo-parc-gaming.html).
+
+::: encart
+## Codex | Liens avec mes autres veilles
+- **Système** — les images et les sauvegardes des PC de Reboot : où les héberger, et sous quelle loi ? [Voir ma veille système](pages/veille/systeme.html).
+- **Cybersécurité** — les données des clients de l'atelier sont des données personnelles, protégées par le RGPD : [voir ma veille cybersécurité](pages/veille/cybersecurite.html).
+:::
+
 ::: encart competences
 ## Récompenses | Compétences E5 mobilisées
 - Organiser son développement professionnel
@@ -118,5 +138,6 @@ Ce que ta veille t'a appris : la souveraineté numérique est-elle accessible au
 :::
 
 ::: navigation Navigation entre les veilles
-- [Retour à la veille](pages/veille.html)
+- [Veille précédente : système](pages/veille/systeme.html)
+- [Veille suivante : cybersécurité](pages/veille/cybersecurite.html)
 :::

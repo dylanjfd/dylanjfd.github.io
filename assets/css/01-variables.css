@@ -47,6 +47,10 @@
   --arcane: #b79be0;        /* accent améthyste : quêtes annexes (projets personnels) */
   --success: #7bc47f;
   --danger: #e07a6b;
+  /* Catégories des veilles : badges « Système », « Réseau », « Cybersécurité » */
+  --cat-systeme: #4cc3b2;   /* turquoise */
+  --cat-reseau: #f0a067;    /* cuivre */
+  --cat-cyber: #f28aa0;     /* grenat clair */
 
   /* Couleurs dérivées */
   --on-gold: #0e1320;               /* texte posé sur un bouton doré */
@@ -69,6 +73,12 @@
   --arcane-soft: rgba(183, 155, 224, 0.1);
   --success-line: rgba(123, 196, 127, 0.45);
   --success-soft: rgba(123, 196, 127, 0.1);
+  --cat-systeme-line: rgba(76, 195, 178, 0.45);
+  --cat-systeme-soft: rgba(76, 195, 178, 0.1);
+  --cat-reseau-line: rgba(240, 160, 103, 0.45);
+  --cat-reseau-soft: rgba(240, 160, 103, 0.1);
+  --cat-cyber-line: rgba(242, 138, 160, 0.45);
+  --cat-cyber-soft: rgba(242, 138, 160, 0.1);
   --glow: rgba(201, 163, 91, 0.3);
   --selection: rgba(201, 163, 91, 0.35);
   --shadow: 0 22px 44px -22px rgba(0, 0, 0, 0.7);
@@ -117,6 +127,9 @@
   --arcane: #6b4a99;
   --success: #2b6430;
   --danger: #a63d2e;
+  --cat-systeme: #0a5f55;
+  --cat-reseau: #8a410c;
+  --cat-cyber: #982841;
 
   --on-gold: #2a2116;
   --btn-gold-top: #e0c07c;
@@ -137,6 +150,12 @@
   --arcane-soft: rgba(107, 74, 153, 0.08);
   --success-line: rgba(43, 100, 48, 0.4);
   --success-soft: rgba(43, 100, 48, 0.08);
+  --cat-systeme-line: rgba(10, 95, 85, 0.4);
+  --cat-systeme-soft: rgba(10, 95, 85, 0.08);
+  --cat-reseau-line: rgba(138, 65, 12, 0.4);
+  --cat-reseau-soft: rgba(138, 65, 12, 0.08);
+  --cat-cyber-line: rgba(152, 40, 65, 0.4);
+  --cat-cyber-soft: rgba(152, 40, 65, 0.08);
   --glow: rgba(138, 106, 43, 0.22);
   --selection: rgba(138, 106, 43, 0.25);
   --shadow: 0 22px 44px -26px rgba(72, 52, 20, 0.45);

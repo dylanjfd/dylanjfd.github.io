@@ -48,6 +48,9 @@
     secondaire: { classe: 'badge--side', icone: 'losangeVide', texte: 'Quête secondaire' },
     annexe: { classe: 'badge--personal', icone: 'etoile', texte: 'Quête annexe' },
     veille: { classe: 'badge--main', icone: 'loupe', texte: 'Veille' },
+    systeme: { classe: 'badge--systeme', icone: 'ecranPetit', texte: 'Système' },
+    reseau: { classe: 'badge--reseau', icone: 'reseauPetit', texte: 'Réseau' },
+    cybersecurite: { classe: 'badge--cyber', icone: 'bouclierPetit', texte: 'Cybersécurité' },
     terminee: { classe: 'badge--done', icone: 'coche', texte: 'Terminée' },
     termine: { classe: 'badge--done', icone: 'coche', texte: 'Terminé' },
     'en-cours': { classe: 'badge--progress', icone: 'horloge', texte: 'En cours' },
@@ -150,7 +153,7 @@
     return liste;
   }
   const CLES_CARTE = ['date', 'source', 'sources', 'auteur', 'lieu', 'periode', 'duree', 'niveau'];
-  const CLES_QUETE = ['type', 'statut', 'fiche', 'lien', 'resume', 'cadre', 'periode', 'contexte', 'technologies', 'themes', 'recompenses', 'competences'];
+  const CLES_QUETE = ['type', 'categorie', 'statut', 'fiche', 'lien', 'resume', 'cadre', 'periode', 'contexte', 'technologies', 'themes', 'recompenses', 'competences'];
 
   /**
    * Champs d'une carte projet : les lignes « clé: valeur » reconnues sont lues ; les autres lignes
@@ -212,12 +215,12 @@
   const premiereListe = (bloc) => bloc.enfants.find((x) => x.type === 'liste');
   const capitale = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
-  /** Premier lien d'une ligne Markdown : { href, html }. */
+  /** Premier lien d'une ligne Markdown : { href, html, target, rel } (target et rel : lien externe). */
   function lienDepuis(texte) {
     const div = document.createElement('div');
     div.innerHTML = ligne(texte);
     const a = div.querySelector('a');
-    return a ? { href: a.getAttribute('href'), html: a.innerHTML } : null;
+    return a ? { href: a.getAttribute('href'), html: a.innerHTML, target: a.getAttribute('target'), rel: a.getAttribute('rel') } : null;
   }
 
   /** Paragraphe constitué d'un seul lien. */
@@ -232,7 +235,7 @@
   /** Bouton ; un lien vers un PDF ouvre l'aperçu du document, qui propose de le télécharger (interface.js). */
   function bouton(lien, primaire) {
     const pdf = /\.pdf($|[?#])/i.test(lien.href);
-    const a = el('a', { class: `btn ${primaire ? 'btn--primary' : 'btn--ghost'}`, href: lien.href, 'data-apercu-pdf': pdf });
+    const a = el('a', { class: `btn ${primaire ? 'btn--primary' : 'btn--ghost'}`, href: lien.href, target: lien.target, rel: lien.rel, 'data-apercu-pdf': pdf });
     return ajouter(a, pdf ? [ICO.oeil, lien.html] : [lien.html, ICO.fleche]);
   }
 
@@ -451,6 +454,7 @@
       case 'plan': return plan(b);
       case 'colonnes': return colonnes(b, false);
       case 'note': return el('div', { class: 'todo-note' }, b.enfants.map((x) => bloc(x, { simple: true })));
+      case 'avertissement': return avertissement(b);
       case 'fiche': return fiche(b);
       default: return el('div', { class: `bloc-${b.nom}` }, b.enfants.map((x) => bloc(x, ctx)));
     }
@@ -478,7 +482,7 @@
       if (numerotees) carte.appendChild(el('span', { class: 'explore-card__num', 'aria-hidden': 'true' }, CHIFFRES_ROMAINS[i] || String(i + 1)));
       if (t.surtitre) carte.appendChild(el('p', { class: 'card__kicker' }, ligne(t.surtitre)));
       const h = el(`h${t.niveau}`, { class: 'card__title' });
-      if (lien) h.appendChild(el('a', { class: 'stretched-link', href: lien.href }, lien.html));
+      if (lien) h.appendChild(el('a', { class: 'stretched-link', href: lien.href, target: lien.target, rel: lien.rel }, lien.html));
       else h.innerHTML = ligne(t.texte);
       carte.appendChild(h);
       const blocs = g.blocs.slice();
@@ -496,7 +500,8 @@
 
   /**
    * Journal de quêtes : filtre + cartes projet (type, statut, fiche, contexte, technologies, récompenses).
-   * « ::: quetes veilles » : mêmes cartes, avec le badge « Veille » et des thèmes, sans type ni filtre.
+   * « ::: quetes veilles » : mêmes cartes, avec des thèmes, sans type ni filtre ; le badge est celui
+   * de la catégorie (« catégorie: système, réseau ou cybersécurité »), sinon « Veille ».
    */
   function quetes(b) {
     const veilles = MD.normaliserCle(b.args.split(/\s+/)[0] || '') === 'veilles';
@@ -505,7 +510,9 @@
     parTitres(b.enfants).filter((g) => g.titre).forEach((g) => {
       const blocs = g.blocs.slice();
       const f = extraireChampsCarte(blocs, CLES_QUETE, brut(g.titre.texte));
-      const type = veilles ? 'veille' : MD.normaliserCle(valeurChamp(f, 'type') || 'principale');
+      const type = veilles
+        ? MD.normaliserCle(valeurChamp(f, 'categorie') || 'veille')
+        : MD.normaliserCle(valeurChamp(f, 'type') || 'principale');
       const statut = valeurChamp(f, 'statut');
       const fiche = valeurChamp(f, 'fiche', 'lien');
       const resume = valeurChamp(f, 'resume');
@@ -608,6 +615,14 @@
     ]);
   }
 
+  /** Avertissement : « ::: avertissement Titre » (icône, titre, puis le texte du bloc). */
+  function avertissement(b) {
+    return el('div', { class: 'notice notice--warning', role: 'note' }, [
+      el('p', { class: 'notice__title' }, [ICO.alerte, ligne(b.args || 'Attention')]),
+      b.enfants.map((x) => bloc(x, { simple: true })),
+    ]);
+  }
+
   /** Encart (colonne latérale) : « ::: encart competences | technologies | ressources | coordonnees » */
   function encart(b) {
     const type = MD.normaliserCle((b.args.split(/\s+/)[0]) || '');
@@ -661,7 +676,7 @@
     const div = el('div', { class: 'container pager' });
     liens.forEach((lien, i) => {
       const suite = liens.length > 1 && i === liens.length - 1;
-      const a = el('a', { class: `btn ${suite ? 'btn--primary' : 'btn--ghost'}`, href: lien.href });
+      const a = el('a', { class: `btn ${suite ? 'btn--primary' : 'btn--ghost'}`, href: lien.href, target: lien.target, rel: lien.rel });
       div.appendChild(ajouter(a, suite ? [lien.html, ICO.fleche] : [ICO.flecheRetour, lien.html]));
     });
     return el('nav', { class: 'section section--alt', 'aria-label': b.args || 'Navigation entre les pages' }, div);
@@ -716,13 +731,18 @@
     ]);
   }
 
-  /** Sources : « - [Nom](adresse) — description » */
+  /** Sources : « - [Nom](adresse) — description » (le texte du lien peut lui-même contenir « — »). */
   function sources(b) {
     const l = premiereListe(b);
     const ul = el('ul', { class: 'source-list' });
     (l ? l.elements : []).forEach((item) => {
-      const [lien, ...description] = item.texte.split(/\s+—\s+/);
-      ul.appendChild(el('li', null, [ligne(lien), description.length ? el('span', null, ligne(description.join(' — '))) : null]));
+      const t = item.texte;
+      const milieu = t.startsWith('[') ? t.indexOf('](') : -1;
+      const finLien = milieu === -1 ? 0 : t.indexOf(')', milieu) + 1;
+      const sep = /\s+—\s+/.exec(t.slice(finLien));
+      const lien = sep ? t.slice(0, finLien + sep.index) : t;
+      const description = sep ? t.slice(finLien + sep.index + sep[0].length) : '';
+      ul.appendChild(el('li', null, [ligne(lien), description ? el('span', null, ligne(description)) : null]));
     });
     return ul;
   }
@@ -796,7 +816,7 @@
       grille.appendChild(partie);
     });
     if (grille.childNodes.length) article.appendChild(grille);
-    if (lienFinal) article.appendChild(el('a', { class: 'alternance__link', href: lienFinal.href }, [lienFinal.html, ICO.fleche]));
+    if (lienFinal) article.appendChild(el('a', { class: 'alternance__link', href: lienFinal.href, target: lienFinal.target, rel: lienFinal.rel }, [lienFinal.html, ICO.fleche]));
     return article;
   }
 
@@ -934,8 +954,10 @@
       if (!adresse) return;
       const href = MD.resoudreAdresse(adresse, RACINE);
       const aCompleter = /\[\[/.test(adresse);
-      ul.appendChild(el('li', null, el('a', { class: 'chip-link', href, rel: /^https?:/i.test(href) ? 'me' : null }, [
+      const externe = /^https?:/i.test(href);
+      ul.appendChild(el('li', null, el('a', { class: 'chip-link', href, target: externe ? '_blank' : null, rel: externe ? 'me noopener' : null }, [
         ICO[icone], aCompleter ? `<span class="todo">${libelle}</span>` : libelle,
+        externe ? '<span class="sr-only"> (nouvel onglet)</span>' : null,
       ])));
     };
     lien(SITE.github, 'code', 'GitHub');

@@ -42,6 +42,14 @@
     tropheePetit: svg('0 0 24 24', trait(2), '<path d="M7.5 4h9v5a4.5 4.5 0 0 1-9 0Z"/><path d="M12 13.5V17M8.5 20h7"/>'),
     cadenasPetit: svg('0 0 24 24', trait(2), '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>'),
 
+    // Badges de catégorie des veilles (système, réseau, cybersécurité)
+    ecranPetit: svg('0 0 16 16', trait(1.6), '<rect x="1.8" y="2.4" width="12.4" height="8.4" rx="1.3"/><path d="M8 10.8v2.6M5.4 13.6h5.2"/><path d="M5 8.2 7 6.3l1.4 1.2L11 5" stroke-width="1.3"/>'),
+    reseauPetit: svg('0 0 16 16', trait(1.5), '<circle cx="8" cy="3.1" r="1.6"/><circle cx="3.1" cy="12.7" r="1.6"/><circle cx="12.9" cy="12.7" r="1.6"/><path d="M8 4.7v3.4M8 8.1 4.3 11.4M8 8.1l3.7 3.3M4.7 12.7h6.6"/>'),
+    bouclierPetit: svg('0 0 16 16', trait(1.5), '<path d="M8 1.5 2.9 3.6v3.9c0 3 2.1 5.5 5.1 7 3-1.5 5.1-4 5.1-7V3.6Z"/><circle cx="8" cy="7" r="1.3"/><path d="M8 8.3v2.4"/>'),
+
+    // Avertissement (« ::: avertissement » dans le Markdown)
+    alerte: svg('0 0 24 24', trait(1.8), '<path d="M12 3.2 2.6 19.8h18.8Z"/><path d="M12 9.6v4.8M12 17h.01"/>'),
+
     // Succès (certifications)
     trophee: svg('0 0 24 24', trait(1.7), '<path d="M7.5 4h9v5a4.5 4.5 0 0 1-9 0Z"/><path d="M7.5 6H5a2.5 2.5 0 0 0 2.7 3.6M16.5 6H19a2.5 2.5 0 0 1-2.7 3.6M12 13.5V17M8.5 20h7M10 17h4"/><path d="M12 5.6l1.1 1.1L12 7.8l-1.1-1.1Z" fill="currentColor"/>'),
     cadenas: svg('0 0 24 24', trait(1.7), '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5M12 14.5V17"/>'),

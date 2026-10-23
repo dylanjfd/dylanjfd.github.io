@@ -111,5 +111,5 @@ La documentation complète du TP : la procédure pas à pas, illustrée de 133 c
 
 ::: navigation Navigation entre les projets
 - [Projet précédent](pages/projets/projet-1.html)
-- [Retour aux projets](pages/projets.html)
+- [Projet suivant](pages/projets/labo-parc-gaming.html)
 :::

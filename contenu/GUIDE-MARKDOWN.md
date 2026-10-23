@@ -9,7 +9,7 @@ Tout le texte du portfolio se trouve dans ce dossier `contenu/` : **un fichier `
 | Projets détaillés | `projets/projet-1.md`, `projet-2.md`, `projet-3.md` |
 | Compétences | `competences.md` |
 | Veille (liste des veilles) | `veille.md` |
-| Veilles détaillées | `veille/veille-1.md`, `veille-2.md`… |
+| Veilles détaillées | `veille/systeme.md`, `veille-1.md` (réseau : souveraineté numérique), `cybersecurite.md` |
 | Alternance | `alternance.md` |
 | Certifications | `certifications.md` |
 | Tableau E5 | `tableau-e5.md` |
@@ -178,7 +178,7 @@ récompenses: Patrimoine, Incidents, Mise à disposition
 
 La carte affiche dans l'ordre : badges, titre, résumé, « cadre · période » en petit et en gris, technologies, récompenses (3 au maximum), lien « Voir la fiche ». Récompenses en version courte : `Patrimoine`, `Incidents`, `Présence en ligne`, `Mode projet`, `Mise à disposition`, `Développement pro.` (un intitulé complet du référentiel est raccourci automatiquement). Une ligne sans « champ: » devant est ignorée et signalée dans la console du navigateur (F12). Le filtre (« Quêtes principales / secondaires / annexes ») est créé automatiquement.
 
-**Page Veille** : même bloc, écrit `::: quetes veilles`. Chaque carte porte le badge « Veille » : pas de ligne `type:`, ni de légende, ni de filtre. Remplace `technologies:` par `thèmes:` (ex. `thèmes: RGPD, Cloud Act, SecNumCloud`).
+**Page Veille** : même bloc, écrit `::: quetes veilles` : pas de ligne `type:`, ni de légende, ni de filtre. Remplace `technologies:` par `thèmes:` (ex. `thèmes: RGPD, Cloud Act, SecNumCloud`). La ligne `catégorie: système`, `réseau` ou `cybersécurité` affiche le badge de la catégorie (icône, couleur et nom écrit) ; sans elle, la carte porte le badge « Veille ».
 
 ### Page projet ou veille — `::: badges`, `::: etapes`, `::: capture`, `::: encart`, `::: navigation`
 
@@ -208,7 +208,16 @@ Ce qui a été fait.
 
 - Une image seule sur sa ligne devient une figure avec légende. Tant que tu n'as pas la capture, garde le bloc `::: capture` (emplacement en pointillés).
 - Types d'encart : `competences`, `technologies`, `ressources` (icônes code / vidéo / document selon le texte), `coordonnees`, ou rien.
-- Mots-clés de badges : `principale`, `secondaire`, `annexe`, `veille`, `terminée`, `en cours`, `prévue`, `débloqué`, `verrouillé`.
+- Mots-clés de badges : `principale`, `secondaire`, `annexe`, `veille`, `système`, `réseau`, `cybersécurité`, `terminée`, `en cours`, `prévue`, `débloqué`, `verrouillé`.
+- Avertissement bien visible (bordure rouge, icône) :
+
+```markdown
+::: avertissement Règle de sécurité
+Je ne télécharge jamais de vrai logiciel malveillant.
+:::
+```
+
+- Liens vers un autre site (`https://…`) : ils s'ouvrent dans un nouvel onglet, ce que signalent une petite flèche ↗ et, pour les lecteurs d'écran, la mention « (nouvel onglet) ». Rien à écrire de plus.
 
 ### Compétences — `::: competences`
 
@@ -307,10 +316,10 @@ Un `x` = coche dorée ; une ligne dont seule la première case est en **gras** =
 
 ## 8. Ajouter une veille
 
-Chaque veille a sa fiche, comme un projet :
+Chaque veille a sa fiche, comme un projet. Les trois veilles système, réseau et cybersécurité suivent la même structure : Introduction → Problématique → Contenu (actualités datées et sourcées, analyse) → Synthèses → Analyse critique et bilan → Sources → encadré « Mise en pratique ». Une veille reste de la veille : les tests en machines virtuelles vont dans une fiche projet (ici `projets/labo-parc-gaming.md`).
 
-1. Copie `pages/veille/veille-1.html` en `pages/veille/veille-2.html`.
-2. Dans la copie, change `<title>`, la `description`, `data-contenu="contenu/veille/veille-2.md"` dans la balise `<body>` et le lien de la `<noscript>`.
-3. Copie `contenu/veille/veille-1.md` en `contenu/veille/veille-2.md` et remplace son texte (garde l'en-tête `mise-en-page: fiche`). Retire les marqueurs `SYNTHESES` si cette veille n'utilise pas `/veille`, qui n'écrit que dans `veille-1.md`.
-4. Dans `veille.md`, ajoute une carte `### Titre` dans le bloc `::: quetes veilles` avec `fiche: pages/veille/veille-2.html`.
+1. Copie `pages/veille/systeme.html` sous le nouveau nom (ex. `pages/veille/stockage.html`).
+2. Dans la copie, change `<title>`, la `description`, `data-contenu="contenu/veille/stockage.md"` dans la balise `<body>` et le lien de la `<noscript>`.
+3. Copie `contenu/veille/systeme.md` en `contenu/veille/stockage.md` et remplace son texte (garde l'en-tête `mise-en-page: fiche`). Renomme les marqueurs `SYNTHESES-SYSTEME` (ex. `SYNTHESES-STOCKAGE`). Ne touche pas aux marqueurs `SYNTHESES` de `veille-1.md` : `/veille` écrit dedans.
+4. Dans `veille.md`, ajoute une carte `### Titre` dans un bloc `::: quetes veilles`, avec `fiche: pages/veille/stockage.html`.
 5. Ajoute la fiche à `plan-du-site.md`, à `sitemap.xml` et, si besoin, au tableau E5 (`tableau-e5.md`).

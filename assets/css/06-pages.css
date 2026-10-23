@@ -1210,6 +1210,29 @@ figcaption {
   border-color: var(--steel);
 }
 
+/* Avertissement dans une fiche (« ::: avertissement Titre ») */
+.notice--warning {
+  border-color: var(--danger);
+}
+
+.notice--warning .notice__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.35rem;
+}
+
+.notice--warning .notice__title svg {
+  flex: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--danger);
+}
+
+.notice--warning p:last-child {
+  margin-bottom: 0;
+}
+
 /* Notification façon jeu : « ✦ Quête mise à jour — message envoyé » */
 .quest-toast {
   display: flex;

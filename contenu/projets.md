@@ -47,6 +47,16 @@ période: octobre 2026
 technologies: VirtualBox, Windows 11, Windows Server 2025, Ubuntu, Linux Mint, Kali Linux
 récompenses: Patrimoine, Incidents, Mise à disposition
 
+### Labo : gestion et sécurisation d'un parc de PC gaming
+type: annexe
+statut: en cours
+fiche: pages/projets/labo-parc-gaming.html
+résumé: Tests en machines virtuelles pour déployer, restaurer et protéger les 25 PC de la salle gaming de Reboot, et procédure de l'atelier pour un PC infecté.
+cadre: Projet personnel, lié à mes veilles
+période: [[depuis …]]
+technologies: Clonezilla, FOG Project, Unified Write Filter, EICAR
+récompenses: Patrimoine, Incidents, Mise à disposition
+
 :::
 
 ## Progression | Tableau de synthèse E5 {centre}

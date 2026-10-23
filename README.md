@@ -26,15 +26,16 @@ Chaque langage a ses propres fichiers : **HTML** pour la structure, **Markdown**
 
 ```
 index.html, pages/*.html      Structure des pages (en-tête, menu, pied de page)
-pages/projets/projet-*.html   Structure des 3 fiches projet
-pages/veille/veille-*.html    Structure des fiches de veille (une par sujet)
+pages/projets/*.html          Structure des fiches projet (projet-1 à 3, labo-parc-gaming)
+pages/veille/*.html           Structure des fiches de veille : systeme, veille-1 (réseau), cybersecurite
 contenu/                      TEXTE DES PAGES, un fichier Markdown par page
   site.md                     Ton nom, ton e-mail, tes liens, le texte du pied de page
   accueil.md, projets.md, competences.md, veille.md, alternance.md,
   certifications.md, tableau-e5.md, contact.md,
   mentions-legales.md, confidentialite.md, plan-du-site.md
-  projets/projet-1.md … projet-3.md
-  veille/veille-1.md          Fiche de la veille « souveraineté numérique » (synthèses de /veille)
+  projets/projet-1.md … projet-3.md, labo-parc-gaming.md (tests liés aux veilles)
+  veille/systeme.md, cybersecurite.md   Veilles système et cybersécurité (projet Reboot)
+  veille/veille-1.md          Veille réseau « souveraineté numérique » (synthèses de /veille)
   GUIDE-MARKDOWN.md           Mode d'emploi de la syntaxe
 assets/css/
   style.css                   Point d'entrée : sommaire + import des modules ci-dessous
@@ -155,12 +156,14 @@ Les couleurs sont des variables CSS (`assets/css/01-variables.css`). Ratios de c
 | Sombre | bleu acier `#6fa8c7` | surface `#171e2e` | 6,42:1 |
 | Sombre | améthyste `#b79be0` (quêtes annexes) | surface `#171e2e` | 6,96:1 |
 | Sombre | succès `#7bc47f` / danger `#e07a6b` | surfaces | 7,96:1 / 5,16:1 |
+| Sombre | catégories de veille : système `#4cc3b2` / réseau `#f0a067` / cybersécurité `#f28aa0` | fond teinté du badge sur surface `#1e2638` (cas le plus défavorable) | 5,80 / 5,97 / 5,43:1 |
 | Sombre | bouton : texte `#0e1320` | or `#c9a35b` | 7,83:1 |
 | Clair « parchemin » | texte `#2a2116` | fond `#f3ecdd` | 13,45:1 |
 | Clair | texte secondaire `#5f5443` | fond alterné `#ebe2ce` | 5,75:1 |
 | Clair | or texte `#725522` | fond alterné `#ebe2ce` | 5,37:1 |
 | Clair | bleu acier `#2c5f7c` / succès `#2b6430` / danger `#a63d2e` | surface `#fbf7ee` | 6,47 / 6,61 / 5,90:1 |
 | Clair | améthyste `#6b4a99` (quêtes annexes) | surface `#fbf7ee` | 6,41:1 |
+| Clair | catégories de veille : système `#0a5f55` / réseau `#8a410c` / cybersécurité `#982841` | fond teinté du badge sur fond alterné `#ebe2ce` (cas le plus défavorable) | 5,24 / 5,11 / 5,31:1 |
 | Clair | bouton : texte `#2a2116` | or `#c9a35b` | 6,68:1 |
 
 Fonds : `#0e1320` (bleu nuit), `#121826` (alterné), surfaces `#171e2e` / `#1e2638`, bordures `#2e3648` ; en clair : `#f3ecdd`, surfaces `#fbf7ee`, bordures `#d8ccb2`.

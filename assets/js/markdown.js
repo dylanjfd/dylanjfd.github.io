@@ -49,6 +49,17 @@
     return (racine || '') + url.replace(/ /g, '%20');
   }
 
+  /** Lien vers un autre site : ouvert dans un nouvel onglet, ce qui est signalé (RGAA 13.2). */
+  function estExterne(adresse) {
+    if (!/^https?:/i.test(adresse)) return false;
+    try {
+      return new URL(adresse).host !== window.location.host;
+    } catch (e) {
+      return true;
+    }
+  }
+  const SIGNAL_EXTERNE = '<span class="lien-externe" aria-hidden="true">↗</span><span class="sr-only"> (nouvel onglet)</span>';
+
   /* ========================================================================
      2. Texte en ligne
      Les morceaux déjà transformés sont mis de côté (« jetons ») pour ne pas
@@ -111,7 +122,9 @@
             sortie += garder(`<img src="${adresse}" alt="${alt}" loading="lazy">`);
           } else {
             const titre = lien.titre ? ` title="${echapper(lien.titre)}"` : '';
-            sortie += garder(`<a href="${adresse}"${titre}>${transformer(lien.texte, ctx)}</a>`);
+            const externe = estExterne(resoudreAdresse(lien.adresse, ctx.racine));
+            const cible = externe ? ' target="_blank" rel="noopener noreferrer"' : '';
+            sortie += garder(`<a href="${adresse}"${titre}${cible}>${transformer(lien.texte, ctx)}${externe ? SIGNAL_EXTERNE : ''}</a>`);
           }
           i = lien.fin;
           continue;

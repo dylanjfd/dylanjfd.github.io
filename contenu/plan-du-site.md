@@ -18,12 +18,15 @@ Toutes les pages du portfolio, regroupées par thème.
 - [Projets](pages/projets.html)
   - [Projet 1](pages/projets/projet-1.html)
   - [Projet 2](pages/projets/projet-2.html)
+  - [Labo : parc de PC gaming](pages/projets/labo-parc-gaming.html)
 - [Tableau de synthèse E5](pages/tableau-e5.html)
 
 ## Parcours et compétences
 - [Compétences](pages/competences.html)
 - [Veille technologique](pages/veille.html)
-  - [Souveraineté numérique des PME](pages/veille/veille-1.html)
+  - [Veille système : parc de PC en libre-service](pages/veille/systeme.html)
+  - [Veille réseau : souveraineté numérique des PME](pages/veille/veille-1.html)
+  - [Veille cybersécurité : les joueurs ciblés](pages/veille/cybersecurite.html)
 - [Alternance](pages/alternance.html)
 - [Certifications](pages/certifications.html)
 

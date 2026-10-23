@@ -439,6 +439,33 @@
   color: var(--success);
 }
 
+/* Catégories des veilles : couleur propre, toujours avec une icône et le nom écrit */
+.badge--systeme {
+  border-color: var(--cat-systeme-line);
+  background: var(--cat-systeme-soft);
+  color: var(--cat-systeme);
+}
+
+.badge--reseau {
+  border-color: var(--cat-reseau-line);
+  background: var(--cat-reseau-soft);
+  color: var(--cat-reseau);
+}
+
+.badge--cyber {
+  border-color: var(--cat-cyber-line);
+  background: var(--cat-cyber-soft);
+  color: var(--cat-cyber);
+}
+
+/* Lien vers un autre site : petite flèche (le texte « nouvel onglet » est réservé aux lecteurs d'écran) */
+.lien-externe {
+  display: inline-block;
+  margin-left: 0.15em;
+  font-size: 0.85em;
+  text-decoration: none;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
