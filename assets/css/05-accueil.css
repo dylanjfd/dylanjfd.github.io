@@ -203,6 +203,11 @@
   box-shadow: var(--shadow);
 }
 
+/* Fiche cliquable (« lien: » dans le bloc ::: fiche) : même mise en page, lien doré en bas */
+.sheet.card--link {
+  display: block;
+}
+
 .sheet__label {
   margin-bottom: 1.15rem;
 }

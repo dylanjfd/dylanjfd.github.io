@@ -88,6 +88,7 @@ Quelques réglages se placent tout en haut du fichier, entre deux lignes `---` :
 mise-en-page: fiche          (accueil, fiche, texte, contact ; rien = page standard)
 fil-ariane: Projet 1         (texte court affiché dans le fil d'Ariane)
 parent: [Projets](pages/projets.html)
+photo: assets/img/photo.jpg  (ta photo dans un cadre doré, à côté du titre ; ex. page Compétences)
 ---
 ```
 
@@ -130,13 +131,14 @@ Juste sous le titre d'une carte, les lignes `date:` et `source:` s'affichent en 
 ::: fiche
 niveau: 2
 photo: assets/img/photo.jpg
+lien: [Voir mes compétences](pages/competences.html)
 
 - Rigueur : 4
 - Curiosité : 5
 :::
 ```
 
-`niveau` = année de BTS ; `photo` vide = illustration par défaut ; attributs notés **sur 5** (la jauge suit).
+`niveau` = année de BTS ; `photo` vide = illustration par défaut ; `lien` = toute la fiche devient cliquable et le lien s'affiche en bas (sans cette ligne, la fiche n'est pas cliquable) ; attributs notés **sur 5** (la jauge suit).
 
 ### Frise — `::: chronologie`
 

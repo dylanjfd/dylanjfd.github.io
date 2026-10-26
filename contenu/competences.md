@@ -1,5 +1,10 @@
+---
+photo: assets/img/photo.jpg
+---
+
 <!--
   PAGE COMPÉTENCES (pages/competences.html) — « Arbre de talents »
+  En-tête « photo: » : ta photo, affichée à côté du titre (la même que sur la fiche de personnage de l'accueil).
   Dans le bloc « ::: competences » :
     ### Branche I | Nom de la branche {icone=serveur option=SISR}
     - Nom de la compétence — précisions : niveau

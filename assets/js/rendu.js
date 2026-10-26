@@ -858,28 +858,32 @@
     return el('div', { class: `section${alterne ? ' section--alt' : ''}` }, split);
   }
 
-  /** Fiche de personnage (accueil) : niveau, photo, attributs « - Nom : note sur 5 ». */
+  /** Portrait au cadre doré : la photo, ou une silhouette « Ta photo » tant qu'elle manque. */
+  function portrait(photo) {
+    return photo && !/^\[\[/.test(photo)
+      ? el('div', { class: 'portrait' }, el('div', { class: 'portrait__frame' },
+        el('img', { src: MD.resoudreAdresse(photo, RACINE), alt: `Photo de ${brut(SITE.nom || '')}`, width: '216', height: '216' })))
+      : el('div', { class: 'portrait', 'aria-hidden': 'true' }, [
+        el('div', { class: 'portrait__frame' }, ICO.silhouette),
+        '<span class="portrait__hint"><span class="todo">Ta photo</span></span>',
+      ]);
+  }
+
+  /** Fiche de personnage (accueil) : niveau, photo, attributs « - Nom : note sur 5 », lien facultatif. */
   function fiche(b) {
     const f = [];
     b.enfants.forEach((x) => (champs(x) || []).forEach((c) => f.push(c)));
     const l = premiereListe(b);
     const option = optionCourante();
     const niveau = valeurChamp(f, 'niveau') || '1';
-    const photo = valeurChamp(f, 'photo');
     const nom = SITE.nom || '';
+    // « lien: [Voir mes compétences](pages/competences.html) » : toute la fiche devient cliquable
+    const lien = valeurChamp(f, 'lien') ? lienDepuis(valeurChamp(f, 'lien')) : null;
 
-    const portrait = photo && !/^\[\[/.test(photo)
-      ? el('div', { class: 'portrait' }, el('div', { class: 'portrait__frame' },
-        el('img', { src: MD.resoudreAdresse(photo, RACINE), alt: `Photo de ${brut(nom)}`, width: '216', height: '216' })))
-      : el('div', { class: 'portrait', 'aria-hidden': 'true' }, [
-        el('div', { class: 'portrait__frame' }, ICO.silhouette),
-        '<span class="portrait__hint"><span class="todo">Ta photo</span></span>',
-      ]);
-
-    const aside = el('aside', { class: 'card sheet', 'aria-labelledby': 'sheet-title' }, [
+    const aside = el('aside', { class: `card sheet${lien ? ' card--link' : ''}`, 'aria-labelledby': 'sheet-title' }, [
       el('p', { class: 'eyebrow sheet__label', id: 'sheet-title' }, 'Fiche de personnage'),
       el('div', { class: 'sheet__head' }, [
-        portrait,
+        portrait(valeurChamp(f, 'photo')),
         el('div', null, [
           el('p', { class: 'sheet__name' }, ligne(nom)),
           el('dl', { class: 'sheet-stats' }, [
@@ -912,6 +916,10 @@
       });
       aside.appendChild(ul);
     }
+    if (lien) {
+      aside.appendChild(el('a', { class: 'card__more stretched-link', href: lien.href, target: lien.target, rel: lien.rel },
+        [lien.html, ' ', ICO.fleche]));
+    }
     return aside;
   }
 
@@ -930,18 +938,21 @@
 
   function herosPage(blocs, entete) {
     const contenu = el('div', { class: 'container' }, filAriane(blocs, entete));
+    // « photo: » dans l'en-tête du fichier .md : portrait à côté du titre (ex. page Compétences)
+    const texte = entete.photo ? el('div', { class: 'page-hero__text' }) : contenu;
     blocs.forEach((b) => {
       if (b.type === 'titre' && b.niveau === 1) {
-        if (b.surtitre) contenu.appendChild(el('p', { class: 'eyebrow' }, ligne(b.surtitre)));
-        contenu.appendChild(el('h1', null, ligne(b.texte)));
+        if (b.surtitre) texte.appendChild(el('p', { class: 'eyebrow' }, ligne(b.surtitre)));
+        texte.appendChild(el('h1', null, ligne(b.texte)));
       } else if (b.type === 'paragraphe') {
-        contenu.appendChild(el('p', { class: 'page-hero__intro' }, ligne(texteDe(b))));
+        texte.appendChild(el('p', { class: 'page-hero__intro' }, ligne(texteDe(b))));
       } else if (b.type === 'conteneur' && b.nom === 'infos') {
-        contenu.appendChild(infos(b, 'meta-list'));
+        texte.appendChild(infos(b, 'meta-list'));
       } else {
-        ajouter(contenu, bloc(b, { heros: true }));
+        ajouter(texte, bloc(b, { heros: true }));
       }
     });
+    if (entete.photo) contenu.appendChild(el('div', { class: 'page-hero__body' }, [texte, portrait(entete.photo)]));
     return el('header', { class: 'page-hero' }, [
       el('div', { class: 'page-hero__decor', 'aria-hidden': 'true' }, '<div class="topo"></div>'),
       contenu,

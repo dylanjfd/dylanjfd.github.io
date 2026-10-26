@@ -50,6 +50,18 @@
   margin-top: 0.75rem;
 }
 
+/* Portrait à côté du titre (« photo: » dans l'en-tête du fichier .md, ex. Compétences) */
+.page-hero__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+  align-items: center;
+}
+
+.page-hero__body .portrait {
+  width: clamp(7.5rem, 6rem + 5vw, 10.5rem);
+}
+
 .breadcrumb {
   margin-bottom: 1.6rem;
   font-size: 0.88rem;

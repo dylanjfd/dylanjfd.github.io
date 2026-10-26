@@ -20,10 +20,11 @@ disponibilite: En alternance chez MyDigitalSchool jusqu'en 2028
 - [Voir mes projets](pages/projets.html)
 :::
 
-<!-- Fiche de personnage : niveau = année de BTS (1 ou 2) ; photo = chemin de ta photo ; attributs notés sur 5 (à ajuster) -->
+<!-- Fiche de personnage : niveau = année de BTS (1 ou 2) ; photo = chemin de ta photo ; lien = page ouverte au clic sur la fiche ; attributs notés sur 5 (à ajuster) -->
 ::: fiche
 niveau: 1
 photo: assets/img/photo.jpg
+lien: [Voir mes compétences](pages/competences.html)
 
 - Rigueur & méthodologie : 4
 - Gestion du stress : 5
