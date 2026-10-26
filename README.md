@@ -225,7 +225,7 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 
 ## 9. Veille automatisée
 
-Mes trois veilles s'appuient sur une collecte automatique des actualités : un seul e-mail chaque lundi, mes réponses par numéro, puis une synthèse par veille et par mois, relue et validée avant publication.
+Mes trois veilles s'appuient sur une collecte automatique des actualités : un seul e-mail chaque lundi, mes réponses par numéro avec une courte synthèse de la semaine, puis, au début de chaque mois, ces synthèses de la semaine regroupées en une synthèse par veille, relue et validée avant publication.
 
 | Lettre | Veille | Articles par e-mail | Fiche où va la synthèse | Marqueurs |
 |---|---|:-:|---|---|
@@ -239,8 +239,8 @@ La collecte et l'e-mail passent par Google Apps Script ([`veille/apps-script/Cod
 
 1. **Chaque jour vers 18 h**, `collecter` lit les flux RSS de chaque veille et met de côté les articles des 7 derniers jours qui contiennent au moins un mot-clé de **chacun** des groupes de la veille (titre ou résumé, sans tenir compte des majuscules ni des accents, mots entiers, pluriels compris). Les veilles réseau et système ont un seul groupe ; la cybersécurité en a deux : une menace (infostealer, phishing, vol de compte…) **et** un mot du jeu (joueur, Steam, Discord, cheat…). Un article n'est gardé que pour une veille : la première qui le retient.
 2. **Chaque lundi vers 7 h 45** (heure de Paris), `envoyerLundi` envoie un seul e-mail « [Veille] Semaine du JJ/MM/AAAA — Réseau N, Système N, Cybersécurité N ». Une section par veille, articles du plus récent au plus ancien, numérotés avec la lettre de la veille (`#R1`, `#S1`, `#C1`…) : numéro, titre, source, date, langue (FR/EN), extrait et lien. Une section vide affiche « Pas d'actualité cette semaine ». Un lien déjà envoyé n'est jamais renvoyé, quelle que soit la veille.
-3. **Tu réponds à l'e-mail** avec le numéro suivi de ton avis, par exemple `#C2 je pense que…`. Tu peux ignorer les articles qui ne t'intéressent pas.
-4. **Le premier lundi du mois**, l'e-mail rappelle les trois synthèses du mois précédent à demander. Dans Claude Code, tape `/veille` (ou, dans Claude in Chrome, demande « fais la synthèse de ma veille ») : une synthèse par veille, tes avis corrigés et reformulés sans changer ton opinion, montrés à côté de tes phrases d'origine. Après ton « OK », chaque carte est ajoutée à la fiche de sa veille ; tu valides ensuite le diff avant le commit et le push.
+3. **Tu réponds à l'e-mail** avec le numéro suivi de ton avis, par exemple `#C2 je pense que…` (tu peux ignorer les articles qui ne t'intéressent pas), puis tu termines par ta synthèse de la semaine sur une ligne qui commence par `#SEMAINE`, par exemple `#SEMAINE cette semaine, …`. L'e-mail la demande même quand il n'a aucun article.
+4. **Le premier lundi du mois**, l'e-mail rappelle les trois synthèses du mois précédent à demander. Dans Claude Code, tape `/veille` (ou, dans Claude in Chrome, demande « fais la synthèse de ma veille ») : pour chaque veille, tes synthèses de la semaine du mois sont regroupées et complétées par tes avis sur les articles, corrigées et reformulées sans changer ton opinion, puis montrées à côté de tes phrases d'origine. Une synthèse de la semaine compte pour le mois du lundi de l'e-mail auquel elle répond. Après ton « OK », chaque carte est ajoutée à la fiche de sa veille ; tu valides ensuite le diff avant le commit et le push.
 
 **Fonctions du script** (menu déroulant de l'éditeur Apps Script, bouton *Exécuter*) :
 
@@ -267,9 +267,9 @@ La collecte et l'e-mail passent par Google Apps Script ([`veille/apps-script/Cod
 
 Dans Claude Code, à la racine du dépôt, tape `/veille`. La commande (`.claude/commands/veille.md`) :
 
-1. fait `git pull`, puis lance `python veille/fetch_replies.py --dry-run` : tes réponses sont lues dans Gmail par IMAP (sans rien marquer comme lu), chaque avis est rattaché à sa veille par sa lettre, et le titre, la source, la date, la langue et le lien de chaque article sont retrouvés dans le texte cité de l'e-mail d'origine (Apps Script n'enregistre pas de digest dans le dépôt ; les anciens digests servent de secours) ;
-2. corrige et reformule chaque avis en gardant ton opinion, sans inventer de fait, de chiffre ni de source ; les articles en anglais sont résumés en français ;
-3. rédige une synthèse par veille et par mois (titre, résumé de l'actualité, « Mon analyse », liens vers les sources), uniquement de la veille, sans procédure ni tutoriel ;
+1. fait `git pull`, puis lance `python veille/fetch_replies.py --dry-run` : tes réponses sont lues dans Gmail par IMAP (sans rien marquer comme lu), chaque avis est rattaché à sa veille par sa lettre, et le titre, la source, la date, la langue et le lien de chaque article sont retrouvés dans le texte cité de l'e-mail d'origine (Apps Script n'enregistre pas de digest dans le dépôt ; les anciens digests servent de secours). Ta ligne `#SEMAINE` est rendue à part (`synthese_semaine`, avec la date du lundi de l'e-mail) : elle n'est jamais prise pour un avis ;
+2. corrige et reformule tes synthèses de la semaine et tes avis en gardant ton opinion, sans inventer de fait, de chiffre ni de source ; les articles en anglais sont résumés en français ;
+3. rédige une synthèse par veille et par mois (titre, résumé de l'actualité, « Mon analyse », liens vers les sources) à partir de tes synthèses de la semaine du mois, complétées par tes avis ; uniquement de la veille, sans procédure ni tutoriel ;
 4. te montre les synthèses avec le tableau « mes phrases d'origine / version reformulée » et attend ton « OK » ou tes corrections ;
 5. après ton « OK », ajoute chaque carte entre les marqueurs de sa fiche (tableau ci-dessus), avec une numérotation « Entrée I, II… » propre à chaque fiche, note les réponses utilisées dans `veille/processed.json`, puis te montre le diff et attend un dernier « OK » avant le commit et le push.
 
@@ -282,7 +282,7 @@ Dans Claude Code, à la racine du dépôt, tape `/veille`. La commande (`.claude
 ### Bon à savoir
 
 - **Dépôt public** : `processed.json` (et, pour l'ancienne méthode, `seen.json` et les digests) est visible de tous. Il ne contient ni adresse e-mail ni mot de passe : `processed.json` garde une empreinte de chaque e-mail, pas son identifiant.
-- **Tests** : `python -m unittest discover -s veille/tests -v` (mots-clés et groupes, trois veilles, découpage des avis « #R2 » et des anciens « #2 », articles retrouvés dans le texte cité, configuration de `config.json` reprise dans `Code.gs`).
+- **Tests** : `python -m unittest discover -s veille/tests -v` (mots-clés et groupes, trois veilles, découpage des avis « #R2 » et des anciens « #2 », synthèse de la semaine « #SEMAINE », articles retrouvés dans le texte cité, configuration de `config.json` reprise dans `Code.gs`).
 - **Aperçu local** : `python veille/collect.py --dry-run` affiche l'e-mail de la semaine calculé sur ton ordinateur avec `veille/config.json` (rien n'est envoyé ni enregistré). Pratique pour essayer de nouveaux mots-clés avant de les reporter dans `Code.gs`.
 
 ### Ancienne méthode (désactivée)

@@ -63,7 +63,9 @@ PREFIXE_ANCIEN = 'R'
 JOURS_MEMOIRE = 60  # un lien envoyé reste 60 jours dans seen.json, bien plus que la fenêtre de 7 jours
 LARGEUR_EXTRAIT = 76  # extrait de 2 lignes de 76 caractères au plus
 AGENT = 'VeillePortfolio/1.0 (+https://dylanjfd.github.io/pages/veille.html)'
-CONSIGNE = 'Réponds avec le numéro suivi de ton avis, par exemple : #C2 je pense que…'
+CONSIGNE_AVIS = 'Réponds avec le numéro suivi de ton avis, par exemple : #C2 je pense que… '
+CONSIGNE_SEMAINE = ('Termine par ta synthèse de la semaine sur une ligne qui commence par #SEMAINE, '
+                    'par exemple : #SEMAINE cette semaine, …')
 
 
 # ---------------------------------------------------------------------------
@@ -272,6 +274,11 @@ def objet_mail(jour, sections):
     return f"{OBJET} Semaine du {jour.strftime('%d/%m/%Y')} — {nombres}"
 
 
+def consigne(sections):
+    """Même consigne que Code.gs : la synthèse de la semaine (#SEMAINE) est demandée même sans article."""
+    return (CONSIGNE_AVIS if any(s['articles'] for s in sections) else '') + CONSIGNE_SEMAINE
+
+
 def titre_section(veille):
     return f"{veille['categorie']} — {veille['nom']}"
 
@@ -290,8 +297,7 @@ def texte_mail(sections, jour):
             for a in section['articles']
         ]
         blocs.append('\n\n'.join([f"== {titre_section(section['veille'])} =="] + (articles or ["Pas d'actualité cette semaine."])))
-    if any(s['articles'] for s in sections):
-        blocs.append(f'—\n{CONSIGNE}')
+    blocs.append(f'—\n{consigne(sections)}')
     return '\n\n'.join(blocs) + '\n'
 
 
@@ -313,16 +319,15 @@ def html_mail(sections, jour):
         <div style="margin:0 0 6px;font-size:14px;color:#3d3426;">{e(a['extrait'])}</div>
         <div style="font-size:12px;"><a href="{e(a['lien'], quote=True)}" style="color:#6b4f1d;">{e(a['lien'])}</a></div>
       </div>""")
-    consigne = f"""
-      <p style="background:#fffaf0;border-left:4px solid #c9a35b;padding:8px 12px;margin:24px 0 0;font-size:14px;">{e(CONSIGNE)}</p>""" \
-        if any(s['articles'] for s in sections) else ''
+    bloc_consigne = f"""
+      <p style="background:#fffaf0;border-left:4px solid #c9a35b;padding:8px 12px;margin:24px 0 0;font-size:14px;">{e(consigne(sections))}</p>"""
     return f"""<!doctype html>
 <html lang="fr">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{e(OBJET)} {e(titre)}</title></head>
 <body style="margin:0;padding:0;background:#f3ecdd;">
   <div style="max-width:640px;margin:0 auto;padding:24px 16px;font-family:'Segoe UI',Arial,sans-serif;color:#2a2418;line-height:1.5;">
     <p style="margin:0;color:#7a5c22;font-size:12px;letter-spacing:.12em;text-transform:uppercase;">Codex · Veille technologique</p>
-    <h1 style="margin:4px 0 8px;font-size:22px;">{e(titre)}</h1>{''.join(blocs)}{consigne}
+    <h1 style="margin:4px 0 8px;font-size:22px;">{e(titre)}</h1>{''.join(blocs)}{bloc_consigne}
   </div>
 </body>
 </html>

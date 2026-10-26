@@ -93,6 +93,36 @@ class DecoupageAvis(unittest.TestCase):
         self.assertEqual(fr.decouper_avis('#R1\n#R2 oui')[1], [('R2', 'oui')])
 
 
+class SyntheseSemaine(unittest.TestCase):
+    def test_separee_des_avis(self):
+        reste, synthese = fr.extraire_synthese_semaine(
+            "#R1 premier avis\n#SEMAINE cette semaine, le cloud souverain avance.\nLes PME suivent.")
+        self.assertEqual(synthese, 'cette semaine, le cloud souverain avance.\nLes PME suivent.')
+        self.assertEqual(fr.decouper_avis(reste)[1], [('R1', 'premier avis')])
+
+    def test_entre_deux_avis_et_en_minuscules(self):
+        reste, synthese = fr.extraire_synthese_semaine("#R1 a\n  #semaine : bilan de la semaine\n#C2 b\n#Semaine — suite")
+        self.assertEqual(synthese, 'bilan de la semaine\n\nsuite')
+        self.assertEqual(fr.decouper_avis(reste)[1], [('R1', 'a'), ('C2', 'b')])
+
+    def test_seulement_en_debut_de_ligne(self):
+        texte = '#R1 je reviendrai dessus dans #SEMAINE'
+        self.assertEqual(fr.extraire_synthese_semaine(texte), (texte, None))
+        self.assertEqual(fr.extraire_synthese_semaine('#R1 rien de plus'), ('#R1 rien de plus', None))
+
+    def test_dans_la_reponse_avec_la_date_du_lundi(self):
+        objet = 'Re: [Veille] Semaine du 02/11/2026 — Réseau 0, Système 0, Cybersécurité 0'
+        resultat = fr.analyser(reponse('#SEMAINE semaine calme, rien de marquant.', objet=objet), DIGESTS, veilles=VEILLES)
+        self.assertEqual(resultat['synthese_semaine'], {'semaine_du': '2026-11-02', 'texte': 'semaine calme, rien de marquant.'})
+        self.assertEqual((resultat['avis'], resultat['avertissements']), ([], []))
+
+    def test_absente_des_anciennes_reponses(self):
+        resultat = fr.analyser(lire_eml('reponse-exemple.eml'), DIGESTS, veilles=VEILLES)
+        self.assertIsNone(resultat['synthese_semaine'])
+        resultat = fr.analyser(reponse('Rien.', objet='Re: [Veille] Semaine du 02/11/2026'), DIGESTS, veilles=VEILLES)
+        self.assertIn('Aucun avis « #numéro » ni synthèse « #SEMAINE » dans cette réponse.', resultat['avertissements'])
+
+
 class AnalyseReponse(unittest.TestCase):
     def test_faux_email_complet(self):
         # Ancien e-mail « [Veille souveraineté] » et ancien digest : numéros sans lettre = veille réseau
@@ -149,7 +179,7 @@ class AnalyseReponse(unittest.TestCase):
 
     def test_article_retrouve_dans_le_texte_cite(self):
         # Réponse à un e-mail d'Apps Script : aucun digest, les articles viennent du texte cité
-        corps = ("#C1 je trouve ça inquiétant\n#r2 bof\n\n"
+        corps = ("#C1 je trouve ça inquiétant\n#r2 bof\n#SEMAINE peu d'actualité côté système.\n\n"
                  "Le lun. 2 nov. 2026 à 07:45, Veille technologique <\nveille@example.com> a écrit :\n\n"
                  "> Veille technologique — semaine du 02/11/2026\n>\n"
                  "> == Réseau — Souveraineté numérique des PME ==\n>\n"
@@ -163,13 +193,16 @@ class AnalyseReponse(unittest.TestCase):
                  "> #C1 — Capcom confirms data breach affecting 11.7 million accounts\n"
                  "> BleepingComputer · 22/10/2026 · EN\n> Japanese gaming giant Capcom has confirmed…\n"
                  "> https://www.bleepingcomputer.com/news/security/capcom\n>\n"
-                 "> —\n> Réponds avec le numéro suivi de ton avis, par exemple :\n> #C2 je pense que…\n")
+                 "> —\n> Réponds avec le numéro suivi de ton avis, par exemple :\n> #C2 je pense que… Termine par ta synthèse de\n"
+                 "> la semaine sur une ligne qui commence par #SEMAINE, par exemple :\n> #SEMAINE cette semaine, …\n")
         resultat = fr.analyser(reponse(corps, objet='Re: [Veille] Semaine du 02/11/2026 — Réseau 2, Système 0, Cybersécurité 1'),
                                DIGESTS, veilles=VEILLES)
         self.assertEqual(resultat['avertissements'], [])
         avis = {a['numero']: a for a in resultat['avis']}
         self.assertEqual(list(avis), ['C1', 'R2'])
-        self.assertEqual(avis['C1']['avis'], 'je trouve ça inquiétant')
+        self.assertEqual((avis['C1']['avis'], avis['R2']['avis']), ('je trouve ça inquiétant', 'bof'))
+        # Ma synthèse, pas l'exemple « #SEMAINE cette semaine, … » de la consigne citée
+        self.assertEqual(resultat['synthese_semaine'], {'semaine_du': '2026-11-02', 'texte': "peu d'actualité côté système."})
         self.assertEqual(avis['C1']['article'], {
             'numero': 'C1', 'titre': 'Capcom confirms data breach affecting 11.7 million accounts',
             'source': 'BleepingComputer', 'date': '22/10/2026', 'langue': 'EN',

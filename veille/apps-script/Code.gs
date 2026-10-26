@@ -11,8 +11,10 @@
  *    articles du plus récent au plus ancien, numérotés avec la lettre de la veille : #R1…, #S1…, #C1…
  *    Un lien envoyé n'est jamais renvoyé, quelle que soit la veille, et un article n'apparaît que dans
  *    une section (la première veille qui le retient).
- *  - Tu réponds à l'e-mail avec le numéro suivi de ton avis (ex. « #C2 je pense que… »).
- *  - Le premier lundi du mois, l'e-mail rappelle de demander à Claude les synthèses du mois précédent.
+ *  - Tu réponds à l'e-mail avec le numéro suivi de ton avis (ex. « #C2 je pense que… »),
+ *    puis ta synthèse de la semaine sur une ligne qui commence par #SEMAINE.
+ *  - Le premier lundi du mois, l'e-mail rappelle de demander à Claude les synthèses du mois précédent,
+ *    construites en regroupant les synthèses de la semaine (#SEMAINE) de ce mois.
  *
  * Mise en place : coller ce fichier dans le projet Apps Script, exécuter `testerFlux`, puis `apercu`
  * (e-mail affiché dans le journal sans l'envoyer), puis une fois `installer`.
@@ -213,11 +215,12 @@ function envoyer_(essai) {
   const moisPrec = new Date(maintenant.getFullYear(), maintenant.getMonth() - 1, 15);
   const nomMoisPrec = MOIS[moisPrec.getMonth()] + ' ' + moisPrec.getFullYear();
   const rappel = premierLundi
-    ? [`C'est le premier lundi du mois : demande à Claude les ${sections.length} synthèses de ${nomMoisPrec} ` +
-       '(« fais la synthèse de ma veille »), une par veille :']
+    ? [`C'est le premier lundi du mois : demande à Claude les ${sections.length} synthèses de ${nomMoisPrec}, ` +
+       'une par veille, en regroupant tes synthèses de la semaine (#SEMAINE) du mois (« fais la synthèse de ma veille ») :']
         .concat(sections.map(s => `- ${titreSection_(s.veille)}`))
     : [];
-  const consigne = articles.length ? 'Réponds avec le numéro suivi de ton avis, par exemple : #C2 je pense que…' : '';
+  const consigne = (articles.length ? 'Réponds avec le numéro suivi de ton avis, par exemple : #C2 je pense que… ' : '') +
+      'Termine par ta synthèse de la semaine sur une ligne qui commence par #SEMAINE, par exemple : #SEMAINE cette semaine, …';
 
   const sujet = `[Veille] Semaine du ${semaine} — ` +
     sections.map(s => `${s.veille.categorie} ${s.articles.length}`).join(', ');

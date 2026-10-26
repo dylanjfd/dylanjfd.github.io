@@ -144,6 +144,9 @@ class Objet(unittest.TestCase):
         texte = collect.texte_mail(self.sections([], [], []), date(2026, 10, 19))
         self.assertEqual(texte.count("Pas d'actualité cette semaine."), 3)
         self.assertNotIn('Réponds avec le numéro', texte)
+        # Sans article, la synthèse de la semaine est quand même demandée
+        self.assertTrue(texte.rstrip().endswith(
+            '—\nTermine par ta synthèse de la semaine sur une ligne qui commence par #SEMAINE, par exemple : #SEMAINE cette semaine, …'))
 
     def test_une_section_par_veille(self):
         sections = self.sections([self.ARTICLE], [], [])
@@ -151,7 +154,9 @@ class Objet(unittest.TestCase):
         self.assertIn('== Réseau — Souveraineté numérique des PME ==\n\n#R1 — Le cloud Bleu\n'
                       'LeMagIT · 18/10/2026 · FR\nExtrait.\nhttps://a.fr/1', texte)
         self.assertIn("== Système — Parc de PC ==\n\nPas d'actualité cette semaine.", texte)
-        self.assertTrue(texte.rstrip().endswith('Réponds avec le numéro suivi de ton avis, par exemple : #C2 je pense que…'))
+        self.assertTrue(texte.rstrip().endswith(
+            'Réponds avec le numéro suivi de ton avis, par exemple : #C2 je pense que… '
+            'Termine par ta synthèse de la semaine sur une ligne qui commence par #SEMAINE, par exemple : #SEMAINE cette semaine, …'))
         page = collect.html_mail(sections, date(2026, 10, 19))
         self.assertIn('#R1</strong>', page)
         self.assertIn('>https://a.fr/1</a>', page)  # lien visible en clair, retrouvé dans le texte cité

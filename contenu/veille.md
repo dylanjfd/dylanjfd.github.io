@@ -63,6 +63,10 @@ récompenses: Développement pro.
 
 :::
 
+## Grimoire | Comment fonctionne ma veille
+
+Ma veille est automatisée avec un script Google Apps Script. Chaque soir, il lit 14 flux RSS de sites spécialisés et garde les articles récents qui correspondent à mes trois sujets : réseau, système et cybersécurité. Chaque lundi matin, je reçois un e-mail qui regroupe ces articles. J'y réponds avec mon avis sur les articles qui m'intéressent et une courte synthèse de la semaine. Au début de chaque mois, je regroupe ces synthèses de la semaine en une synthèse mensuelle.
+
 ## Progression | Tableau de synthèse E5 {centre}
 
 Toutes les réalisations et les compétences mobilisées pour chacune sont récapitulées dans le tableau de synthèse.

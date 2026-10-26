@@ -10,6 +10,10 @@ Numéros : la lettre indique la veille (#R2 réseau, #S2 système, #C2 cyberséc
 veille/config.json). Dans les anciens e-mails « [Veille souveraineté] », les numéros n'ont pas
 de lettre : ils appartiennent à la veille souveraineté numérique, devenue la veille réseau (#2 = #R2).
 
+Synthèse de la semaine : la ligne qui commence par « #SEMAINE » (jusqu'au prochain « #numéro » ou
+jusqu'à la fin de ma réponse) n'est pas un avis. Elle est rendue à part, dans « synthese_semaine »,
+avec la date du lundi de l'e-mail de veille ; /veille s'en sert pour la synthèse du mois.
+
 Articles : Apps Script n'enregistre pas les digests dans le dépôt. Le titre, la source, la date,
 la langue et le lien de chaque article sont donc retrouvés dans le texte cité de l'e-mail
 d'origine ; le digest veille/digests/AAAA-MM-JJ.json (ancienne méthode GitHub Actions) sert de secours.
@@ -60,6 +64,8 @@ DEBUT_ATTRIBUTION = re.compile(r'[ \t]*(?:Le|On)\s', re.I)
 FIN_DU_MESSAGE = re.compile(r"^[ \t]*(?:-{2,}\s*(?:Original Message|Message d'origine)\s*-{2,}|--[ \t]*)$", re.M | re.I)
 # « #R2 » ou « #2 » en début de ligne ou après une espace (pas l'ancre d'une adresse : page#2)
 NUMERO = re.compile(r'(?:(?<=\s)|^)#([A-Za-z]?\d{1,3})\b[ \t]*[:\-–—]?[ \t]*', re.M)
+# « #SEMAINE » en début de ligne : ma synthèse de la semaine, qui n'est pas un avis sur un article
+SYNTHESE_SEMAINE = re.compile(r'^[ \t]*#semaine\b[ \t]*[:\-–—]?[ \t]*', re.M | re.I)
 SEMAINE = re.compile(r'Semaine du (\d{2})/(\d{2})/(\d{4})')
 # « Re: », « RE : », « Réf. : » : une réponse, pas l'e-mail de veille lui-même
 REPONSE = re.compile(r'\s*(?:re|ré|réf|ref|aw|sv)\s*\.?\s*:', re.I)
@@ -189,6 +195,22 @@ def decouper_avis(texte, prefixe_par_defaut=''):
     return general, list(avis.items())
 
 
+def extraire_synthese_semaine(texte):
+    """Sépare ma synthèse de la semaine de mes avis : (texte sans la synthèse, synthèse ou None).
+
+    Elle commence par une ligne « #SEMAINE … » et va jusqu'au prochain « #numéro » ou jusqu'à la fin.
+    Écrite en plusieurs fois, ses morceaux sont regroupés dans l'ordre d'écriture.
+    """
+    morceaux = []
+    while (debut := SYNTHESE_SEMAINE.search(texte)):
+        suite = texte[debut.end():]
+        fin = NUMERO.search(suite)
+        coupure = fin.start() if fin else len(suite)
+        morceaux.append(nettoyer(suite[:coupure]))
+        texte = texte[:debut.start()] + suite[coupure:]
+    return texte, '\n\n'.join(m for m in morceaux if m) or None
+
+
 # ---------------------------------------------------------------------------
 # Articles de l'e-mail d'origine, retrouvés dans le texte cité
 # ---------------------------------------------------------------------------
@@ -298,7 +320,8 @@ def analyser(message, dossier_digests=DOSSIER_DIGESTS, adresse=None, veilles=Non
     cites = articles_cites(texte_cite(message), prefixe)
     digest = lire_json(Path(dossier_digests) / f'{jour_digest}.json', None) if jour_digest else None
     du_digest = {etiquette(a): a for a in digest['articles']} if digest else {}
-    general, avis = decouper_avis(retirer_citation(texte_du_message(message)), prefixe)
+    texte_avis, synthese = extraire_synthese_semaine(retirer_citation(texte_du_message(message)))
+    general, avis = decouper_avis(texte_avis, prefixe)
 
     avertissements = []
     if not jour_digest:
@@ -316,8 +339,8 @@ def analyser(message, dossier_digests=DOSSIER_DIGESTS, adresse=None, veilles=Non
             avertissements.append(f"#{numero} : article introuvable dans le texte cité de l'e-mail d'origine"
                                   f"{' et dans le digest' if digest else ''}.")
         resultat.append({'numero': numero, 'veille': veille, 'avis': texte, 'article': article})
-    if not avis:
-        avertissements.append('Aucun avis « #numéro » dans cette réponse.')
+    if not avis and not synthese:
+        avertissements.append('Aucun avis « #numéro » ni synthèse « #SEMAINE » dans cette réponse.')
 
     return {
         'id': empreinte(message.get('Message-ID')),
@@ -325,6 +348,8 @@ def analyser(message, dossier_digests=DOSSIER_DIGESTS, adresse=None, veilles=Non
         'objet': objet,
         'digest': jour_digest,
         'avis': resultat,
+        # Synthèse de la semaine, datée du lundi de l'e-mail de veille auquel je réponds
+        'synthese_semaine': {'semaine_du': jour_digest, 'texte': synthese} if synthese else None,
         'commentaire_general': general,
         'avertissements': avertissements,
     }
