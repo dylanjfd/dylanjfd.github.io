@@ -24,7 +24,7 @@ fil-ariane: Veille
 
 # Codex | Veille technologique
 
-Ma veille part d'un projet concret : Reboot, un atelier de réparation informatique avec une salle gaming de 25 PC et des contrats de maintenance pour les professionnels, en périphérie de Nantes. Chaque veille suit un domaine différent de l'informatique et répond à une question que pose ce projet : je surveille l'actualité, je la date et je la source, puis je l'analyse.
+Ma veille part d'un projet concret : Reboot, un atelier de réparation informatique avec une salle gaming de 25 PC et des contrats de maintenance pour les professionnels et les particuliers. Chaque veille suit un domaine différent de l'informatique et répond à une question que pose ce projet.
 
 ## Trois domaines | Trois veilles, trois domaines : système, réseau et cybersécurité
 
