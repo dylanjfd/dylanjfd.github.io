@@ -14,11 +14,9 @@ avec la lettre de la veille (#R1, #S1, #C1…).
 Utilisation :
   python veille/collect.py              collecte et envoie l'e-mail
   python veille/collect.py --dry-run    affiche l'e-mail sans l'envoyer ni rien enregistrer
-  python veille/collect.py --accumuler  collecte seulement et met les articles de côté
 
-Les flux RSS ne gardent que leurs derniers articles, parfois moins de 7 jours : le
-workflow GitHub lance donc --accumuler chaque jour (articles gardés dans veille/tampon.json,
-conservé dans le cache de GitHub Actions) et l'envoi le lundi.
+Les articles retenus mais pas encore envoyés sont gardés dans veille/tampon.json (cache de
+GitHub Actions, jamais dans le dépôt) pour l'envoi suivant.
 
 Identifiants : variables d'environnement GMAIL_USER, GMAIL_APP_PASSWORD et VEILLE_TO
 (secrets GitHub). Aucune adresse ni aucun mot de passe n'est écrit dans le dépôt.
@@ -359,9 +357,7 @@ def main(arguments=None):
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8', errors='replace')
     analyseur = argparse.ArgumentParser(description="Collecte des veilles et envoi de l'e-mail du lundi.")
-    mode = analyseur.add_mutually_exclusive_group()
-    mode.add_argument('--dry-run', action='store_true', help="affiche l'e-mail sans l'envoyer ni rien enregistrer")
-    mode.add_argument('--accumuler', action='store_true', help='collecte seulement, sans envoi (articles mis de côté)')
+    analyseur.add_argument('--dry-run', action='store_true', help="affiche l'e-mail sans l'envoyer ni rien enregistrer")
     args = analyseur.parse_args(arguments)
 
     socket.setdefaulttimeout(30)
@@ -379,11 +375,6 @@ def main(arguments=None):
 
     tampon = recents(lire_json(FICHIER_TAMPON, []), maintenant, jours)
     articles = fusionner(nouveaux, tampon)
-
-    if args.accumuler:
-        ecrire_json(FICHIER_TAMPON, articles)
-        print(f'Collecte : {len(nouveaux)} article(s) trouvé(s), {len(articles)} mis de côté pour le prochain envoi.')
-        return 0
 
     deja_envoyes = lire_json(FICHIER_VUS, {})
     chemin_digest = DOSSIER_DIGESTS / f'{jour.isoformat()}.json'

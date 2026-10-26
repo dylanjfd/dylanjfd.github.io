@@ -259,10 +259,6 @@ html:not(.js) .filters__count {
   padding-top: 0;
 }
 
-.rewards__label--spaced {
-  margin-top: 1.25rem;
-}
-
 /* Variante empilée (colonne latérale des fiches de quête) */
 .rewards__list--stack {
   flex-direction: column;
@@ -729,12 +725,6 @@ figcaption {
 /* ==========================================================================
    19. Codex (veille technologique)
    ========================================================================== */
-.codex-entry {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-
 .codex-entry__meta {
   display: flex;
   flex-wrap: wrap;
@@ -742,15 +732,6 @@ figcaption {
   margin: 0;
   color: var(--text-muted);
   font-size: 0.86rem;
-}
-
-.codex-entry__title {
-  margin: 0;
-  font-size: 1.15rem;
-}
-
-.codex-entry p {
-  margin: 0;
 }
 
 .source-list {
@@ -983,12 +964,6 @@ figcaption {
   font-weight: 800;
 }
 
-.table-note {
-  margin: 1rem 0 0;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
 /* Indication de défilement, utile seulement quand le tableau dépasse l'écran */
 .table-hint {
   display: none;
@@ -1038,12 +1013,6 @@ figcaption {
 
 .field > label {
   font-weight: 650;
-}
-
-.field__req {
-  color: var(--text-muted);
-  font-size: 0.86rem;
-  font-weight: 400;
 }
 
 .field__hint {
@@ -1375,12 +1344,6 @@ figcaption {
 
 .sitemap li ul {
   margin-top: 0.45rem;
-}
-
-.prose-date {
-  margin-top: 2.5rem;
-  color: var(--text-muted);
-  font-size: 0.9rem;
 }
 
 

@@ -228,10 +228,6 @@ main:focus {
   list-style: none;
 }
 
-.grid--2 {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-}
-
 .grid--3 {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
 }
@@ -257,14 +253,6 @@ main:focus {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
   gap: clamp(2.5rem, 2rem + 3vw, 4.5rem);
   align-items: start;
-}
-
-.muted {
-  color: var(--text-muted);
-}
-
-.center {
-  text-align: center;
 }
 
 
@@ -303,13 +291,8 @@ main:focus {
   background: linear-gradient(90deg, var(--gold-line), transparent);
 }
 
-.section__header--center .eyebrow,
-.eyebrow--center {
+.section__header--center .eyebrow {
   justify-content: center;
-}
-
-.eyebrow--plain::after {
-  display: none;
 }
 
 /* Séparateur : fine ligne dorée avec un losange au centre.
