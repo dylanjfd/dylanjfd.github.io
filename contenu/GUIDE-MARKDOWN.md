@@ -323,3 +323,4 @@ Chaque veille a sa fiche, comme un projet. Les trois veilles système, réseau e
 3. Copie `contenu/veille/systeme.md` en `contenu/veille/stockage.md` et remplace son texte (garde l'en-tête `mise-en-page: fiche`). Renomme les marqueurs `SYNTHESES-SYSTEME` (ex. `SYNTHESES-STOCKAGE`). Ne touche pas aux marqueurs `SYNTHESES` de `veille-1.md` : `/veille` écrit dedans.
 4. Dans `veille.md`, ajoute une carte `### Titre` dans un bloc `::: quetes veilles`, avec `fiche: pages/veille/stockage.html`.
 5. Ajoute la fiche à `plan-du-site.md`, à `sitemap.xml` et, si besoin, au tableau E5 (`tableau-e5.md`).
+6. Pour qu'elle ait sa section dans l'e-mail du lundi : ajoute-la à `CONFIG.VEILLES` dans `veille/apps-script/Code.gs` (nom, catégorie, lettre, flux, groupes de mots-clés, nombre d'articles), puis à `veille/config.json` avec sa fiche et ses marqueurs, et ajoute-la au tableau de `.claude/commands/veille.md` (voir le README, section « Veille automatisée »).

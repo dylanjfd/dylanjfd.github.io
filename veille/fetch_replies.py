@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
-"""Veille souveraineté numérique : lecture de mes réponses aux e-mails de veille.
+"""Veille technologique (réseau, système, cybersécurité) : lecture de mes réponses aux e-mails de veille.
 
-Se connecte en IMAP à Gmail (identifiants du fichier .env local), récupère mes réponses
-aux e-mails « [Veille souveraineté] », retire le texte cité de l'e-mail d'origine, découpe
-mes avis par « #numéro » et les relie aux articles du digest correspondant
-(veille/digests/AAAA-MM-JJ.json). Le résultat est affiché en JSON.
+Se connecte en IMAP à Gmail (identifiants du fichier .env local), récupère mes réponses aux
+e-mails « [Veille] » (et aux anciens « [Veille souveraineté] »), sépare mon texte du texte cité
+de l'e-mail d'origine, découpe mes avis par « #numéro » et relie chacun à sa veille et à son
+article. Le résultat est affiché en JSON.
+
+Numéros : la lettre indique la veille (#R2 réseau, #S2 système, #C2 cybersécurité, voir
+veille/config.json). Dans les anciens e-mails « [Veille souveraineté] », les numéros n'ont pas
+de lettre : ils appartiennent à la veille souveraineté numérique, devenue la veille réseau (#2 = #R2).
+
+Articles : Apps Script n'enregistre pas les digests dans le dépôt. Le titre, la source, la date,
+la langue et le lien de chaque article sont donc retrouvés dans le texte cité de l'e-mail
+d'origine ; le digest veille/digests/AAAA-MM-JJ.json (ancienne méthode GitHub Actions) sert de secours.
 
 Utilisation :
   python veille/fetch_replies.py --dry-run          réponses non traitées, sans rien enregistrer
@@ -36,9 +44,12 @@ from pathlib import Path
 DOSSIER = Path(__file__).resolve().parent
 FICHIER_ENV = DOSSIER.parent / '.env'
 FICHIER_TRAITES = DOSSIER / 'processed.json'
+FICHIER_CONFIG = DOSSIER / 'config.json'
 DOSSIER_DIGESTS = DOSSIER / 'digests'
 
-OBJET = '[Veille souveraineté]'
+OBJET = '[Veille]'
+OBJET_ANCIEN = '[Veille souveraineté]'  # e-mails d'avant les trois veilles : numéros sans lettre
+PREFIXE_ANCIEN = 'R'                     # … qui appartiennent à la veille réseau
 JOURS_RECHERCHE = 120  # réponses cherchées sur les 4 derniers mois
 MOIS_IMAP = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -47,9 +58,17 @@ A_ECRIT = re.compile(r'(?:a\s+écrit|wrote)\s*:[ \t]*$', re.M | re.I)
 DEBUT_ATTRIBUTION = re.compile(r'[ \t]*(?:Le|On)\s', re.I)
 # Autres débuts de message cité ou de signature
 FIN_DU_MESSAGE = re.compile(r"^[ \t]*(?:-{2,}\s*(?:Original Message|Message d'origine)\s*-{2,}|--[ \t]*)$", re.M | re.I)
-# « #2 » en début de ligne ou après une espace (pas l'ancre d'une adresse : page#2)
-NUMERO = re.compile(r'(?:(?<=\s)|^)#(\d{1,3})\b[ \t]*[:\-–—]?[ \t]*', re.M)
+# « #R2 » ou « #2 » en début de ligne ou après une espace (pas l'ancre d'une adresse : page#2)
+NUMERO = re.compile(r'(?:(?<=\s)|^)#([A-Za-z]?\d{1,3})\b[ \t]*[:\-–—]?[ \t]*', re.M)
 SEMAINE = re.compile(r'Semaine du (\d{2})/(\d{2})/(\d{4})')
+# « Re: », « RE : », « Réf. : » : une réponse, pas l'e-mail de veille lui-même
+REPONSE = re.compile(r'\s*(?:re|ré|réf|ref|aw|sv)\s*\.?\s*:', re.I)
+# Dans le texte cité : « > » en début de ligne, puis pour chaque article « #R2 — Titre »,
+# « Source · 02/11/2026 · FR » (langue absente dans les anciens e-mails), l'extrait et le lien
+CHEVRONS = re.compile(r'^[ \t]*(?:>[ \t]?)+', re.M)
+ENTETE_ARTICLE = re.compile(r'#([A-Za-z]?\d{1,3})\b[ \t]*[—–-]?[ \t]*(.*)$')
+LIGNE_SOURCE = re.compile(r'(?P<source>.+?)\s+·\s+(?P<date>\d{2}/\d{2}/\d{4})(?:\s+·\s+(?P<langue>[A-Z?]{1,2}))?$')
+LIEN = re.compile(r'https?://[^\s<>"]+')
 
 
 # ---------------------------------------------------------------------------
@@ -80,6 +99,17 @@ def charger_env(chemin=FICHIER_ENV):
                 valeurs[cle.strip()] = valeur.strip().strip('"').strip("'")
     valeurs.update({k: v for k, v in os.environ.items() if k in ('GMAIL_USER', 'GMAIL_APP_PASSWORD', 'VEILLE_TO')})
     return valeurs
+
+
+def lire_veilles(chemin=FICHIER_CONFIG):
+    """Veilles de config.json par lettre, même inactives (leurs anciens numéros restent reconnus)."""
+    return {v['prefixe']: v for v in lire_json(chemin, {'veilles': []})['veilles']}
+
+
+def etiquette(article):
+    """Numéro d'un article du digest : « R2 ». Ceux des anciens digests (veille souveraineté seule) n'ont pas de lettre."""
+    numero = article['numero']
+    return f'{PREFIXE_ANCIEN}{numero}' if isinstance(numero, int) else numero
 
 
 def empreinte(message_id):
@@ -141,19 +171,98 @@ def nettoyer(texte):
     return re.sub(r'\n{3,}', '\n\n', '\n'.join(lignes)).strip()
 
 
-def decouper_avis(texte):
-    """« #2 je pense que… #5 bof » → (texte avant le premier numéro, [(2, 'je pense que…'), (5, 'bof')]).
+def decouper_avis(texte, prefixe_par_defaut=''):
+    """« #R2 je pense que… #c5 bof » → (texte avant le premier numéro, [('R2', 'je pense que…'), ('C5', 'bof')]).
 
-    Un même numéro écrit deux fois est regroupé, dans l'ordre d'écriture.
+    Un numéro sans lettre reçoit prefixe_par_defaut (« R » pour les anciens e-mails). Un même numéro
+    écrit deux fois est regroupé, dans l'ordre d'écriture.
     """
     morceaux = NUMERO.split(texte)
     general = nettoyer(morceaux[0])
     avis = {}
     for i in range(1, len(morceaux), 2):
-        numero, contenu = int(morceaux[i]), nettoyer(morceaux[i + 1])
+        numero, contenu = morceaux[i].upper(), nettoyer(morceaux[i + 1])
+        if numero[0].isdigit():
+            numero = prefixe_par_defaut + numero
         if contenu:
             avis[numero] = f'{avis[numero]}\n\n{contenu}' if numero in avis else contenu
     return general, list(avis.items())
+
+
+# ---------------------------------------------------------------------------
+# Articles de l'e-mail d'origine, retrouvés dans le texte cité
+# ---------------------------------------------------------------------------
+def texte_cite(message):
+    """Texte de l'e-mail d'origine cité dans ma réponse, sans les « > » ; '' s'il n'y en a pas."""
+    corps = message.get_body(preferencelist=('plain',))
+    if corps is not None:
+        texte = corps.get_content().replace('\r\n', '\n').replace('\r', '\n')
+        debut = debut_attribution(texte)
+        if debut is None:
+            texte = '\n'.join(ligne for ligne in texte.split('\n') if ligne.lstrip().startswith('>'))
+        else:
+            texte = texte[debut:]
+        return CHEVRONS.sub('', texte)
+    corps = message.get_body(preferencelist=('html',))
+    if corps is None:
+        return ''
+    morceaux = re.split(r'<div[^>]+class="[^"]*gmail_quote|<blockquote', corps.get_content(), maxsplit=1, flags=re.I)
+    if len(morceaux) < 2:
+        return ''
+    cite = re.sub(r'<a\s[^>]*href="([^"]+)"[^>]*>(.*?)</a>', r'\2 <\1>', morceaux[1], flags=re.I | re.S)
+    cite = re.sub(r'<(?:br|/p|/div|/li|/h\d)[^>]*>', '\n', cite, flags=re.I)
+    return html.unescape(re.sub(r'<[^>]+>', '', cite)).replace(' ', ' ')
+
+
+def articles_cites(texte, prefixe_par_defaut=''):
+    """Articles du texte cité : {'R2': {'numero', 'titre', 'source', 'date', 'langue', 'extrait', 'lien'}}.
+
+    Un article commence par « #R2 — Titre » (titre parfois coupé sur plusieurs lignes) et n'est gardé
+    que si sa ligne « Source · JJ/MM/AAAA » suit : la consigne « par exemple : #C2 je pense que… »,
+    même renvoyée en début de ligne, n'est donc jamais prise pour un article.
+    """
+    articles, bloc = {}, None
+
+    def fermer():
+        if bloc and bloc.get('source'):
+            liens_suite = bloc['suite'] and LIEN.search(bloc['suite'][-1])
+            liens = LIEN.findall(' '.join([bloc['entete']] + bloc['suite']))
+            titre = re.sub(r'\s*<?https?://\S*', '', ' '.join(bloc['titre'])).strip()
+            articles.setdefault(bloc['numero'], {
+                'numero': bloc['numero'],
+                'titre': titre,
+                'source': bloc['source'],
+                'date': bloc['date'],
+                'langue': bloc['langue'],
+                'extrait': ' '.join(bloc['suite'][:-1] if liens_suite else bloc['suite']).strip(),
+                'lien': liens[0].rstrip('.,;)') if liens else None,
+            })
+
+    for ligne in texte.split('\n'):
+        ligne = ligne.strip()
+        entete = ENTETE_ARTICLE.fullmatch(ligne)
+        if entete:
+            fermer()
+            numero = entete.group(1).upper()
+            bloc = {'numero': prefixe_par_defaut + numero if numero[0].isdigit() else numero,
+                    'entete': ligne, 'titre': [entete.group(2)], 'suite': []}
+        elif bloc is None or not ligne:
+            continue
+        elif ligne.startswith('=='):  # titre de la section suivante
+            fermer()
+            bloc = None
+        elif 'source' not in bloc:
+            source = LIGNE_SOURCE.fullmatch(ligne)
+            if source:
+                bloc.update(source=source['source'], date=source['date'], langue=source['langue'])
+            elif len(bloc['titre']) < 4:
+                bloc['titre'].append(ligne)
+            else:
+                bloc = None  # pas de ligne « Source · date » : ce n'était pas un article
+        elif not (bloc['suite'] and LIEN.search(bloc['suite'][-1])):
+            bloc['suite'].append(ligne)  # extrait, jusqu'à la ligne du lien ; la suite (consigne…) est ignorée
+    fermer()
+    return articles
 
 
 # ---------------------------------------------------------------------------
@@ -167,11 +276,14 @@ def date_du_digest(objet):
     return date(annee, mois, jour).isoformat()
 
 
-def analyser(message, dossier_digests=DOSSIER_DIGESTS, adresse=None):
+def analyser(message, dossier_digests=DOSSIER_DIGESTS, adresse=None, veilles=None):
     """Réponse prête à relire, ou None si l'e-mail n'est pas une de mes réponses à la veille."""
     objet = str(message.get('Subject', ''))
-    if message.get('X-Veille-Digest') or OBJET not in objet:
-        return None  # e-mail de veille lui-même, ou autre e-mail
+    ancien = OBJET_ANCIEN in objet
+    if not ancien and OBJET not in objet:
+        return None  # autre e-mail
+    if message.get('X-Veille-Digest') or not (message.get('In-Reply-To') or REPONSE.match(objet)):
+        return None  # e-mail de veille lui-même (celui d'Apps Script part aussi de mon adresse)
     if adresse and parseaddr(str(message.get('From', '')))[1].lower() != adresse.lower():
         return None
     try:
@@ -179,22 +291,31 @@ def analyser(message, dossier_digests=DOSSIER_DIGESTS, adresse=None):
     except (TypeError, ValueError):
         envoye = None
 
+    veilles = lire_veilles() if veilles is None else veilles
+    prefixe = PREFIXE_ANCIEN if ancien else ''
     jour_digest = date_du_digest(objet)
+    # Articles : d'abord le texte cité de l'e-mail d'origine, puis le digest (ancienne méthode) en secours
+    cites = articles_cites(texte_cite(message), prefixe)
     digest = lire_json(Path(dossier_digests) / f'{jour_digest}.json', None) if jour_digest else None
-    articles = {a['numero']: a for a in digest['articles']} if digest else {}
-    general, avis = decouper_avis(retirer_citation(texte_du_message(message)))
+    du_digest = {etiquette(a): a for a in digest['articles']} if digest else {}
+    general, avis = decouper_avis(retirer_citation(texte_du_message(message)), prefixe)
 
     avertissements = []
     if not jour_digest:
         avertissements.append("Date de la semaine introuvable dans l'objet.")
-    elif digest is None:
-        avertissements.append(f'Digest veille/digests/{jour_digest}.json introuvable (faire git pull ?).')
+    lettres = ', '.join(f'{p} ({v["categorie"].lower()})' for p, v in veilles.items())
     resultat = []
     for numero, texte in avis:
-        article = articles.get(numero)
-        if digest is not None and article is None:
-            avertissements.append(f'#{numero} ne correspond à aucun article du digest.')
-        resultat.append({'numero': numero, 'avis': texte, 'article': article})
+        veille = numero[0] if numero[0] in veilles else None
+        article = cites.get(numero)
+        if not (article and article['lien']):
+            article = du_digest.get(numero) or article
+        if veille is None:
+            avertissements.append(f'#{numero} : lettre de veille manquante ou inconnue (lettres : {lettres}).')
+        elif article is None:
+            avertissements.append(f"#{numero} : article introuvable dans le texte cité de l'e-mail d'origine"
+                                  f"{' et dans le digest' if digest else ''}.")
+        resultat.append({'numero': numero, 'veille': veille, 'avis': texte, 'article': article})
     if not avis:
         avertissements.append('Aucun avis « #numéro » dans cette réponse.')
 
@@ -245,7 +366,7 @@ def messages_gmail(utilisateur, mot_de_passe, adresse):
 def main(arguments=None):
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8', errors='replace')
-    analyseur = argparse.ArgumentParser(description='Lecture de mes réponses aux e-mails de veille.')
+    analyseur = argparse.ArgumentParser(description='Lecture de mes réponses aux e-mails de veille (réseau, système, cybersécurité).')
     analyseur.add_argument('--dry-run', action='store_true', help='affiche les réponses sans les noter comme traitées')
     analyseur.add_argument('--marquer', nargs='+', metavar='ID', help='note ces réponses comme traitées, sans lire Gmail')
     analyseur.add_argument('--fichier', nargs='+', metavar='EML', help='lit ces e-mails enregistrés au lieu de Gmail')
@@ -274,13 +395,17 @@ def main(arguments=None):
         adresse = env.get('VEILLE_TO') or env['GMAIL_USER']
         messages = messages_gmail(env['GMAIL_USER'], env['GMAIL_APP_PASSWORD'], adresse)
 
+    veilles = lire_veilles()
     reponses = []
     for message in messages:
-        reponse = analyser(message, args.digests, adresse)
+        reponse = analyser(message, args.digests, adresse, veilles)
         if reponse and reponse['id'] not in traites:
             reponses.append(reponse)
     reponses.sort(key=lambda r: r['date'] or '')
-    print(json.dumps({'reponses': reponses}, ensure_ascii=False, indent=2))
+    # Pour chaque lettre : la veille, sa fiche et les marqueurs entre lesquels /veille écrit ses synthèses
+    resume_veilles = {p: {cle: v.get(cle) for cle in ('categorie', 'sujet', 'page', 'fichier', 'marqueurs')}
+                      for p, v in veilles.items()}
+    print(json.dumps({'veilles': resume_veilles, 'reponses': reponses}, ensure_ascii=False, indent=2))
 
     if reponses and not args.dry_run:
         for reponse in reponses:

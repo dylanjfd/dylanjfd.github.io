@@ -35,7 +35,8 @@ contenu/                      TEXTE DES PAGES, un fichier Markdown par page
   mentions-legales.md, confidentialite.md, plan-du-site.md
   projets/projet-1.md … projet-3.md, labo-parc-gaming.md (tests liés aux veilles)
   veille/systeme.md, cybersecurite.md   Veilles système et cybersécurité (projet Reboot)
-  veille/veille-1.md          Veille réseau « souveraineté numérique » (synthèses de /veille)
+  veille/veille-1.md          Veille réseau « souveraineté numérique » (ne pas renommer)
+                              (les trois fiches reçoivent les synthèses de /veille)
   GUIDE-MARKDOWN.md           Mode d'emploi de la syntaxe
 assets/css/
   style.css                   Point d'entrée : sommaire + import des modules ci-dessous
@@ -60,14 +61,15 @@ assets/docs/                  cv.pdf (ton CV), tableau-synthese-e5.pdf (provisoi
                               tp-installation-os-virtualbox.pdf (documentation du projet 2)
 outils/serveur-local.bat      Serveur local de prévisualisation (Windows)
 veille/                       Veille automatisée (voir section 9)
-  config.json                 Flux RSS, mots-clés, alertes Google
-  collect.py                  Collecte des actualités et e-mail du lundi
-  fetch_replies.py            Lecture de tes réponses (#numéro + avis)
-  seen.json, digests/         Liens déjà envoyés, articles de chaque e-mail (écrits par GitHub Actions)
+  apps-script/Code.gs         Collecte et e-mail du lundi des trois veilles (Google Apps Script) : la référence
+  config.json                 Copie de la configuration de Code.gs (veilles, flux, mots-clés, fiches)
+  fetch_replies.py            Lecture de tes réponses (#R2, #S1, #C3… + avis)
+  collect.py                  Ancienne méthode (GitHub Actions) ; aperçu local de l'e-mail
+  seen.json, digests/         Ancienne méthode : liens déjà envoyés, articles de chaque e-mail
   processed.json              Réponses déjà utilisées dans une synthèse
-  tests/                      Tests des deux scripts
-.github/workflows/veille.yml  Collecte quotidienne et envoi du lundi (GitHub Actions)
-.claude/commands/veille.md    Commande /veille de Claude Code (synthèse du mois)
+  tests/                      Tests des scripts Python
+.github/workflows/veille.yml  Ancienne méthode, lancement manuel seulement (GitHub Actions)
+.claude/commands/veille.md    Commande /veille de Claude Code (synthèses du mois)
 .env.example                  Modèle du fichier .env (identifiants Gmail locaux, jamais publiés)
 contact.php                   Envoi du formulaire sur un hébergement PHP
 sitemap.xml, robots.txt       Référencement
@@ -223,50 +225,70 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 
 ## 9. Veille automatisée
 
-> **Depuis octobre 2026, la collecte et l'e-mail du lundi passent par Google Apps Script** ([`veille/apps-script/Code.gs`](veille/apps-script/Code.gs)) : l'e-mail part directement du compte Google, sans mot de passe d'application ni secret GitHub. Le workflow `veille.yml` est désactivé (onglet *Actions*) ; les étapes GitHub Actions, secrets et `.env` ci-dessous ne servent plus.
->
-> - **Apps Script** (script.google.com, projet « Veille souveraineté numérique ») : `collecter` chaque jour vers 18 h, `envoyerLundi` le lundi vers 7 h 45 (Paris), mêmes flux, mots-clés et format d'e-mail que `veille/config.json`. `apercu` affiche l'e-mail sans l'envoyer ; `installer` recrée les déclencheurs.
-> - **Synthèse du mois** : le premier lundi du mois, l'e-mail le rappelle. Dans Claude (Claude in Chrome), demande « fais la synthèse de ma veille » : tes réponses sont lues dans Gmail, corrigées et reformulées sans changer ton avis, puis montrées à côté de tes phrases d'origine. Après ton « OK », la carte est ajoutée à `contenu/veille/veille-1.md` et publiée.
+Mes trois veilles s'appuient sur une collecte automatique des actualités : un seul e-mail chaque lundi, mes réponses par numéro, puis une synthèse par veille et par mois, relue et validée avant publication.
 
-La veille « souveraineté numérique » (fiche `pages/veille/veille-1.html` : la souveraineté numérique est-elle accessible aux PME ?) s'appuie sur une collecte automatique des actualités :
+| Lettre | Veille | Articles par e-mail | Fiche où va la synthèse | Marqueurs |
+|---|---|:-:|---|---|
+| `R` | Réseau — Souveraineté numérique des PME | 8 au plus | `contenu/veille/veille-1.md` | `SYNTHESES` |
+| `S` | Système — Gérer un parc de PC en libre-service | 6 au plus | `contenu/veille/systeme.md` | `SYNTHESES-SYSTEME` |
+| `C` | Cybersécurité — Pourquoi les joueurs sont-ils l'une des cibles favorites des cybercriminels ? | 6 au plus | `contenu/veille/cybersecurite.md` | `SYNTHESES-CYBERSECURITE` |
 
-1. **Chaque jour**, GitHub Actions (`.github/workflows/veille.yml`) lit les flux RSS de `veille/config.json` et met de côté les articles des 7 derniers jours qui contiennent un mot-clé (titre ou résumé, sans tenir compte des majuscules ni des accents).
-2. **Chaque lundi vers 7 h 45** (heure de Paris), tu reçois un e-mail « [Veille souveraineté] Semaine du JJ/MM/AAAA — N actualités » : 10 articles au plus, numérotés, du plus récent au plus ancien. Le workflow enregistre ensuite dans le dépôt `veille/seen.json` (liens déjà envoyés, jamais renvoyés) et `veille/digests/AAAA-MM-JJ.json` (les articles de l'e-mail, avec leur numéro).
-3. **Tu réponds à l'e-mail** en écrivant `#numéro` suivi de ton avis, par exemple `#2 je pense que…`. Tu peux ignorer les articles qui ne t'intéressent pas.
-4. **Une fois par mois**, dans Claude Code, tape `/veille` : tes réponses sont lues, corrigées et reformulées sans changer ton avis, puis regroupées en une synthèse. Tu la valides (« OK ») avant qu'elle soit ajoutée à `contenu/veille/veille-1.md`, puis tu valides le diff avant le commit et le push.
+### Fonctionnement : Google Apps Script
 
-### Mise en place (une seule fois)
+La collecte et l'e-mail passent par Google Apps Script ([`veille/apps-script/Code.gs`](veille/apps-script/Code.gs)), dans le projet de la veille sur <https://script.google.com>. L'e-mail part directement du compte Google : aucun mot de passe ni secret GitHub. **`Code.gs` est la configuration de référence** ; `veille/config.json` en est une copie (lue par `fetch_replies.py`), et un test vérifie que chaque flux, langue, mot-clé et maximum de `config.json` figure bien dans `Code.gs`.
 
-1. **Mot de passe d'application Gmail.** La validation en deux étapes doit être activée sur le compte Gmail qui envoie les e-mails (<https://myaccount.google.com/signinoptions/twosv>). Crée ensuite un mot de passe d'application sur <https://myaccount.google.com/apppasswords> (nom : « Veille portfolio ») et copie les 16 lettres. Ce mot de passe ne sert qu'aux e-mails de veille et se révoque à tout moment depuis la même page.
-2. **Secrets GitHub.** Sur la page du dépôt : *Settings → Secrets and variables → Actions → New repository secret*. Crée ces trois secrets :
+1. **Chaque jour vers 18 h**, `collecter` lit les flux RSS de chaque veille et met de côté les articles des 7 derniers jours qui contiennent au moins un mot-clé de **chacun** des groupes de la veille (titre ou résumé, sans tenir compte des majuscules ni des accents, mots entiers, pluriels compris). Les veilles réseau et système ont un seul groupe ; la cybersécurité en a deux : une menace (infostealer, phishing, vol de compte…) **et** un mot du jeu (joueur, Steam, Discord, cheat…). Un article n'est gardé que pour une veille : la première qui le retient.
+2. **Chaque lundi vers 7 h 45** (heure de Paris), `envoyerLundi` envoie un seul e-mail « [Veille] Semaine du JJ/MM/AAAA — Réseau N, Système N, Cybersécurité N ». Une section par veille, articles du plus récent au plus ancien, numérotés avec la lettre de la veille (`#R1`, `#S1`, `#C1`…) : numéro, titre, source, date, langue (FR/EN), extrait et lien. Une section vide affiche « Pas d'actualité cette semaine ». Un lien déjà envoyé n'est jamais renvoyé, quelle que soit la veille.
+3. **Tu réponds à l'e-mail** avec le numéro suivi de ton avis, par exemple `#C2 je pense que…`. Tu peux ignorer les articles qui ne t'intéressent pas.
+4. **Le premier lundi du mois**, l'e-mail rappelle les trois synthèses du mois précédent à demander. Dans Claude Code, tape `/veille` (ou, dans Claude in Chrome, demande « fais la synthèse de ma veille ») : une synthèse par veille, tes avis corrigés et reformulés sans changer ton opinion, montrés à côté de tes phrases d'origine. Après ton « OK », chaque carte est ajoutée à la fiche de sa veille ; tu valides ensuite le diff avant le commit et le push.
 
-   | Secret | Valeur |
-   |---|---|
-   | `GMAIL_USER` | l'adresse Gmail qui envoie les e-mails |
-   | `GMAIL_APP_PASSWORD` | le mot de passe d'application (16 lettres) |
-   | `VEILLE_TO` | l'adresse qui reçoit les e-mails (la tienne) |
+**Fonctions du script** (menu déroulant de l'éditeur Apps Script, bouton *Exécuter*) :
 
-   En ligne de commande, `gh secret set GMAIL_USER` demande la valeur sans l'afficher ni l'écrire dans l'historique.
-3. **Fichier `.env` local** (pour `/veille`). Copie `.env.example` sous le nom `.env`, à la racine du dépôt, et remplis `GMAIL_USER` et `GMAIL_APP_PASSWORD` (plus `VEILLE_TO` si tu réponds depuis une autre adresse que `GMAIL_USER`). `.env` est listé dans `.gitignore` : il ne part jamais sur GitHub.
-4. **Python en local** (pour `/veille` et les tests) : Python 3.12, puis `python -m pip install -r veille/requirements.txt`. Dans un terminal déjà ouvert avant l'installation de Python, ferme-le et rouvre-le pour que la commande `python` soit trouvée.
-5. **Test manuel.** Onglet *Actions → Veille souveraineté → Run workflow* : le mode `essai` affiche l'e-mail dans le journal sans l'envoyer, le mode `envoyer` l'envoie vraiment. En ligne de commande : `gh workflow run veille.yml -f mode=essai`. Sur ton ordinateur : `python veille/collect.py --dry-run` (rien n'est envoyé ni enregistré).
+| Fonction | Rôle |
+|---|---|
+| `testerFlux` | teste chaque flux RSS et affiche OK ou l'erreur dans le journal |
+| `apercu` | affiche l'e-mail de la semaine dans le journal, sans l'envoyer ni rien enregistrer |
+| `installer` | crée les deux déclencheurs (collecte chaque jour, e-mail le lundi) en supprimant les anciens |
+| `collecter`, `envoyerLundi` | lancées par les déclencheurs |
 
-### Utiliser `/veille`
+**Sources** (liste complète et adresses des flux dans `Code.gs`) :
+
+- Réseau : CERT-FR (ANSSI), CNIL, Next, LeMagIT, Le Monde Informatique.
+- Système : IT-Connect, LeMagIT, The Register (EN), Windows IT Pro Blog de Microsoft (EN), BleepingComputer (EN).
+- Cybersécurité : CERT-FR (ANSSI), Cybermalveillance.gouv.fr, BleepingComputer (EN), ESET WeLiveSecurity, Malwarebytes Labs (EN), ZATAZ, Numerama (rubrique Cyberguerre).
+
+**Modifier une veille** (flux, mots-clés, nombre d'articles) : modifie `CONFIG.VEILLES` dans `veille/apps-script/Code.gs`, reporte la même modification dans `veille/config.json`, puis colle `Code.gs` dans le projet Apps Script et lance `testerFlux` puis `apercu`. `actif: false` arrête la collecte d'une veille sans oublier ses anciens numéros. Pour une alerte Google : sur <https://www.google.fr/alerts>, crée l'alerte, choisis « Envoyer à : Flux RSS », puis ajoute `{ nom, url, langue }` dans `googleAlerts` de la veille.
+
+**Limites d'Apps Script** : les propriétés du script (articles mis de côté, liens déjà envoyés) sont limitées à 500 Ko. Le script garde au plus 30 articles en attente par veille, pendant 7 jours, avec un résumé de 250 caractères, et retient les liens envoyés pendant un an (environ 30 octets chacun). Le journal de `collecter` et de `testerFlux` affiche la place occupée et prévient au-delà de 80 %.
+
+**Compatibilité avec l'ancienne veille souveraineté** : les articles mis de côté avant les trois veilles (sans lettre) passent dans la section Réseau, et les liens déjà envoyés restent mémorisés pour toutes les veilles. Dans tes réponses aux anciens e-mails « [Veille souveraineté] », les numéros sans lettre (`#2`) sont lus comme ceux de la veille réseau (`#R2`). `processed.json` et les anciens digests restent valables : aucune réponse déjà traitée n'est retraitée.
+
+### Lecture des réponses et synthèses : `/veille`
 
 Dans Claude Code, à la racine du dépôt, tape `/veille`. La commande (`.claude/commands/veille.md`) :
 
-1. fait `git pull`, puis lance `python veille/fetch_replies.py --dry-run` (lecture de tes réponses par IMAP, sans rien marquer comme lu) ;
-2. corrige et reformule chaque avis en gardant ton opinion, sans inventer de fait, de chiffre ni de source ;
-3. regroupe les avis du mois en une seule synthèse (titre, résumé de l'actualité, « Mon analyse », liens vers les sources) ;
-4. te montre la synthèse à côté de tes phrases d'origine et attend ton « OK » ou tes corrections ;
-5. après ton « OK », ajoute la carte entre les marqueurs `<!-- SYNTHESES:START -->` et `<!-- SYNTHESES:END -->` de `contenu/veille/veille-1.md`, note les réponses utilisées dans `veille/processed.json`, puis te montre le diff et attend un dernier « OK » avant le commit et le push.
+1. fait `git pull`, puis lance `python veille/fetch_replies.py --dry-run` : tes réponses sont lues dans Gmail par IMAP (sans rien marquer comme lu), chaque avis est rattaché à sa veille par sa lettre, et le titre, la source, la date, la langue et le lien de chaque article sont retrouvés dans le texte cité de l'e-mail d'origine (Apps Script n'enregistre pas de digest dans le dépôt ; les anciens digests servent de secours) ;
+2. corrige et reformule chaque avis en gardant ton opinion, sans inventer de fait, de chiffre ni de source ; les articles en anglais sont résumés en français ;
+3. rédige une synthèse par veille et par mois (titre, résumé de l'actualité, « Mon analyse », liens vers les sources), uniquement de la veille, sans procédure ni tutoriel ;
+4. te montre les synthèses avec le tableau « mes phrases d'origine / version reformulée » et attend ton « OK » ou tes corrections ;
+5. après ton « OK », ajoute chaque carte entre les marqueurs de sa fiche (tableau ci-dessus), avec une numérotation « Entrée I, II… » propre à chaque fiche, note les réponses utilisées dans `veille/processed.json`, puis te montre le diff et attend un dernier « OK » avant le commit et le push.
+
+**Mise en place (une seule fois)** :
+
+1. **Mot de passe d'application Gmail** (pour la lecture IMAP). La validation en deux étapes doit être activée sur le compte Gmail (<https://myaccount.google.com/signinoptions/twosv>). Crée un mot de passe d'application sur <https://myaccount.google.com/apppasswords> (nom : « Veille portfolio ») et copie les 16 lettres. Il se révoque à tout moment depuis la même page.
+2. **Fichier `.env` local.** Copie `.env.example` sous le nom `.env`, à la racine du dépôt, et remplis `GMAIL_USER` et `GMAIL_APP_PASSWORD` (plus `VEILLE_TO` si tu réponds depuis une autre adresse que `GMAIL_USER`). `.env` est listé dans `.gitignore` : il ne part jamais sur GitHub.
+3. **Python en local** : Python 3.12, puis `python -m pip install -r veille/requirements.txt`. Dans un terminal déjà ouvert avant l'installation de Python, ferme-le et rouvre-le pour que la commande `python` soit trouvée.
 
 ### Bon à savoir
 
-- **Heure d'envoi** : le cron de GitHub est en UTC. Deux heures sont programmées le lundi (5 h 45 et 6 h 45 UTC) ; seule celle qui tombe à 7 h 45 à Paris envoie l'e-mail, en heure d'été comme en heure d'hiver. GitHub peut retarder une tâche planifiée de quelques minutes.
-- **Collecte quotidienne** : certains flux ne gardent que leurs derniers articles (environ 5 jours pour Next et LeMagIT). Les articles trouvés chaque jour sont gardés dans le cache de GitHub Actions (`veille/tampon.json`, jamais dans le dépôt).
-- **Pas d'actualité** : si aucun article ne correspond, tu reçois un court e-mail « Pas d'actualité cette semaine ».
-- **Ajouter une alerte Google** : sur <https://www.google.fr/alerts>, crée l'alerte, choisis « Envoyer à : Flux RSS », puis ajoute l'adresse du flux dans `google_alerts` de `veille/config.json` (un exemple est donné à côté).
-- **Workflow désactivé** : GitHub met en pause les tâches planifiées d'un dépôt sans activité pendant 60 jours ; réactive-les dans l'onglet *Actions* si besoin.
-- **Dépôt public** : `seen.json`, les digests et `processed.json` sont visibles de tous. Ils ne contiennent ni adresse e-mail ni mot de passe (`processed.json` garde une empreinte de chaque e-mail, pas son identifiant).
-- **Tests** : `python -m unittest discover -s veille/tests -v` (mots-clés, découpage des avis « #numéro », retrait du texte cité, sur un faux e-mail de réponse).
+- **Dépôt public** : `processed.json` (et, pour l'ancienne méthode, `seen.json` et les digests) est visible de tous. Il ne contient ni adresse e-mail ni mot de passe : `processed.json` garde une empreinte de chaque e-mail, pas son identifiant.
+- **Tests** : `python -m unittest discover -s veille/tests -v` (mots-clés et groupes, trois veilles, découpage des avis « #R2 » et des anciens « #2 », articles retrouvés dans le texte cité, configuration de `config.json` reprise dans `Code.gs`).
+- **Aperçu local** : `python veille/collect.py --dry-run` affiche l'e-mail de la semaine calculé sur ton ordinateur avec `veille/config.json` (rien n'est envoyé ni enregistré). Pratique pour essayer de nouveaux mots-clés avant de les reporter dans `Code.gs`.
+
+### Ancienne méthode (désactivée)
+
+Avant Apps Script, GitHub Actions faisait la collecte et l'envoi avec `veille/collect.py`. Le workflow `.github/workflows/veille.yml` n'a plus de déclenchement planifié, pour éviter tout double envoi : il ne se lance qu'à la main (onglet *Actions → Veille (ancienne méthode) → Run workflow*), en mode `essai` (e-mail affiché dans le journal) ou `envoyer`.
+
+- **Fonctionnement** : `collect.py` lit `veille/config.json`, envoie le même e-mail que `Code.gs` par Gmail (SMTP), puis le workflow enregistre dans le dépôt `veille/seen.json` (liens déjà envoyés, gardés 60 jours) et `veille/digests/AAAA-MM-JJ.json` (les articles de l'e-mail, avec leur numéro). Les articles trouvés entre deux lancements étaient gardés dans le cache de GitHub Actions (`veille/tampon.json`, jamais dans le dépôt).
+- **Secrets GitHub** nécessaires (*Settings → Secrets and variables → Actions*) : `GMAIL_USER` (adresse qui envoie), `GMAIL_APP_PASSWORD` (mot de passe d'application) et `VEILLE_TO` (adresse qui reçoit). En ligne de commande, `gh secret set GMAIL_USER` demande la valeur sans l'afficher.
+- **Lancement en ligne de commande** : `gh workflow run veille.yml -f mode=essai`.

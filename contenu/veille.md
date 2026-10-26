@@ -17,7 +17,8 @@ fil-ariane: Veille
     récompenses: 3 compétences E5 au maximum, en version courte, séparées par des virgules
   Chaque ligne doit commencer par son nom de champ suivi de « : » ; une ligne mal écrite est ignorée.
   Le détail de chaque veille est dans contenu/veille/systeme.md, veille-1.md (réseau : souveraineté
-  numérique, alimentée par l'automatisation /veille : ne pas renommer) et cybersecurite.md.
+  numérique, ne pas renommer) et cybersecurite.md. Les trois reçoivent les synthèses de /veille,
+  à partir de l'e-mail de veille du lundi (numéros S, R et C, voir veille/apps-script/Code.gs).
   Pour ajouter une veille : voir contenu/GUIDE-MARKDOWN.md, section « Ajouter une veille ».
 -->
 
@@ -40,7 +41,7 @@ période: depuis octobre 2026
 thèmes: FOG Project, Clonezilla, Unified Write Filter, Diskless
 récompenses: Développement pro.
 
-### Souveraineté numérique des PME
+### Souveraineté numérique
 catégorie: réseau
 statut: en cours
 fiche: pages/veille/veille-1.html

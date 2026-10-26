@@ -1,22 +1,16 @@
-# Veille souveraineté numérique : collecte quotidienne des actualités, e-mail le lundi vers 7 h 45 (Paris).
+# Ancienne méthode, remplacée par Apps Script (veille/apps-script/Code.gs).
 #
-# Les flux RSS ne gardent que leurs derniers articles (parfois moins de 7 jours) : chaque jour,
-# collect.py --accumuler met les articles trouvés de côté (veille/tampon.json, gardé dans le cache
-# de GitHub Actions, jamais dans le dépôt). Le lundi, collect.py envoie l'e-mail puis le workflow
-# enregistre veille/seen.json et le digest de la semaine dans le dépôt.
-#
-# Le cron de GitHub est en UTC : 7 h 45 à Paris = 5 h 45 UTC en heure d'été, 6 h 45 UTC en hiver.
-# Les deux heures sont programmées ; seule celle qui tombe à 7 h 45 à Paris envoie l'e-mail.
+# La collecte quotidienne et l'e-mail du lundi passent maintenant par Google Apps Script. Ce workflow
+# n'a plus de déclenchement planifié, pour éviter tout double envoi : il ne se lance qu'à la main
+# (onglet Actions → Veille (ancienne méthode) → Run workflow). Le mode « essai » affiche l'e-mail
+# de collect.py dans le journal sans l'envoyer ; « envoyer » l'envoie puis enregistre
+# veille/seen.json et le digest de la semaine dans le dépôt.
 #
 # Identifiants : secrets GitHub GMAIL_USER, GMAIL_APP_PASSWORD et VEILLE_TO (voir le README).
 
-name: Veille souveraineté
+name: Veille (ancienne méthode)
 
 on:
-  schedule:
-    - cron: '30 18 * * *'  # chaque jour, 18 h 30 UTC : collecte seule
-    - cron: '45 5 * * 1'   # lundi 5 h 45 UTC = 7 h 45 à Paris (heure d'été)
-    - cron: '45 6 * * 1'   # lundi 6 h 45 UTC = 7 h 45 à Paris (heure d'hiver)
   workflow_dispatch:
     inputs:
       mode:
@@ -37,24 +31,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Choisir l'action (collecte, envoi ou essai)
+      - name: Choisir l'action (envoi ou essai)
         id: mode
         env:
-          EVENEMENT: ${{ github.event_name }}
-          PLANIFICATION: ${{ github.event.schedule }}
           MODE_MANUEL: ${{ inputs.mode }}
         run: |
-          decalage=$(TZ=Europe/Paris date +%z)   # +0200 en été, +0100 en hiver
-          mode=accumuler
-          if [ "$EVENEMENT" = workflow_dispatch ]; then
-            mode="$MODE_MANUEL"
-          elif [ "$PLANIFICATION" = '45 5 * * 1' ] && [ "$decalage" = '+0200' ]; then
-            mode=envoyer
-          elif [ "$PLANIFICATION" = '45 6 * * 1' ] && [ "$decalage" = '+0100' ]; then
-            mode=envoyer
-          fi
-          echo "Mode : $mode (heure de Paris : UTC$decalage)"
-          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "Mode : $MODE_MANUEL"
+          echo "mode=$MODE_MANUEL" >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v7
 
@@ -71,10 +54,6 @@ jobs:
           path: veille/tampon.json
           key: veille-tampon-${{ github.run_id }}
           restore-keys: veille-tampon-
-
-      - name: Collecter les actualités
-        if: steps.mode.outputs.mode == 'accumuler'
-        run: python veille/collect.py --accumuler
 
       - name: Afficher l'e-mail sans l'envoyer
         if: steps.mode.outputs.mode == 'essai'

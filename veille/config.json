@@ -1,30 +1,142 @@
 {
-  "_aide": "Flux RSS lus par collect.py et mots-clés recherchés (titre ou résumé, sans tenir compte des majuscules ni des accents). Pour ajouter une alerte Google : sur google.fr/alerts, crée l'alerte, choisis « Envoyer à : Flux RSS », puis colle l'adresse du flux dans google_alerts avec un nom.",
-  "flux": [
-    { "nom": "CERT-FR (ANSSI)", "url": "https://www.cert.ssi.gouv.fr/feed/" },
-    { "nom": "CNIL", "url": "https://www.cnil.fr/fr/rss.xml" },
-    { "nom": "Next", "url": "https://next.ink/feed/" },
-    { "nom": "LeMagIT", "url": "https://www.lemagit.fr/rss/ContentSyndication.xml" },
-    { "nom": "Le Monde Informatique", "url": "https://www.lemondeinformatique.fr/flux-rss/thematique/toutes-les-actualites/rss.xml" }
-  ],
-  "google_alerts": [],
-  "_exemple_google_alerts": [
-    { "nom": "Google Alerts — souveraineté numérique", "url": "https://www.google.fr/alerts/feeds/00000000000000000000/0000000000000000000" }
-  ],
-  "mots_cles": [
-    "souveraineté numérique",
-    "cloud souverain",
-    "SecNumCloud",
-    "Cloud Act",
-    "hébergement",
-    "hébergeur",
-    "RGPD",
-    "données personnelles",
-    "PME",
-    "cloud de confiance",
-    "OVHcloud",
-    "Scaleway"
-  ],
+  "_aide": "Copie de la configuration de veille/apps-script/Code.gs : c'est Code.gs qui fait référence, car c'est lui qui collecte les articles et envoie l'e-mail du lundi. Après une modification ici, reporte-la dans Code.gs (CONFIG.VEILLES), puis colle Code.gs dans le projet Apps Script. Ce fichier sert à fetch_replies.py (lettres des veilles, fiches et marqueurs des synthèses pour /veille) et à l'ancienne méthode collect.py / GitHub Actions (désactivée). Une entrée par veille, dans l'ordre des sections de l'e-mail. prefixe : lettre des numéros (#R1, #S1, #C1…). groupes_mots_cles : un article est retenu s'il contient au moins un mot-clé de CHAQUE groupe (titre ou résumé, sans tenir compte des majuscules ni des accents, mots entiers, pluriels compris). articles_max : nombre maximum d'articles de la veille dans l'e-mail. langue de chaque flux : FR ou EN, affichée dans l'e-mail. actif: false = veille non collectée (ses anciens numéros restent reconnus). Un article n'apparaît que dans une section (la première veille qui le retient) et un lien déjà envoyé n'est jamais renvoyé. Alerte Google : sur google.fr/alerts, crée l'alerte, choisis « Envoyer à : Flux RSS », puis colle l'adresse du flux dans google_alerts de la veille, avec un nom et une langue.",
   "jours": 7,
-  "articles_max": 10
+  "_exemple_google_alerts": [
+    { "nom": "Google Alerts — souveraineté numérique", "url": "https://www.google.fr/alerts/feeds/00000000000000000000/0000000000000000000", "langue": "FR" }
+  ],
+  "veilles": [
+    {
+      "nom": "Souveraineté numérique des PME",
+      "categorie": "Réseau",
+      "prefixe": "R",
+      "articles_max": 8,
+      "actif": true,
+      "page": "pages/veille/veille-1.html",
+      "fichier": "contenu/veille/veille-1.md",
+      "marqueurs": "SYNTHESES",
+      "flux": [
+        { "nom": "CERT-FR (ANSSI)", "url": "https://www.cert.ssi.gouv.fr/feed/", "langue": "FR" },
+        { "nom": "CNIL", "url": "https://www.cnil.fr/fr/rss.xml", "langue": "FR" },
+        { "nom": "Next", "url": "https://next.ink/feed/", "langue": "FR" },
+        { "nom": "LeMagIT", "url": "https://www.lemagit.fr/rss/ContentSyndication.xml", "langue": "FR" },
+        { "nom": "Le Monde Informatique", "url": "https://www.lemondeinformatique.fr/flux-rss/thematique/toutes-les-actualites/rss.xml", "langue": "FR" }
+      ],
+      "google_alerts": [],
+      "groupes_mots_cles": [
+        [
+          "souveraineté numérique",
+          "cloud souverain",
+          "SecNumCloud",
+          "Cloud Act",
+          "hébergement",
+          "hébergeur",
+          "RGPD",
+          "données personnelles",
+          "PME",
+          "cloud de confiance",
+          "OVHcloud",
+          "Scaleway"
+        ]
+      ]
+    },
+    {
+      "nom": "Gérer un parc de PC en libre-service",
+      "categorie": "Système",
+      "prefixe": "S",
+      "articles_max": 6,
+      "actif": true,
+      "page": "pages/veille/systeme.html",
+      "fichier": "contenu/veille/systeme.md",
+      "marqueurs": "SYNTHESES-SYSTEME",
+      "flux": [
+        { "nom": "IT-Connect", "url": "https://www.it-connect.fr/feed/", "langue": "FR" },
+        { "nom": "LeMagIT", "url": "https://www.lemagit.fr/rss/ContentSyndication.xml", "langue": "FR" },
+        { "nom": "The Register", "url": "https://www.theregister.com/headlines.atom", "langue": "EN" },
+        { "nom": "Windows IT Pro Blog (Microsoft)", "url": "https://techcommunity.microsoft.com/t5/s/gxcuf89792/rss/board?board.id=Windows-ITPro-blog", "langue": "EN" },
+        { "nom": "BleepingComputer", "url": "https://www.bleepingcomputer.com/feed/", "langue": "EN" }
+      ],
+      "google_alerts": [],
+      "groupes_mots_cles": [
+        [
+          "déploiement d'images",
+          "image deployment",
+          "PXE",
+          "FOG Project",
+          "Clonezilla",
+          "Unified Write Filter",
+          "UWF",
+          "Deep Freeze",
+          "Reboot Restore",
+          "diskless",
+          "MDT",
+          "Microsoft Deployment Toolkit",
+          "Autopilot",
+          "Configuration Manager",
+          "Sysprep",
+          "gestion de parc",
+          "kiosk mode",
+          "LAN center",
+          "cybercafé"
+        ]
+      ]
+    },
+    {
+      "nom": "Pourquoi les joueurs sont-ils l'une des cibles favorites des cybercriminels ?",
+      "categorie": "Cybersécurité",
+      "prefixe": "C",
+      "articles_max": 6,
+      "actif": true,
+      "page": "pages/veille/cybersecurite.html",
+      "fichier": "contenu/veille/cybersecurite.md",
+      "marqueurs": "SYNTHESES-CYBERSECURITE",
+      "flux": [
+        { "nom": "CERT-FR (ANSSI)", "url": "https://www.cert.ssi.gouv.fr/feed/", "langue": "FR" },
+        { "nom": "Cybermalveillance.gouv.fr", "url": "https://www.cybermalveillance.gouv.fr/feed/atom-flux-actualites", "langue": "FR" },
+        { "nom": "BleepingComputer", "url": "https://www.bleepingcomputer.com/feed/", "langue": "EN" },
+        { "nom": "ESET WeLiveSecurity", "url": "https://www.welivesecurity.com/fr/rss/feed/", "langue": "FR" },
+        { "nom": "Malwarebytes Labs", "url": "https://www.malwarebytes.com/blog/feed/index.xml", "langue": "EN" },
+        { "nom": "ZATAZ", "url": "https://www.zataz.com/feed/", "langue": "FR" },
+        { "nom": "Numerama (Cyberguerre)", "url": "https://www.numerama.com/cyberguerre/feed/", "langue": "FR" }
+      ],
+      "google_alerts": [],
+      "groupes_mots_cles": [
+        [
+          "infostealer",
+          "voleur de données",
+          "stealer",
+          "malware",
+          "logiciel malveillant",
+          "Lumma",
+          "StealC",
+          "phishing",
+          "hameçonnage",
+          "vol de compte",
+          "account takeover",
+          "cookie",
+          "session hijacking"
+        ],
+        [
+          "joueur",
+          "gamer",
+          "gaming",
+          "jeu vidéo",
+          "video game",
+          "cheat",
+          "mod",
+          "crack",
+          "Steam",
+          "Discord",
+          "Roblox",
+          "Fortnite",
+          "Minecraft",
+          "Valorant",
+          "Counter-Strike",
+          "CS2",
+          "GTA",
+          "skin",
+          "anti-cheat"
+        ]
+      ]
+    }
+  ]
 }

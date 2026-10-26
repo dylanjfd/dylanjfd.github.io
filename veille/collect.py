@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""Veille souveraineté numérique : collecte des actualités et envoi du récapitulatif par e-mail.
+"""Veille technologique (réseau, système, cybersécurité) : collecte des actualités et e-mail du lundi.
 
-Lit les flux RSS de veille/config.json, garde les articles des 7 derniers jours qui
-contiennent au moins un mot-clé (titre ou résumé), sans doublon (veille/seen.json garde
-les liens déjà envoyés), puis envoie un e-mail en texte simple et en HTML via Gmail.
+ANCIENNE MÉTHODE (GitHub Actions, désactivée) : la collecte et l'e-mail passent maintenant par
+Google Apps Script (veille/apps-script/Code.gs). Ce script reste utile pour un aperçu local
+(--dry-run) des veilles de veille/config.json, copie de la configuration de Code.gs.
+
+Pour chaque veille active, lit ses flux RSS et garde les articles des 7 derniers jours qui
+contiennent au moins un mot-clé de chacun de ses groupes (titre ou résumé), sans doublon
+(veille/seen.json garde les liens déjà envoyés). Envoie ensuite un e-mail en texte simple et
+en HTML via Gmail, au même format que Code.gs : une section par veille, articles numérotés
+avec la lettre de la veille (#R1, #S1, #C1…).
 
 Utilisation :
   python veille/collect.py              collecte et envoie l'e-mail
@@ -50,12 +56,14 @@ FICHIER_VUS = DOSSIER / 'seen.json'
 FICHIER_TAMPON = DOSSIER / 'tampon.json'
 DOSSIER_DIGESTS = DOSSIER / 'digests'
 
-OBJET = '[Veille souveraineté]'
+OBJET = '[Veille]'
+# Avant les trois veilles, l'e-mail ne portait que la veille souveraineté numérique, devenue la veille
+# réseau : les articles mis de côté et les digests de cette époque n'ont pas de lettre et vont à « R ».
+PREFIXE_ANCIEN = 'R'
 JOURS_MEMOIRE = 60  # un lien envoyé reste 60 jours dans seen.json, bien plus que la fenêtre de 7 jours
 LARGEUR_EXTRAIT = 76  # extrait de 2 lignes de 76 caractères au plus
 AGENT = 'VeillePortfolio/1.0 (+https://dylanjfd.github.io/pages/veille.html)'
-CONSIGNE = ("Réponds à ce mail en écrivant #numéro suivi de ton avis, par exemple : #2 je pense que… "
-            "Tu peux ignorer les articles qui ne t'intéressent pas.")
+CONSIGNE = 'Réponds avec le numéro suivi de ton avis, par exemple : #C2 je pense que…'
 
 
 # ---------------------------------------------------------------------------
@@ -89,13 +97,19 @@ def sans_accents(texte):
 
 
 def motif_mots_cles(mots_cles):
-    """Expression qui trouve un mot-clé entier, au singulier ou au pluriel (« hébergeurs », pas « cloud acteurs »)."""
+    """Expression qui trouve un mot-clé entier, pluriels compris (« hébergeurs », « jeux vidéo », pas « cloud acteurs »)."""
     variantes = []
     for mot in mots_cles:
         morceaux = sans_accents(mot).split()
         if morceaux:
-            variantes.append(r'\s+'.join(re.escape(m) for m in morceaux))
-    return re.compile(r'\b(?:' + '|'.join(variantes) + r')(?:s|x|es)?\b')
+            variantes.append(r'\s+'.join(re.escape(m) + '(?:s|x|es)?' for m in morceaux))
+    return re.compile(r'\b(?:' + '|'.join(variantes) + r')\b')
+
+
+def retenu(motifs, texte):
+    """Vrai si le texte contient au moins un mot-clé de chaque groupe."""
+    texte = sans_accents(texte)
+    return all(motif.search(texte) for motif in motifs)
 
 
 def texte_brut(fragment):
@@ -158,6 +172,7 @@ def lire_flux(source, maintenant):
         articles.append({
             'titre': titre,
             'source': source['nom'],
+            'langue': source.get('langue', ''),
             'date': date.isoformat(timespec='seconds'),
             'lien': lien,
             'resume': texte_brut(entree.get('summary') or entree.get('description')),
@@ -165,25 +180,43 @@ def lire_flux(source, maintenant):
     return articles
 
 
+def veilles_actives(config):
+    return [v for v in config['veilles'] if v.get('actif', True)]
+
+
+def sources(veille):
+    return veille.get('flux', []) + veille.get('google_alerts', [])
+
+
+def veille_de(article):
+    return article.get('veille', PREFIXE_ANCIEN)
+
+
 def collecter(config, maintenant):
-    """Articles récents qui contiennent au moins un mot-clé, et liste des flux en erreur."""
-    motif = motif_mots_cles(config['mots_cles'])
+    """Articles récents retenus par les groupes de mots-clés de leur veille, flux en erreur et nombre de flux lus.
+
+    Un flux suivi par plusieurs veilles n'est lu qu'une fois ; chaque article garde la lettre de sa veille.
+    """
     limite = maintenant - timedelta(days=config.get('jours', 7))
-    sources = config.get('flux', []) + config.get('google_alerts', [])
-    articles, erreurs = [], []
-    for source in sources:
-        try:
-            for article in lire_flux(source, maintenant):
+    lus, articles, erreurs = {}, [], []
+    for veille in veilles_actives(config):
+        motifs = [motif_mots_cles(groupe) for groupe in veille['groupes_mots_cles']]
+        for source in sources(veille):
+            if source['url'] not in lus:
+                try:
+                    lus[source['url']] = lire_flux(source, maintenant)
+                except Exception as erreur:  # un flux en panne ne bloque pas les autres
+                    lus[source['url']] = []
+                    erreurs.append(f"{source['nom']} : {erreur}")
+            for article in lus[source['url']]:
                 recent = datetime.fromisoformat(article['date']) >= limite
-                if recent and motif.search(sans_accents(article['titre'] + ' ' + article['resume'])):
-                    articles.append(article)
-        except Exception as erreur:  # un flux en panne ne bloque pas les autres
-            erreurs.append(f"{source['nom']} : {erreur}")
-    return articles, erreurs, len(sources)
+                if recent and retenu(motifs, article['titre'] + ' ' + article['resume']):
+                    articles.append(dict(article, veille=veille['prefixe']))
+    return articles, erreurs, len(lus)
 
 
 def fusionner(*listes):
-    """Une seule fois chaque lien (le premier rencontré est gardé)."""
+    """Une seule fois chaque lien (le premier rencontré est gardé : un article n'apparaît que dans une veille)."""
     vus, resultat = set(), []
     for liste in listes:
         for article in liste:
@@ -198,15 +231,30 @@ def recents(articles, maintenant, jours):
     return [a for a in articles if datetime.fromisoformat(a['date']) >= limite]
 
 
-def selectionner(articles, deja_envoyes, maximum, premier_numero=1):
-    """Articles jamais envoyés, du plus récent au plus ancien, numérotés à partir de premier_numero."""
+def etiquette(article):
+    """Numéro d'un article du digest : « R2 ». Ceux des anciens digests (veille souveraineté seule) n'ont pas de lettre."""
+    numero = article['numero']
+    return f'{PREFIXE_ANCIEN}{numero}' if isinstance(numero, int) else numero
+
+
+def prochain_numero(digest, prefixe):
+    """Second envoi le même jour (relance manuelle) : la numérotation de chaque veille continue dans le même digest."""
+    numeros = [re.fullmatch(re.escape(prefixe) + r'(\d+)', etiquette(a)) for a in digest['articles']]
+    return max((int(n.group(1)) for n in numeros if n), default=0) + 1
+
+
+def selectionner(articles, deja_envoyes, maximum, prefixe, premier_numero=1):
+    """Articles jamais envoyés, du plus récent au plus ancien, numérotés « R1 », « R2 »… à partir de premier_numero."""
     nouveaux = [a for a in articles if a['lien'] not in deja_envoyes]
     nouveaux.sort(key=lambda a: a['date'], reverse=True)
     return [
         {
-            'numero': premier_numero + i,
+            'numero': f'{prefixe}{premier_numero + i}',
+            'veille': prefixe,
             'titre': a['titre'],
             'source': a['source'],
+            # Articles mis de côté par l'ancienne veille souveraineté : sans langue, flux tous français
+            'langue': a.get('langue', 'FR'),
             'date': a['date'],
             'lien': a['lien'],
             'extrait': ' '.join(lignes_extrait(a['resume'])),
@@ -218,86 +266,78 @@ def selectionner(articles, deja_envoyes, maximum, premier_numero=1):
 # ---------------------------------------------------------------------------
 # E-mail
 # ---------------------------------------------------------------------------
-def objet_mail(jour, nombre):
-    semaine = f"{OBJET} Semaine du {jour.strftime('%d/%m/%Y')}"
-    if nombre == 0:
-        return f"{semaine} — Pas d'actualité cette semaine"
-    return f"{semaine} — {nombre} actualité{'s' if nombre > 1 else ''}"
+def objet_mail(jour, sections):
+    """« [Veille] Semaine du 02/11/2026 — Réseau 3, Système 0, Cybersécurité 2 »."""
+    nombres = ', '.join(f"{s['veille']['categorie']} {len(s['articles'])}" for s in sections)
+    return f"{OBJET} Semaine du {jour.strftime('%d/%m/%Y')} — {nombres}"
 
 
-def texte_mail(articles, jour, noms_sources, jours):
-    entete = [f"Veille souveraineté numérique — semaine du {jour.strftime('%d/%m/%Y')}", '']
-    if not articles:
-        return '\n'.join(entete + [
-            "Pas d'actualité cette semaine : aucun article des "
-            f"{jours} derniers jours ne contient les mots-clés suivis.",
-            '',
-            f"Sources consultées : {', '.join(noms_sources)}.",
-        ]) + '\n'
-    lignes = entete + [
-        f"{len(articles)} actualité{'s' if len(articles) > 1 else ''} des {jours} derniers jours, "
-        "de la plus récente à la plus ancienne.",
-        '',
-    ]
-    for a in articles:
-        lignes.append(f"#{a['numero']} {a['titre']}")
-        lignes.append(f"   {a['source']} · {date_courte(a['date'])}")
-        lignes.extend(f"   {ligne}" for ligne in lignes_extrait(a['extrait']))
-        lignes.append(f"   {a['lien']}")
-        lignes.append('')
-    lignes += ['—', CONSIGNE]
-    return '\n'.join(lignes) + '\n'
+def titre_section(veille):
+    return f"{veille['categorie']} — {veille['nom']}"
 
 
-def html_mail(articles, jour, noms_sources, jours):
+def texte_mail(sections, jour):
+    """sections : une par veille, {'veille': son entrée de config.json, 'articles': ses articles numérotés}.
+
+    Même format que Code.gs : chaque information sur sa ligne, pour que fetch_replies.py retrouve
+    les articles dans le texte cité de ma réponse.
+    """
+    blocs = [f"Veille technologique — semaine du {jour.strftime('%d/%m/%Y')}"]
+    for section in sections:
+        articles = [
+            '\n'.join([f"#{a['numero']} — {a['titre']}", f"{a['source']} · {date_courte(a['date'])} · {a['langue'] or '?'}"]
+                      + ([a['extrait']] if a['extrait'] else []) + [a['lien']])
+            for a in section['articles']
+        ]
+        blocs.append('\n\n'.join([f"== {titre_section(section['veille'])} =="] + (articles or ["Pas d'actualité cette semaine."])))
+    if any(s['articles'] for s in sections):
+        blocs.append(f'—\n{CONSIGNE}')
+    return '\n\n'.join(blocs) + '\n'
+
+
+def html_mail(sections, jour):
     e = html.escape
     titre = f"Semaine du {jour.strftime('%d/%m/%Y')}"
-    if articles:
-        sous_titre = (f"{len(articles)} actualité{'s' if len(articles) > 1 else ''} des {jours} derniers jours, "
-                      "de la plus récente à la plus ancienne")
-    else:
-        sous_titre = "Pas d'actualité cette semaine"
-    cartes = []
-    for a in articles:
-        cartes.append(f"""
+    blocs = []
+    for section in sections:
+        blocs.append(f"""
+      <h2 style="margin:24px 0 10px;padding-bottom:4px;border-bottom:2px solid #c9a35b;font-size:18px;color:#7a5c22;">{e(titre_section(section['veille']))}</h2>""")
+        if not section['articles']:
+            blocs.append("""
+      <p style="margin:0 0 12px;color:#5f5443;font-size:14px;">Pas d'actualité cette semaine.</p>""")
+        for a in section['articles']:
+            blocs.append(f"""
       <div style="background:#fffaf0;border:1px solid #d8ccb2;border-radius:8px;padding:14px 16px;margin:0 0 12px;">
-        <p style="margin:0 0 4px;font-size:13px;color:#5f5443;"><strong style="color:#7a5c22;font-size:15px;">#{a['numero']}</strong> · {e(a['source'])} · {date_courte(a['date'])}</p>
-        <p style="margin:0 0 6px;font-size:17px;line-height:1.35;font-weight:bold;"><a href="{e(a['lien'], quote=True)}" style="color:#2a2418;">{e(a['titre'])}</a></p>
-        <p style="margin:0 0 8px;font-size:14px;color:#3d3426;">{e(a['extrait'])}</p>
-        <p style="margin:0;font-size:13px;"><a href="{e(a['lien'], quote=True)}" style="color:#6b4f1d;">Lire l'article</a></p>
+        <div style="font-size:17px;line-height:1.35;font-weight:bold;"><strong style="color:#7a5c22;">#{e(a['numero'])}</strong> — <a href="{e(a['lien'], quote=True)}" style="color:#2a2418;">{e(a['titre'])}</a></div>
+        <div style="margin:2px 0 6px;font-size:13px;color:#5f5443;">{e(a['source'])} · {date_courte(a['date'])} · {e(a['langue'] or '?')}</div>
+        <div style="margin:0 0 6px;font-size:14px;color:#3d3426;">{e(a['extrait'])}</div>
+        <div style="font-size:12px;"><a href="{e(a['lien'], quote=True)}" style="color:#6b4f1d;">{e(a['lien'])}</a></div>
       </div>""")
-    if articles:
-        pied = f"""
-      <div style="border-top:2px solid #c9a35b;margin-top:20px;padding-top:12px;font-size:14px;">
-        <p style="margin:0;">{e(CONSIGNE)}</p>
-      </div>"""
-    else:
-        pied = f"""
-      <p style="margin:0 0 8px;">Aucun article des {jours} derniers jours ne contient les mots-clés suivis.</p>
-      <p style="margin:0;color:#5f5443;font-size:14px;">Sources consultées : {e(', '.join(noms_sources))}.</p>"""
+    consigne = f"""
+      <p style="background:#fffaf0;border-left:4px solid #c9a35b;padding:8px 12px;margin:24px 0 0;font-size:14px;">{e(CONSIGNE)}</p>""" \
+        if any(s['articles'] for s in sections) else ''
     return f"""<!doctype html>
 <html lang="fr">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{e(OBJET)} {e(titre)}</title></head>
 <body style="margin:0;padding:0;background:#f3ecdd;">
   <div style="max-width:640px;margin:0 auto;padding:24px 16px;font-family:'Segoe UI',Arial,sans-serif;color:#2a2418;line-height:1.5;">
-    <p style="margin:0;color:#7a5c22;font-size:12px;letter-spacing:.12em;text-transform:uppercase;">Codex · Veille souveraineté numérique</p>
-    <h1 style="margin:4px 0;font-size:22px;">{e(titre)}</h1>
-    <p style="margin:0 0 20px;color:#5f5443;">{e(sous_titre)}</p>{''.join(cartes)}{pied}
+    <p style="margin:0;color:#7a5c22;font-size:12px;letter-spacing:.12em;text-transform:uppercase;">Codex · Veille technologique</p>
+    <h1 style="margin:4px 0 8px;font-size:22px;">{e(titre)}</h1>{''.join(blocs)}{consigne}
   </div>
 </body>
 </html>
 """
 
 
-def construire_mail(articles, jour, noms_sources, jours, expediteur, destinataire, nombre):
+def construire_mail(sections, jour, expediteur, destinataire):
     message = EmailMessage()
-    message['Subject'] = objet_mail(jour, nombre)
-    message['From'] = formataddr(('Veille souveraineté', expediteur))
+    message['Subject'] = objet_mail(jour, sections)
+    message['From'] = formataddr(('Veille technologique', expediteur))
     message['To'] = destinataire
     message['Message-ID'] = make_msgid(idstring=f'veille-{jour.isoformat()}')
     message['X-Veille-Digest'] = jour.isoformat()  # repère pour fetch_replies.py : ce n'est pas une réponse
-    message.set_content(texte_mail(articles, jour, noms_sources, jours))
-    message.add_alternative(html_mail(articles, jour, noms_sources, jours), subtype='html')
+    message.set_content(texte_mail(sections, jour))
+    message.add_alternative(html_mail(sections, jour), subtype='html')
     return message
 
 
@@ -313,7 +353,7 @@ def envoyer(message, utilisateur, mot_de_passe):
 def main(arguments=None):
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8', errors='replace')
-    analyseur = argparse.ArgumentParser(description='Collecte de la veille souveraineté et envoi par e-mail.')
+    analyseur = argparse.ArgumentParser(description="Collecte des veilles et envoi de l'e-mail du lundi.")
     mode = analyseur.add_mutually_exclusive_group()
     mode.add_argument('--dry-run', action='store_true', help="affiche l'e-mail sans l'envoyer ni rien enregistrer")
     mode.add_argument('--accumuler', action='store_true', help='collecte seulement, sans envoi (articles mis de côté)')
@@ -324,7 +364,6 @@ def main(arguments=None):
     jours = config.get('jours', 7)
     maintenant = datetime.now(timezone.utc)
     jour = maintenant.astimezone(PARIS).date()
-    noms_sources = [s['nom'] for s in config.get('flux', []) + config.get('google_alerts', [])]
 
     nouveaux, erreurs, nombre_sources = collecter(config, maintenant)
     for erreur in erreurs:
@@ -344,16 +383,20 @@ def main(arguments=None):
     deja_envoyes = lire_json(FICHIER_VUS, {})
     chemin_digest = DOSSIER_DIGESTS / f'{jour.isoformat()}.json'
     digest = lire_json(chemin_digest, {'date': jour.isoformat(), 'articles': []})
-    # Second envoi le même jour (relance manuelle) : la numérotation continue dans le même digest
-    premier = max((a['numero'] for a in digest['articles']), default=0) + 1
-    choix = selectionner(articles, deja_envoyes, config.get('articles_max', 10), premier)
+    sections = []
+    for veille in veilles_actives(config):
+        prefixe = veille['prefixe']
+        sections.append({'veille': veille, 'articles': selectionner(
+            [a for a in articles if veille_de(a) == prefixe], deja_envoyes,
+            veille.get('articles_max', 10), prefixe, prochain_numero(digest, prefixe))})
+    choix = [a for section in sections for a in section['articles']]
 
     if args.dry_run:
-        message = construire_mail(choix, jour, noms_sources, jours, 'expediteur@example.com', 'destinataire@example.com', len(choix))
+        message = construire_mail(sections, jour, 'expediteur@example.com', 'destinataire@example.com')
         apercu = Path(tempfile.gettempdir()) / f'veille-apercu-{jour.isoformat()}.html'
-        apercu.write_text(html_mail(choix, jour, noms_sources, jours), encoding='utf-8')
+        apercu.write_text(html_mail(sections, jour), encoding='utf-8')
         print(f"Objet : {message['Subject']}\n")
-        print(texte_mail(choix, jour, noms_sources, jours))
+        print(texte_mail(sections, jour))
         print(f'(Essai : rien n\'est envoyé ni enregistré. Version HTML : {apercu})')
         return 0
 
@@ -361,8 +404,7 @@ def main(arguments=None):
     if manquants:
         print(f"Identifiants manquants : {', '.join(manquants)} (secrets GitHub ou variables d'environnement).", file=sys.stderr)
         return 2
-    message = construire_mail(choix, jour, noms_sources, jours,
-                              os.environ['GMAIL_USER'], os.environ['VEILLE_TO'], len(choix))
+    message = construire_mail(sections, jour, os.environ['GMAIL_USER'], os.environ['VEILLE_TO'])
     envoyer(message, os.environ['GMAIL_USER'], os.environ['GMAIL_APP_PASSWORD'])
     print(f"E-mail envoyé : {message['Subject']}")
 

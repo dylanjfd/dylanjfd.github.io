@@ -8,12 +8,13 @@ parent: [Veille](pages/veille.html)
 <!--
   FICHE DE VEILLE — RÉSEAU (pages/veille/veille-1.html) — « Codex »
   Sujet : la souveraineté numérique est-elle accessible aux PME ?
-  Veille de la catégorie réseau. Le fichier garde son nom (veille-1.md) : /veille écrit dedans.
+  Veille de la catégorie réseau (lettre R dans l'e-mail du lundi : #R1, #R2…, voir veille/apps-script/Code.gs).
+  Le fichier garde son nom (veille-1.md) : /veille écrit dedans.
   Même structure que contenu/veille/systeme.md et cybersecurite.md.
   - L'en-tête : titre, problématique, badges (catégorie, puis terminée ou en cours) et infos.
   - Chaque « ## Surtitre | Titre » est une partie de la fiche ; les blocs « ::: encart » vont dans la colonne de droite.
   - Synthèses : une carte par mois entre les marqueurs SYNTHESES ci-dessous, la plus récente en premier.
-    Claude les rédige à partir de tes réponses aux e-mails de veille
+    Claude les rédige à partir de tes réponses « #R… » aux e-mails de veille
     (voir le README, section « Veille automatisée »). Ne supprime pas les marqueurs.
     Format : « ### Entrée I | Titre », lignes date: et sources:, puis « Résumé » et « Mon analyse ».
   - Sources : tableau Markdown (source, type, pourquoi elle est fiable).
@@ -32,7 +33,7 @@ réseau, en cours
 ::: infos
 Catégorie: Réseau
 Cadre: Veille en formation (BTS SIO)
-Période: 2026 – 2028
+Période: Depuis octobre 2026
 Rythme: Une collecte par semaine, une synthèse par mois
 :::
 
@@ -74,8 +75,8 @@ Projet lié : [Projet serveur web](pages/projets/projet-1.html).
 
 - **Alertes par mots-clés** — souveraineté numérique, cloud souverain, SecNumCloud, Cloud Act, hébergeur, RGPD, données personnelles, PME, OVHcloud, Scaleway…
 - **Flux RSS** — les sites des sources ci-dessous, lus automatiquement chaque jour.
-- **Collecte hebdomadaire par e-mail** — un script Google Apps Script garde les articles des sept derniers jours qui contiennent un mot-clé ; chaque lundi matin, je reçois par e-mail les dix plus récents, numérotés.
-- **Synthèses relues** — je réponds à l'e-mail en donnant mon avis sur les articles qui m'intéressent (« #2 je pense que… ») ; chaque mois, mes avis sont regroupés et reformulés avec un assistant IA (Claude), puis je relis et valide la synthèse avant de la publier ici.
+- **Collecte hebdomadaire par e-mail** — un script Google Apps Script garde les articles des sept derniers jours qui contiennent un mot-clé. Chaque lundi matin, je reçois un seul e-mail pour mes trois veilles (réseau, système et cybersécurité) : la section Réseau présente les huit articles les plus récents, numérotés #R1, #R2…
+- **Synthèses relues** — je réponds à l'e-mail en donnant mon avis sur les articles qui m'intéressent (« #R2 je pense que… ») ; chaque mois, mes avis sont regroupés et reformulés avec un assistant IA (Claude), une synthèse par veille, puis je relis et valide la synthèse avant de la publier ici.
 - **Rythme** — une collecte par semaine, une synthèse par mois.
 
 Le code de cette automatisation est public : [dossier veille sur GitHub](https://github.com/dylanjfd/dylanjfd.github.io/tree/main/veille).
