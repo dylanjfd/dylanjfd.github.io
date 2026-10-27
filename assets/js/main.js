@@ -29,7 +29,7 @@ const CONFIG = {
   FORM_ENDPOINT: '',
 
   // (Optionnel) adresse e-mail proposée en solution de repli dans les messages du formulaire.
-  CONTACT_EMAIL: '',
+  CONTACT_EMAIL: 'dylan.joffredo1207@gmail.com',
 };
 
 /* ==========================================================================

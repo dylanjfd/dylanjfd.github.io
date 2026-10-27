@@ -1,6 +1,7 @@
 ---
 mise-en-page: fiche
 fil-ariane: Veille système
+titre-onglet: Veille système : gérer un parc de PC en libre-service
 parent: [Veille](pages/veille.html)
 ---
 

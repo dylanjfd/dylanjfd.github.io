@@ -1,6 +1,7 @@
 ---
 mise-en-page: fiche
 fil-ariane: Projet 2
+titre-onglet: Installation de systèmes sous VirtualBox
 parent: [Projets](pages/projets.html)
 ---
 

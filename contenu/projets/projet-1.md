@@ -1,6 +1,7 @@
 ---
 mise-en-page: fiche
 fil-ariane: Projet 1
+titre-onglet: Projet serveur web
 parent: [Projets](pages/projets.html)
 ---
 

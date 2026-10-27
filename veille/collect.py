@@ -60,7 +60,7 @@ OBJET = '[Veille]'
 PREFIXE_ANCIEN = 'R'
 JOURS_MEMOIRE = 60  # un lien envoyé reste 60 jours dans seen.json, bien plus que la fenêtre de 7 jours
 LARGEUR_EXTRAIT = 76  # extrait de 2 lignes de 76 caractères au plus
-AGENT = 'VeillePortfolio/1.0 (+https://dylanjfd.github.io/pages/veille.html)'
+AGENT = 'VeillePortfolio/1.0 (+https://dylanjoffredo.me/pages/veille.html)'
 CONSIGNE_AVIS = 'Réponds avec le numéro suivi de ton avis, par exemple : #C2 je pense que… '
 CONSIGNE_SEMAINE = ('Termine par ta synthèse de la semaine sur une ligne qui commence par #SEMAINE, '
                     'par exemple : #SEMAINE cette semaine, …')

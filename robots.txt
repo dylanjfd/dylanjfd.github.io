@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dylanjfd.github.io/sitemap.xml
+Sitemap: https://dylanjoffredo.me/sitemap.xml

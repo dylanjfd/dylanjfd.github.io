@@ -1,6 +1,6 @@
 ---
 nom: Dylan JOFFREDO
-email: [[prenom.nom@example.com]]
+email: dylan.joffredo1207@gmail.com
 github: https://github.com/dylanjfd
 linkedin: https://www.linkedin.com/in/dylan-joffredo-1212342a0/
 ---

@@ -1,6 +1,7 @@
 ---
 mise-en-page: fiche
 fil-ariane: Veille cybersécurité
+titre-onglet: Veille cybersécurité : les joueurs, cibles des cybercriminels
 parent: [Veille](pages/veille.html)
 ---
 
