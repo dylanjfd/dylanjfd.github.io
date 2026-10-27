@@ -167,7 +167,7 @@
           questToast(),
         );
       } catch (error) {
-        showStatus(notice('error', "Échec de l'envoi", `Le message n'a pas pu être envoyé. Vérifiez votre connexion puis réessayez.${fallback}`));
+        showStatus(notice('error', "Échec de l'envoi", `Le message n'a pas pu être envoyé. Réessayez dans quelques instants.${fallback}`));
       } finally {
         setBusy(false);
       }
