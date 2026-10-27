@@ -1,8 +1,8 @@
 /* ==========================================================================
    Portfolio BTS SIO — formulaire.js
    Formulaire de contact (pages/contact.html) : validation accessible,
-   consentement RGPD, pot de miel anti-spam, envoi vers Formspree ou
-   contact.php (réglage CONFIG.FORM_ENDPOINT dans main.js).
+   consentement RGPD, pot de miel anti-spam, envoi vers FormSubmit, Formspree
+   ou contact.php (réglage CONFIG.FORM_ENDPOINT dans main.js).
    Les messages s'affichent dans la zone role="status" du formulaire.
    ========================================================================== */
 (function () {
@@ -157,6 +157,9 @@
           headers: { Accept: 'application/json' },
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        // FormSubmit répond 200 même en cas de refus (formulaire pas encore activé) : on lit « success »
+        const resultat = await response.json().catch(() => ({}));
+        if (resultat.success === false || resultat.success === 'false') throw new Error(resultat.message || 'refusé');
         form.reset();
         rules.forEach((rule) => { if (form.elements[rule.name]) setError(form.elements[rule.name], ''); });
         showStatus(

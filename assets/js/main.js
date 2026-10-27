@@ -23,10 +23,12 @@ const CONFIG = {
   OPTION: 'SISR',
 
   // Adresse d'envoi du formulaire de contact :
-  //  - Formspree : 'https://formspree.io/f/votre-identifiant'
-  //  - PHP       : '../contact.php' (hébergement PHP, voir contact.php)
+  //  - FormSubmit : 'https://formsubmit.co/ajax/ton@email.fr' (sans compte ; le tout premier
+  //                 envoi déclenche un e-mail « Activate Form » sur lequel il faut cliquer)
+  //  - Formspree  : 'https://formspree.io/f/votre-identifiant'
+  //  - PHP        : '../contact.php' (hébergement PHP, voir contact.php)
   // Tant que c'est vide, le formulaire affiche un message d'aide au lieu d'envoyer.
-  FORM_ENDPOINT: '',
+  FORM_ENDPOINT: 'https://formsubmit.co/ajax/dylan.joffredo1207@gmail.com',
 
   // (Optionnel) adresse e-mail proposée en solution de repli dans les messages du formulaire.
   CONTACT_EMAIL: 'dylan.joffredo1207@gmail.com',

@@ -117,8 +117,9 @@ Tout texte entre **doubles crochets** `[[…]]` s'affiche encadré en pointillé
 
 Le formulaire (`pages/contact.html`, `assets/js/formulaire.js`) vérifie les champs en français, place le focus sur le premier champ invalide, demande le consentement RGPD et contient un pot de miel anti-spam (`_gotcha`). Les messages s'affichent dans la zone `role="status"` ; après un envoi réussi, une notification « ✦ Quête mise à jour — message envoyé » s'ajoute au message de confirmation.
 
-Tant que `CONFIG.FORM_ENDPOINT` est vide (dans `assets/js/main.js`), rien n'est envoyé et un message d'aide s'affiche. Deux solutions :
+Tant que `CONFIG.FORM_ENDPOINT` est vide (dans `assets/js/main.js`), rien n'est envoyé et un message d'aide s'affiche. Trois solutions :
 
+- **FormSubmit** (solution utilisée, sans compte) : `FORM_ENDPOINT: 'https://formsubmit.co/ajax/ton@email.fr'`. Le tout premier envoi ne transmet pas le message : il déclenche un e-mail « Activate Form » ; clique sur le bouton, puis renvoie un message de test depuis le site en ligne.
 - **Formspree** (hébergement statique, ex. GitHub Pages) : crée un formulaire sur <https://formspree.io>, puis mets son adresse dans `FORM_ENDPOINT` (ex. `'https://formspree.io/f/abcdwxyz'`).
 - **PHP** (hébergement avec PHP et `mail()`) : renseigne `CONTACT_TO` (et si besoin `CONTACT_FROM`) dans `contact.php`, puis mets `FORM_ENDPOINT: '../contact.php'`. Sans JavaScript, le formulaire est directement envoyé à `contact.php`.
 

@@ -25,7 +25,7 @@ Ces données servent uniquement à répondre à votre demande (proposition d'alt
 
 ## Destinataires
 
-Les messages sont destinés à {{nom}} uniquement. Ils ne sont ni vendus ni transmis à des tiers.
+Les messages sont destinés à {{nom}} uniquement. Pour arriver jusqu'à sa boîte e-mail, ils transitent par le service d'envoi de formulaires FormSubmit ([formsubmit.co](https://formsubmit.co/)). Ils ne sont ni vendus ni transmis à d'autres tiers.
 
 ## Durée de conservation
 
