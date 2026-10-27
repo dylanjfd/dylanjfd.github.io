@@ -53,12 +53,14 @@ assets/js/
   icones.js                   Icônes SVG originales
   markdown.js                 Analyseur Markdown maison
   rendu.js                    Construit chaque page à partir de son fichier .md
-  interface.js                Thème, menu mobile, apparitions, particules, filtre des projets, flèches
+  interface.js                Thème (et CV assorti), menu mobile, apparitions, particules, filtre des projets, flèches
   formulaire.js               Formulaire de contact
   main.js                     Réglages CONFIG (option SISR/SLAM, formulaire) + démarrage
 assets/img/                   favicon.svg, topo.svg (carte topographique originale)
 assets/fonts/                 Police Cinzel + licence OFL.txt
-assets/docs/                  cv.pdf (ton CV), tableau-synthese-e5.pdf (provisoire),
+assets/docs/                  cv-nuit.pdf et cv-parchemin.pdf (ton CV, thèmes sombre et clair),
+                              cv.pdf (copie de cv-nuit.pdf, utilisée sans JavaScript),
+                              tableau-synthese-e5.pdf (provisoire),
                               tp-installation-os-virtualbox.pdf (documentation du projet 2)
 outils/serveur-local.bat      Serveur local de prévisualisation (Windows)
 veille/                       Veille automatisée (voir section 9)
@@ -112,7 +114,12 @@ Tout texte entre **doubles crochets** `[[…]]` s'affiche encadré en pointillé
 - **Projets** : bloc `::: quetes` de `projets.md` (type principale/secondaire/annexe, statut, compétences E5…) et un fichier par fiche dans `contenu/projets/`.
 - **Certifications** : `statut: obtenue` (succès débloqué) ou `en cours` / `prévue` (verrouillé).
 - **Tableau E5** : un `x` dans une case = coche dorée. Remplace aussi `assets/docs/tableau-synthese-e5.pdf` par l'export PDF du modèle officiel `[E5]_Epreuve_support_modele_tableau_synthese_annexe_BTS_SIO_2026.xlsx` complété.
-- **CV** : `assets/docs/cv.pdf`. Pour le mettre à jour, remplace ce fichier en gardant le même nom.
+- **CV** : deux versions qui suivent le thème du site, `assets/docs/cv-nuit.pdf` (sombre) et `assets/docs/cv-parchemin.pdf` (clair). Dans les fichiers `.md`, les liens pointent toujours vers `assets/docs/cv.pdf` : `interface.js` les redirige vers la version du thème affiché, et les met à jour au clic sur le bouton de thème. `cv.pdf` reste l'adresse par défaut, valable sans JavaScript ou dans un lien partagé directement. Pour mettre le CV à jour :
+  1. dans ton canevas de CV, exporte le thème sombre en PDF (A4) et enregistre-le sous `assets/docs/cv-nuit.pdf` ;
+  2. exporte le thème clair de la même façon sous `assets/docs/cv-parchemin.pdf` ;
+  3. copie `cv-nuit.pdf` sur `cv.pdf` (version par défaut, sans JavaScript).
+
+  Garde ces trois noms de fichiers : ce sont eux que cherche `interface.js`.
 
 ## 4. Formulaire de contact
 
@@ -197,7 +204,7 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 
 | Exigence | Où dans le portfolio | État |
 |---|---|---|
-| Présentation : photo, biographie, CV PDF, LinkedIn / GitHub, projet professionnel | `contenu/accueil.md`, `contenu/site.md`, `assets/docs/cv.pdf` | CV en place ; photo et textes à compléter |
+| Présentation : photo, biographie, CV PDF, LinkedIn / GitHub, projet professionnel | `contenu/accueil.md`, `contenu/site.md`, `assets/docs/cv-nuit.pdf` et `cv-parchemin.pdf` | CV en place ; photo et textes à compléter |
 | Projets en entreprise et académiques : contexte, objectifs, solutions, captures, démos, code source | `contenu/projets.md` + 3 fiches dans `contenu/projets/` | Prêt, à compléter |
 | Compétences : langages, outils / frameworks, systèmes et réseaux, bases de données, niveaux | `contenu/competences.md` | Prêt, à adapter |
 | Veille : sujet, outils, sources fiables, synthèses régulières, analyse critique | `contenu/veille.md` (liste) + une fiche par veille dans `contenu/veille/`, `veille/` (section 9) | Sujet, méthode et sources en place ; synthèses mensuelles avec `/veille` |

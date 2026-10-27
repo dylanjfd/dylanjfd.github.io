@@ -3,7 +3,7 @@
    Comportements de l'interface (sans framework ni bibliothèque).
    --------------------------------------------------------------------------
    SOMMAIRE
-    1. Thème clair / sombre (mémorisé dans le navigateur, sans cookie)
+    1. Thème clair / sombre (mémorisé dans le navigateur, sans cookie) et CV assorti
     2. Menu mobile
     3. Apparition au défilement et jauges
     4. Particules lumineuses du hero (30 maximum)
@@ -46,6 +46,38 @@
     document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
       button.addEventListener('click', () => setTheme(currentTheme() === 'light' ? 'dark' : 'light', true));
     });
+  }
+
+  /* CV assorti au thème : dans le Markdown, les liens pointent vers assets/docs/cv.pdf
+     (version par défaut, utilisée sans JavaScript). Ils sont redirigés ici vers la
+     version sombre ou claire, puis mis à jour à chaque changement de thème. */
+  const CV = {
+    dark: { fichier: 'cv-nuit.pdf', version: 'version sombre' },
+    light: { fichier: 'cv-parchemin.pdf', version: 'version claire' },
+  };
+
+  function updateCvLinks() {
+    const { fichier, version } = CV[currentTheme()];
+    // [data-cv] : liens déjà redirigés (leur adresse ne se termine plus par cv.pdf)
+    document.querySelectorAll('a[href$="assets/docs/cv.pdf"], a[data-cv]').forEach((link) => {
+      if (!link.hasAttribute('data-cv')) link.setAttribute('data-cv', link.getAttribute('href'));
+      link.setAttribute('href', link.getAttribute('data-cv').replace(/cv\.pdf$/, fichier));
+      if (link.hasAttribute('download')) link.setAttribute('download', fichier);
+      // Précision lue par les lecteurs d'écran ; « PDF » n'est pas répété s'il figure déjà dans le texte (« CV (PDF) »)
+      let precision = link.querySelector('[data-cv-precision]');
+      if (!precision) {
+        precision = document.createElement('span');
+        precision.className = 'sr-only';
+        precision.setAttribute('data-cv-precision', /\bpdf\b/i.test(link.textContent) ? '' : 'PDF, ');
+        link.appendChild(precision);
+      }
+      precision.textContent = ` (${precision.getAttribute('data-cv-precision')}${version})`;
+    });
+  }
+
+  function initCvLinks() {
+    updateCvLinks();
+    document.addEventListener('themechange', updateCvLinks);
   }
 
   /* ========================================================================
@@ -289,8 +321,8 @@
 
     function open(link) {
       const href = link.getAttribute('href');
-      // « Voir mon CV (PDF) » → « Mon CV »
-      const label = link.textContent.replace(/\(pdf\)/i, '').trim().replace(/^(voir|afficher|consulter|télécharger)\s+/i, '');
+      // « Voir mon CV (PDF) » ou « Voir mon CV (PDF, version sombre) » → « Mon CV »
+      const label = link.textContent.replace(/\((pdf|version)[^)]*\)/gi, '').trim().replace(/^(voir|afficher|consulter|télécharger)\s+/i, '');
       const name = label.charAt(0).toUpperCase() + label.slice(1);
       title.textContent = name;
       frame.title = `Aperçu : ${name}`;
@@ -534,6 +566,7 @@
     },
     /** Contenu produit par rendu.js à partir du Markdown. */
     initContenu() {
+      initCvLinks();
       initReveal();
       initParticles();
       initQuestFilter();
