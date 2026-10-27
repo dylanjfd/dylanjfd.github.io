@@ -25,7 +25,7 @@ Toutes les pages du portfolio, regroupées par thème.
 - [Compétences](pages/competences.html)
 - [Veille technologique](pages/veille.html)
   - [Veille système : parc de PC en libre-service](pages/veille/systeme.html)
-  - [Veille réseau : souveraineté numérique des PME](pages/veille/veille-1.html)
+  - [Veille réseau : souveraineté numérique des PME](pages/veille/reseau.html)
   - [Veille cybersécurité : les joueurs ciblés](pages/veille/cybersecurite.html)
 - [Alternance](pages/alternance.html)
 - [Certifications](pages/certifications.html)

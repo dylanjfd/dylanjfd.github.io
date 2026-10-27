@@ -45,7 +45,7 @@ récompenses: Développement pro.
 ### Souveraineté numérique
 catégorie: réseau
 statut: en cours
-fiche: pages/veille/veille-1.html
+fiche: pages/veille/reseau.html
 résumé: La souveraineté numérique est-elle accessible aux PME, ou reste-t-elle réservée aux grandes organisations ?
 cadre: Veille en formation (BTS SIO)
 période: depuis octobre 2026

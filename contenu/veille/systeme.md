@@ -131,7 +131,7 @@ sources: [[Liens vers les articles]]
 ::: encart
 ## Codex | Liens avec mes autres veilles
 - **Cybersécurité** — la restauration au redémarrage efface un éventuel logiciel malveillant installé par un client : [voir ma veille cybersécurité](pages/veille/cybersecurite.html).
-- **Réseau** — héberger les images ou les sauvegardes du parc chez un fournisseur en ligne pose la question de la souveraineté des données : [voir ma veille réseau](pages/veille/veille-1.html).
+- **Réseau** — héberger les images ou les sauvegardes du parc chez un fournisseur en ligne pose la question de la souveraineté des données : [voir ma veille réseau](pages/veille/reseau.html).
 :::
 
 ::: encart competences
@@ -141,5 +141,5 @@ sources: [[Liens vers les articles]]
 
 ::: navigation Navigation entre les veilles
 - [Retour à la veille](pages/veille.html)
-- [Veille suivante : réseau](pages/veille/veille-1.html)
+- [Veille suivante : réseau](pages/veille/reseau.html)
 :::

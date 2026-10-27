@@ -170,7 +170,7 @@ class Configuration(unittest.TestCase):
                          [('R', 'Réseau', 8), ('S', 'Système', 6), ('C', 'Cybersécurité', 6)])
         reseau = veilles[0]
         self.assertEqual((reseau['nom'], reseau['page'], reseau['fichier'], reseau['marqueurs'], reseau['actif']),
-                         ('Souveraineté numérique des PME', 'pages/veille/veille-1.html', 'contenu/veille/veille-1.md',
+                         ('Souveraineté numérique des PME', 'pages/veille/reseau.html', 'contenu/veille/veille-1.md',
                           'SYNTHESES', True))
         self.assertEqual(len(veilles[2]['groupes_mots_cles']), 2)  # cybersécurité : menace ET jeu
         racine = collect.DOSSIER.parent

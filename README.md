@@ -27,7 +27,8 @@ Chaque langage a ses propres fichiers : **HTML** pour la structure, **Markdown**
 ```
 index.html, pages/*.html      Structure des pages (en-tête, menu, pied de page)
 pages/projets/*.html          Structure des fiches projet (projet-1 à 3, labo-parc-gaming)
-pages/veille/*.html           Structure des fiches de veille : systeme, veille-1 (réseau), cybersecurite
+pages/veille/*.html           Structure des fiches de veille : systeme, reseau, cybersecurite
+                              (veille-1.html : ancienne adresse de reseau.html, simple redirection)
 contenu/                      TEXTE DES PAGES, un fichier Markdown par page
   site.md                     Ton nom, ton e-mail, tes liens, le texte du pied de page
   accueil.md, projets.md, competences.md, veille.md, alternance.md,

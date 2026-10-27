@@ -6,7 +6,7 @@ parent: [Veille](pages/veille.html)
 ---
 
 <!--
-  FICHE DE VEILLE — RÉSEAU (pages/veille/veille-1.html) — « Codex »
+  FICHE DE VEILLE — RÉSEAU (pages/veille/reseau.html) — « Codex »
   Sujet : la souveraineté numérique est-elle accessible aux PME ?
   Veille de la catégorie réseau (lettre R dans l'e-mail du lundi : #R1, #R2…, voir veille/apps-script/Code.gs).
   Le fichier garde son nom (veille-1.md) : /veille écrit dedans.

@@ -11,7 +11,7 @@
       "prefixe": "R",
       "articles_max": 8,
       "actif": true,
-      "page": "pages/veille/veille-1.html",
+      "page": "pages/veille/reseau.html",
       "fichier": "contenu/veille/veille-1.md",
       "marqueurs": "SYNTHESES",
       "flux": [

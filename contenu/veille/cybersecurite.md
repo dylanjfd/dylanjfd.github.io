@@ -110,7 +110,7 @@ sources: [[Liens vers les articles]]
 ::: encart
 ## Codex | Liens avec mes autres veilles
 - **Système** — la restauration au redémarrage efface un logiciel malveillant installé par un client : [voir ma veille système](pages/veille/systeme.html).
-- **Réseau** — les données des clients de l'atelier sont des données personnelles : où les stocker, et sous quelle loi ? [Voir ma veille réseau](pages/veille/veille-1.html).
+- **Réseau** — les données des clients de l'atelier sont des données personnelles : où les stocker, et sous quelle loi ? [Voir ma veille réseau](pages/veille/reseau.html).
 :::
 
 ::: encart competences
@@ -119,6 +119,6 @@ sources: [[Liens vers les articles]]
 :::
 
 ::: navigation Navigation entre les veilles
-- [Veille précédente : réseau](pages/veille/veille-1.html)
+- [Veille précédente : réseau](pages/veille/reseau.html)
 - [Retour à la veille](pages/veille.html)
 :::
