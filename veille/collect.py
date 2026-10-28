@@ -130,8 +130,15 @@ def lignes_extrait(texte, largeur=LARGEUR_EXTRAIT):
 
 
 def normaliser_lien(url):
-    """Lien sans paramètres de suivi (utm_…) ni ancre, pour repérer les doublons."""
+    """Lien sans paramètres de suivi (utm_…) ni ancre, pour repérer les doublons.
+
+    Un lien d'alerte Google (google.com/url?…&url=…) est remplacé par l'adresse de l'article, comme dans Code.gs.
+    """
     morceaux = urlsplit((url or '').strip())
+    if re.fullmatch(r'(?:www\.)?google\.[a-z.]+', morceaux.netloc) and morceaux.path == '/url':
+        cible = dict(parse_qsl(morceaux.query)).get('url')
+        if cible:
+            morceaux = urlsplit(cible)
     requete = [(k, v) for k, v in parse_qsl(morceaux.query, keep_blank_values=True) if not k.lower().startswith('utm_')]
     return urlunsplit((morceaux.scheme, morceaux.netloc, morceaux.path, urlencode(requete), ''))
 
@@ -196,12 +203,14 @@ def collecter(config, maintenant):
     """Articles récents retenus par les groupes de mots-clés de leur veille, flux en erreur et nombre de flux lus.
 
     Un flux suivi par plusieurs veilles n'est lu qu'une fois ; chaque article garde la lettre de sa veille.
+    Les articles d'une alerte Google (déjà ciblée) ne passent pas par les mots-clés, seulement par l'anti-doublon.
     """
     limite = maintenant - timedelta(days=config.get('jours', 7))
     lus, articles, erreurs = {}, [], []
     for veille in veilles_actives(config):
         motifs = [motif_mots_cles(groupe) for groupe in veille['groupes_mots_cles']]
         for source in sources(veille):
+            alerte = source in veille.get('google_alerts', [])
             if source['url'] not in lus:
                 try:
                     lus[source['url']] = lire_flux(source, maintenant)
@@ -210,7 +219,7 @@ def collecter(config, maintenant):
                     erreurs.append(f"{source['nom']} : {erreur}")
             for article in lus[source['url']]:
                 recent = datetime.fromisoformat(article['date']) >= limite
-                if recent and retenu(motifs, article['titre'] + ' ' + article['resume']):
+                if recent and (alerte or retenu(motifs, article['titre'] + ' ' + article['resume'])):
                     articles.append(dict(article, veille=veille['prefixe']))
     return articles, erreurs, len(lus)
 

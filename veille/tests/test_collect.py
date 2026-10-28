@@ -63,6 +63,10 @@ class Nettoyage(unittest.TestCase):
     def test_lien_sans_suivi(self):
         self.assertEqual(collect.normaliser_lien('https://a.fr/x?utm_source=rss&id=3#haut'), 'https://a.fr/x?id=3')
 
+    def test_lien_d_alerte_google(self):
+        self.assertEqual(collect.normaliser_lien('https://www.google.com/url?rct=j&sa=t&url=https://a.fr/x%3Fid%3D3&ct=ga&usg=AO'),
+                         'https://a.fr/x?id=3')
+
 
 class Selection(unittest.TestCase):
     def test_tri_doublons_numerotation(self):
@@ -114,6 +118,18 @@ class TroisVeilles(unittest.TestCase):
         # veille (R). Le malware bancaire n'a aucun mot du groupe « jeu » : écarté.
         self.assertEqual([(a['veille'], a['lien']) for a in collect.fusionner(articles)],
                          [('R', 'https://next/1'), ('C', 'https://zataz/1')])
+
+    def test_alerte_google_sans_mots_cles(self):
+        config = {'jours': 7, 'veilles': [dict(self.CONFIG['veilles'][2], google_alerts=[{'nom': 'Alerte', 'url': 'https://alerte'}])]}
+        flux = dict(self.FLUX, **{'https://alerte': [
+            {'titre': 'Nouveau malware bancaire', 'resume': '', 'lien': 'https://zataz/2', 'source': 'Alerte', 'date': '2026-10-18T08:00:00+00:00'},
+            {'titre': 'Vol de comptes Steam', 'resume': '', 'lien': 'https://zataz/1', 'source': 'Alerte', 'date': '2026-10-18T08:00:00+00:00'},
+        ]})
+        with mock.patch.object(collect, 'lire_flux', lambda source, maintenant: flux[source['url']]):
+            articles, _, _ = collect.collecter(config, datetime(2026, 10, 19, tzinfo=timezone.utc))
+        # Écarté du flux ZATAZ (aucun mot « jeu »), le malware bancaire est gardé par l'alerte ; le doublon ne l'est qu'une fois.
+        self.assertEqual(sorted(a['lien'] for a in collect.fusionner(articles)),
+                         ['https://next/1', 'https://zataz/1', 'https://zataz/2'])
 
     def test_anciens_articles_et_digests_sans_lettre(self):
         self.assertEqual(collect.veille_de({'lien': 'https://a.fr'}), 'R')  # tampon d'avant les trois veilles

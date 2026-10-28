@@ -29,6 +29,7 @@ const CONFIG = {
   // Une entrée par veille, dans l'ordre des sections de l'e-mail. actif: false = veille non collectée.
   // groupesMotsCles : l'article doit contenir au moins un mot de CHAQUE groupe.
   // Alertes Google (google.fr/alerts → « Envoyer à : Flux RSS ») : ajouter { nom, url, langue } à googleAlerts.
+  // Leurs articles ne passent pas par les mots-clés (l'alerte est déjà ciblée), seulement par l'anti-doublon.
   VEILLES: [
     {
       nom: 'Souveraineté numérique des PME', categorie: 'Réseau', prefixe: 'R', articlesMax: 8, actif: true,
@@ -74,16 +75,27 @@ const CONFIG = {
         { nom: 'Malwarebytes Labs',              url: 'https://www.malwarebytes.com/blog/feed/index.xml', langue: 'EN' },
         { nom: 'ZATAZ',                          url: 'https://www.zataz.com/feed/', langue: 'FR' },
         { nom: 'Numerama (Cyberguerre)',         url: 'https://www.numerama.com/cyberguerre/feed/', langue: 'FR' },
+        { nom: 'Infosecurity Magazine',          url: 'https://www.infosecurity-magazine.com/rss/news/', langue: 'EN' },
+        { nom: 'Tom\'s Guide (Sécurité)',        url: 'https://www.tomsguide.fr/category/web/securite/feed/', langue: 'FR' },
       ],
+      // Alertes Google : déjà ciblées, elles ne passent pas par les mots-clés, seulement par l'anti-doublon.
+      // Pour en ajouter une : sur https://www.google.fr/alerts, crée l'alerte (ex. « arnaque Steam »),
+      // « Afficher les options » → « Envoyer à : Flux RSS », puis copie l'adresse du flux (icône RSS) ici :
+      // { nom: 'Alerte Google — arnaque Steam', url: 'https://www.google.fr/alerts/feeds/…/…', langue: 'FR' },
       googleAlerts: [],
       groupesMotsCles: [
         [ // menace
           'infostealer', 'voleur de données', 'stealer', 'malware', 'logiciel malveillant', 'Lumma', 'StealC',
           'phishing', 'hameçonnage', 'vol de compte', 'account takeover', 'cookie', 'session hijacking',
+          'piratage', 'piraté', 'hacked', 'hack', 'arnaque', 'escroquerie', 'scam', 'compromis', 'compromised',
+          'fuite de données', 'data breach', 'ransomware', 'rançongiciel', 'trojan', 'cheval de Troie',
+          'chevaux de Troie', 'backdoor',
         ],
         [ // jeu
           'joueur', 'gamer', 'gaming', 'jeu vidéo', 'video game', 'cheat', 'mod', 'crack', 'Steam', 'Discord',
           'Roblox', 'Fortnite', 'Minecraft', 'Valorant', 'Counter-Strike', 'CS2', 'GTA', 'skin', 'anti-cheat',
+          'Steam Workshop', 'itch.io', 'Epic Games', 'Riot Games', 'Battle.net', 'Xbox', 'PlayStation', 'Twitch',
+          'launcher', 'jeu PC', 'PC game', 'gamers',
         ],
       ],
     },
@@ -116,16 +128,19 @@ function collecter() {
 
   veillesActives_().forEach(veille => {
     const motifs = veille.groupesMotsCles.map(motifMotsCles_);
+    const alertes = veille.googleAlerts || [];
     sources_(veille).forEach(source => {
       if (!lus[source.url]) lus[source.url] = lireFlux_(source);
+      const alerte = alertes.indexOf(source) >= 0;            // alerte Google : déjà ciblée, pas de mots-clés
       lus[source.url].forEach(a => {
         if (!a.date || a.date.getTime() < limite) return;
         const texte = normaliser_(a.titre + ' ' + a.resume);
-        if (!motifs.every(m => m.test(texte))) return;
-        const cle = cle_(a.lien);
+        if (!alerte && !motifs.every(m => m.test(texte))) return;
+        const lien = lienArticle_(a.lien);
+        const cle = cle_(lien);
         // Déjà mis de côté (pour cette veille ou une précédente) ou déjà envoyé : un article, une section, un envoi
         if (tampon[cle] || PROPS.getProperty('S:' + cle)) return;
-        tampon[cle] = { t: a.titre, l: a.lien, r: a.resume.slice(0, LONGUEUR_RESUME), s: source.nom,
+        tampon[cle] = { t: a.titre, l: lien, r: a.resume.slice(0, LONGUEUR_RESUME), s: source.nom,
                         g: source.langue || '', d: a.date.getTime(), v: veille.prefixe };
         ajoutes++;
       });
@@ -378,6 +393,11 @@ function tailleProprietes_() {
 function normaliser_(s) {
   return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
     .replace(/’/g, '\'').replace(/\s+/g, ' ').trim();
+}
+/** Lien d'une alerte Google (google.com/url?…&url=…) → adresse de l'article, pour que l'anti-doublon la reconnaisse. */
+function lienArticle_(lien) {
+  const m = /^https?:\/\/(?:www\.)?google\.[a-z.]+\/url\?(?:.*&)?url=([^&]+)/.exec(lien);
+  return m ? decodeURIComponent(m[1]) : lien;
 }
 function cle_(lien) {
   const d = Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, lien.trim());

@@ -97,6 +97,24 @@ sources: [[Liens vers les articles]]
 
 ## Bibliothèque | Sources
 
+Des organismes publics, des éditeurs de sécurité et la presse spécialisée, lus automatiquement chaque jour et recoupés entre eux avant chaque synthèse.
+
+::: tableau Sources de la veille : type et fiabilité
+| Source | Type | Pourquoi elle est fiable |
+|---|---|---|
+| [ANSSI / CERT-FR](https://www.cert.ssi.gouv.fr/) | Agence de l'État | Centre gouvernemental de veille et d'alerte : il publie les alertes et avis de sécurité officiels en France. |
+| [Cybermalveillance.gouv.fr](https://www.cybermalveillance.gouv.fr/) | Dispositif public | Dispositif national d'assistance aux victimes : il décrit les arnaques en cours et les bons réflexes pour le grand public. |
+| [BleepingComputer](https://www.bleepingcomputer.com/) | Presse spécialisée, en anglais | Site de référence sur les logiciels malveillants et les fuites de données, souvent cité par la presse et les chercheurs. |
+| [ESET WeLiveSecurity](https://www.welivesecurity.com/fr/) | Blog d'éditeur de sécurité | Analyses des chercheurs d'ESET à partir de leurs propres détections : source de première main, mais d'un éditeur d'antivirus, donc à recouper. |
+| [Malwarebytes Labs](https://www.malwarebytes.com/blog) | Blog d'éditeur de sécurité, en anglais | Recherches de Malwarebytes sur les arnaques et les logiciels malveillants qui visent le grand public ; même réserve que pour ESET. |
+| [ZATAZ](https://www.zataz.com/) | Site d'actualité spécialisé | Média français consacré à la cybercriminalité, qui suit de près les fuites de données et la revente de données volées. |
+| [Numerama — Cyberguerre](https://www.numerama.com/cyberguerre/) | Presse spécialisée | Rubrique cybersécurité d'un média français consacré au numérique, écrite par des journalistes pour le grand public. |
+| [Infosecurity Magazine](https://www.infosecurity-magazine.com/) | Presse professionnelle, en anglais | Magazine britannique consacré à la sécurité informatique, dont les articles citent les chercheurs et les entreprises concernées. |
+| [Tom's Guide — Sécurité](https://www.tomsguide.fr/category/web/securite/) | Presse grand public | Rubrique sécurité d'un média high-tech : elle relaie les fuites de données et les arnaques qui touchent les particuliers, dont les joueurs ; source de relais, à recouper avec la source d'origine. |
+:::
+
+Les articles cités sur cette fiche :
+
 ::: sources
 - [Flare — How Gamers Became Cybercrime's Favorite Target](https://flare.io/learn/resources/cybercrime-favorite-target-gamers/) — Société spécialisée dans la surveillance des menaces · 25 novembre 2025
 - [TheSixthAxis — Battlefield 6 et Black Ops 7 exigent Secure Boot et TPM 2.0](https://www.thesixthaxis.com/2025/08/07/battlefield-6-and-black-ops-7-both-need-secure-boot-and-tpm-2-0-for-pc-anti-cheat/) — Site d'actualité du jeu vidéo · 7 août 2025

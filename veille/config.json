@@ -1,5 +1,5 @@
 {
-  "_aide": "Copie de la configuration de veille/apps-script/Code.gs : c'est Code.gs qui fait référence, car c'est lui qui collecte les articles et envoie l'e-mail du lundi. Après une modification ici, reporte-la dans Code.gs (CONFIG.VEILLES), puis colle Code.gs dans le projet Apps Script. Ce fichier sert à fetch_replies.py (lettres des veilles, fiches et marqueurs des synthèses pour /veille) et à l'ancienne méthode collect.py / GitHub Actions (désactivée). Une entrée par veille, dans l'ordre des sections de l'e-mail. prefixe : lettre des numéros (#R1, #S1, #C1…). groupes_mots_cles : un article est retenu s'il contient au moins un mot-clé de CHAQUE groupe (titre ou résumé, sans tenir compte des majuscules ni des accents, mots entiers, pluriels compris). articles_max : nombre maximum d'articles de la veille dans l'e-mail. langue de chaque flux : FR ou EN, affichée dans l'e-mail. actif: false = veille non collectée (ses anciens numéros restent reconnus). Un article n'apparaît que dans une section (la première veille qui le retient) et un lien déjà envoyé n'est jamais renvoyé. Alerte Google : sur google.fr/alerts, crée l'alerte, choisis « Envoyer à : Flux RSS », puis colle l'adresse du flux dans google_alerts de la veille, avec un nom et une langue.",
+  "_aide": "Copie de la configuration de veille/apps-script/Code.gs : c'est Code.gs qui fait référence, car c'est lui qui collecte les articles et envoie l'e-mail du lundi. Après une modification ici, reporte-la dans Code.gs (CONFIG.VEILLES), puis colle Code.gs dans le projet Apps Script. Ce fichier sert à fetch_replies.py (lettres des veilles, fiches et marqueurs des synthèses pour /veille) et à l'ancienne méthode collect.py / GitHub Actions (désactivée). Une entrée par veille, dans l'ordre des sections de l'e-mail. prefixe : lettre des numéros (#R1, #S1, #C1…). groupes_mots_cles : un article est retenu s'il contient au moins un mot-clé de CHAQUE groupe (titre ou résumé, sans tenir compte des majuscules ni des accents, mots entiers, pluriels compris). articles_max : nombre maximum d'articles de la veille dans l'e-mail. langue de chaque flux : FR ou EN, affichée dans l'e-mail. actif: false = veille non collectée (ses anciens numéros restent reconnus). Un article n'apparaît que dans une section (la première veille qui le retient) et un lien déjà envoyé n'est jamais renvoyé. Alerte Google : sur google.fr/alerts, crée l'alerte, choisis « Envoyer à : Flux RSS », puis colle l'adresse du flux dans google_alerts de la veille, avec un nom et une langue. Les articles d'une alerte Google ne passent pas par les mots-clés (l'alerte est déjà ciblée), seulement par l'anti-doublon.",
   "jours": 7,
   "_exemple_google_alerts": [
     { "nom": "Google Alerts — souveraineté numérique", "url": "https://www.google.fr/alerts/feeds/00000000000000000000/0000000000000000000", "langue": "FR" }
@@ -96,8 +96,11 @@
         { "nom": "ESET WeLiveSecurity", "url": "https://www.welivesecurity.com/fr/rss/feed/", "langue": "FR" },
         { "nom": "Malwarebytes Labs", "url": "https://www.malwarebytes.com/blog/feed/index.xml", "langue": "EN" },
         { "nom": "ZATAZ", "url": "https://www.zataz.com/feed/", "langue": "FR" },
-        { "nom": "Numerama (Cyberguerre)", "url": "https://www.numerama.com/cyberguerre/feed/", "langue": "FR" }
+        { "nom": "Numerama (Cyberguerre)", "url": "https://www.numerama.com/cyberguerre/feed/", "langue": "FR" },
+        { "nom": "Infosecurity Magazine", "url": "https://www.infosecurity-magazine.com/rss/news/", "langue": "EN" },
+        { "nom": "Tom's Guide (Sécurité)", "url": "https://www.tomsguide.fr/category/web/securite/feed/", "langue": "FR" }
       ],
+      "_google_alerts": "Alertes Google de la veille cybersécurité, vide pour l'instant. Déjà ciblées, elles ne passent pas par les mots-clés, seulement par l'anti-doublon. Pour en ajouter une : sur https://www.google.fr/alerts, crée l'alerte (ex. « arnaque Steam »), « Afficher les options » → « Envoyer à : Flux RSS », copie l'adresse du flux (icône RSS), puis ajoute { nom, url, langue } dans googleAlerts de la veille dans Code.gs (référence) et la même entrée ici, par exemple { \"nom\": \"Alerte Google — arnaque Steam\", \"url\": \"https://www.google.fr/alerts/feeds/…/…\", \"langue\": \"FR\" }.",
       "google_alerts": [],
       "groupes_mots_cles": [
         [
@@ -113,7 +116,24 @@
           "vol de compte",
           "account takeover",
           "cookie",
-          "session hijacking"
+          "session hijacking",
+          "piratage",
+          "piraté",
+          "hacked",
+          "hack",
+          "arnaque",
+          "escroquerie",
+          "scam",
+          "compromis",
+          "compromised",
+          "fuite de données",
+          "data breach",
+          "ransomware",
+          "rançongiciel",
+          "trojan",
+          "cheval de Troie",
+          "chevaux de Troie",
+          "backdoor"
         ],
         [
           "joueur",
@@ -134,7 +154,19 @@
           "CS2",
           "GTA",
           "skin",
-          "anti-cheat"
+          "anti-cheat",
+          "Steam Workshop",
+          "itch.io",
+          "Epic Games",
+          "Riot Games",
+          "Battle.net",
+          "Xbox",
+          "PlayStation",
+          "Twitch",
+          "launcher",
+          "jeu PC",
+          "PC game",
+          "gamers"
         ]
       ]
     }
