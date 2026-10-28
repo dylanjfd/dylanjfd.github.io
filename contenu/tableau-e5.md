@@ -37,10 +37,10 @@ Bloc 1 du BTS SIO, évalué à l'épreuve E5. Chaque compétence est mobilisée 
 | Réalisation | Contexte | Période / durée | C1 Patrimoine | C2 Incidents | C3 Présence en ligne | C4 Mode projet | C5 Mise à disposition | C6 Dév. pro. |
 |---|---|---|:-:|:-:|:-:|:-:|:-:|:-:|
 | **En formation** | | | | | | | | |
-| [Veille réseau : souveraineté numérique des PME](pages/veille/reseau.html) | Formation · individuel | 2026 – 2028 | | | | | | x |
-| [Portfolio de compétences (ce site)](index.html) | Formation · individuel | 2026 – 2028 |
+| [Portfolio de compétences (ce site)](index.html) | Formation · individuel | 2026 – 2028 | | | | | | x |
 | [Installation d'OS sous VirtualBox](pages/projets/projet-2.html) | Formation · individuel (TP) | Octobre 2026 | x | x | | | x | |
-| [Serveur web personnel](pages/projets/projet-1.html) | Projet personnel · individuel | Depuis octobre 2026 | x | | x | x | | | | | x | | | x |
+| [Serveur web personnel](pages/projets/projet-1.html) | Projet personnel · individuel | Depuis octobre 2026 | x | | x | x | | |
+| [Labo : gestion et sécurisation d'un parc de PC gaming](pages/projets/labo-parc-gaming.html) | Projet personnel · individuel | [[Période des tests]] | x | x | | | x | |
 :::
 
 Document de référence pour l'épreuve : le modèle officiel `[E5]_Epreuve_support_modele_tableau_synthese_annexe_BTS_SIO_2026.xlsx`, complété puis exporté en PDF (bouton « Télécharger » ci-dessus). Ce tableau en ligne en reprend l'essentiel.
