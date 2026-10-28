@@ -139,8 +139,9 @@
 
   /* ========================================================================
      4. Particules lumineuses du hero
-     30 particules maximum, en pause quand l'onglet est caché ou que le hero
-     n'est plus visible, désactivées si prefers-reduced-motion est actif.
+     30 particules maximum, en pause quand l'onglet est caché, que le hero
+     n'est plus visible ou que la fenêtre du CV est ouverte, désactivées si
+     prefers-reduced-motion est actif.
      ======================================================================== */
   function initParticles() {
     const canvas = document.querySelector('[data-particles]');
@@ -154,6 +155,7 @@
     let height = 0;
     let rafId = 0;
     let inView = true;
+    let apercuOuvert = false; // fenêtre d'aperçu PDF (CV) ouverte par-dessus
     let rgb = '227, 194, 125';
 
     function readColor() {
@@ -208,7 +210,7 @@
     }
 
     function start() {
-      if (!rafId && inView && !document.hidden && !reduceMotion.matches) rafId = requestAnimationFrame(frame);
+      if (!rafId && inView && !apercuOuvert && !document.hidden && !reduceMotion.matches) rafId = requestAnimationFrame(frame);
     }
 
     function stop() {
@@ -222,6 +224,11 @@
 
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
     document.addEventListener('themechange', readColor);
+    // Pendant l'aperçu du CV, le navigateur n'a plus que le PDF à dessiner : défilement fluide
+    document.addEventListener('apercupdf', (event) => {
+      apercuOuvert = event.detail.ouvert;
+      if (apercuOuvert) stop(); else start();
+    });
 
     const onMotionChange = () => {
       if (reduceMotion.matches) {
@@ -329,6 +336,7 @@
       download.href = href;
       if (frame.getAttribute('src') !== href) frame.setAttribute('src', href);
       dialog.showModal();
+      document.dispatchEvent(new CustomEvent('apercupdf', { detail: { ouvert: true } }));
     }
 
     links.forEach((link) => link.addEventListener('click', (event) => {
@@ -338,6 +346,8 @@
     }));
 
     dialog.querySelector('[data-pdf-close]').addEventListener('click', () => dialog.close());
+    // Fermeture par le bouton, Échap ou un clic sur le fond : les animations reprennent
+    dialog.addEventListener('close', () => document.dispatchEvent(new CustomEvent('apercupdf', { detail: { ouvert: false } })));
     // Clic sur le fond assombri, autour de la fenêtre
     dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
   }

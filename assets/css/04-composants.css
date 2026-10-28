@@ -638,10 +638,10 @@
   animation: pdf-viewer-in 0.3s var(--ease);
 }
 
+/* Fond un peu plus sombre, sans flou : un backdrop-filter, recalculé à chaque
+   image sur tout l'écran, faisait saccader le défilement du PDF */
 .pdf-viewer::backdrop {
-  background: rgba(6, 9, 16, 0.75);
-  -webkit-backdrop-filter: blur(3px);
-  backdrop-filter: blur(3px);
+  background: rgba(6, 9, 16, 0.82);
 }
 
 @keyframes pdf-viewer-in {
@@ -690,7 +690,14 @@
   background: var(--surface-2);
 }
 
-/* La page ne défile plus derrière la fenêtre ouverte */
+/* La page ne défile plus derrière la fenêtre ouverte, et ses animations s'arrêtent
+   (boussole, halo… ; les particules sont arrêtées par interface.js) : le défilement
+   du PDF reste fluide */
 :root:has(.pdf-viewer[open]) {
   overflow: hidden;
+}
+
+:root:has(.pdf-viewer[open]) body > :not(.pdf-viewer),
+:root:has(.pdf-viewer[open]) body > :not(.pdf-viewer) * {
+  animation-play-state: paused;
 }
