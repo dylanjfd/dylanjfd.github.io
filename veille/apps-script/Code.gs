@@ -397,7 +397,8 @@ function normaliser_(s) {
 /** Lien d'une alerte Google (google.com/url?…&url=…) → adresse de l'article, pour que l'anti-doublon la reconnaisse. */
 function lienArticle_(lien) {
   const m = /^https?:\/\/(?:www\.)?google\.[a-z.]+\/url\?(?:.*&)?url=([^&]+)/.exec(lien);
-  return m ? decodeURIComponent(m[1]) : lien;
+  if (!m) return lien;
+  try { return decodeURIComponent(m[1]); } catch (err) { return lien; }   // « % » mal encodé : lien gardé tel quel
 }
 function cle_(lien) {
   const d = Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, lien.trim());
