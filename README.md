@@ -48,6 +48,7 @@ assets/css/
   05-accueil.css              Hero d'accueil et fiche de personnage
   06-pages.css                Pages intérieures (projets, compétences, veille, alternance…)
   07-animations-responsive.css  Apparitions, responsive, mouvement réduit, impression
+  08-presentation.css         Épée, bouclier et présentation de l'oral (fiche du projet 2 seulement)
 assets/js/
   theme-init.js               Thème mémorisé, appliqué avant l'affichage
   icones.js                   Icônes SVG originales
@@ -55,13 +56,16 @@ assets/js/
   rendu.js                    Construit chaque page à partir de son fichier .md
   interface.js                Thème (et CV assorti), menu mobile, apparitions, particules, filtre des projets, flèches
   formulaire.js               Formulaire de contact
+  presentation.js             Épée, bouclier et présentation de l'oral en plein écran (fiche du projet 2)
+  pdfjs/                      PDF.js de Mozilla (affichage des diapos) + licence Apache 2.0 LICENSE.txt
   main.js                     Réglages CONFIG (option SISR/SLAM, formulaire) + démarrage
 assets/img/                   favicon.svg, topo.svg (carte topographique originale)
 assets/fonts/                 Police Cinzel + licence OFL.txt
 assets/docs/                  cv-nuit.pdf et cv-parchemin.pdf (ton CV, thèmes sombre et clair),
                               cv.pdf (copie de cv-nuit.pdf, utilisée sans JavaScript),
                               tableau-synthese-e5.pdf (provisoire),
-                              tp-installation-os-virtualbox.pdf (documentation du projet 2)
+                              tp-installation-os-virtualbox.pdf (documentation du projet 2),
+                              tp-installation-os-virtualbox-presentation.pdf (diapos de l'oral du projet 2)
 outils/serveur-local.bat      Serveur local de prévisualisation (Windows)
 veille/                       Veille automatisée (voir section 9)
   apps-script/Code.gs         Collecte et e-mail du lundi des trois veilles (Google Apps Script) : la référence
@@ -196,6 +200,7 @@ Les titres restent classiques. Le vocabulaire RPG est le texte placé **avant la
 - **Cartes** : coins ornementaux en SVG (variables `--corner-*`), bordure or et léger halo au survol.
 - **Séparateurs** : fine ligne dorée avec un losange central, ajoutée automatiquement entre les sections.
 - **Jauges** : remplissage segment par segment à l'apparition.
+- **Petit secret (fiche du projet 2)** : une épée et un bouclier en SVG originaux flottent sur les bords de la page, au-dessus du séparateur, et rien n'est annoncé (la phrase d'aide n'apparaît qu'au survol ou au clavier). Un clic, Entrée ou une arme glissée jusqu'au losange central les fait se rencontrer (flash, étincelles, léger tremblement), puis la présentation de l'oral s'ouvre en plein écran, diapo par diapo, avec PDF.js : → / Espace / clic / Page suivante pour avancer, ← / Page précédente pour reculer, Début / Fin, Échap pour revenir à la page ; sur écran tactile, glisser le doigt. Le texte et le PDF se règlent dans le bloc `::: presentation` de `contenu/projets/projet-2.md`. Avec « réduire les animations », la présentation s'ouvre directement. PDF.js ne fonctionne qu'avec un serveur (section 2), pas en ouvrant le fichier directement.
 - Tous les décors sont en `aria-hidden="true"`. Avec le réglage système « réduire les animations » (`prefers-reduced-motion`), toutes les animations sont désactivées (`07-animations-responsive.css`, section 27).
 
 ## 7. Conformité aux consignes E5
@@ -230,7 +235,7 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 
 - **Accessibilité** : lien d'évitement, navigation complète au clavier, focus visible en or, flèches directionnelles (← → : page précédente / suivante dans l'ordre du menu, ou boutons de bas de page sur une fiche projet ; après Tab, les quatre flèches déplacent la sélection vers l'élément le plus proche dans toute la page, Échap la retire), menu mobile utilisable au clavier (Échap pour fermer), textes alternatifs, décors masqués aux lecteurs d'écran, aucune information portée uniquement par la couleur (icônes et textes sur les badges, statuts et jauges), contrastes AA vérifiés dans les deux thèmes, respect de `prefers-reduced-motion`. Sans JavaScript, chaque page indique où lire sa version texte (fichier Markdown) et le formulaire de contact reste utilisable.
 - **RGPD** : aucun cookie, aucun outil de mesure d'audience, aucune ressource chargée depuis un service tiers. Seul le choix du thème est mémorisé dans le navigateur (`localStorage`, clé `theme`). Le formulaire demande un consentement explicite.
-- **Licence** : code sous licence MIT (`LICENSE`). La police Cinzel reste sous SIL Open Font License 1.1 ; les contenus personnels restent la propriété de leur auteur.
+- **Licence** : code sous licence MIT (`LICENSE`). La police Cinzel reste sous SIL Open Font License 1.1, PDF.js (`assets/js/pdfjs/`, version 6.4.299) sous licence Apache 2.0 ; les contenus personnels restent la propriété de leur auteur.
 
 ## 9. Veille automatisée
 

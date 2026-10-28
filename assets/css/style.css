@@ -40,6 +40,8 @@
    26. Responsive (320 → 1440 px)                       07-animations-responsive.css
    27. Mouvement réduit (prefers-reduced-motion)        07-animations-responsive.css
    28. Impression                                       07-animations-responsive.css
+   31-34. Épée, bouclier et présentation de l'oral      08-presentation.css
+          (chargé seulement par pages/projets/projet-2.html, pas importé ici)
    ========================================================================== */
 
 @import url("01-variables.css");

@@ -9,6 +9,7 @@
      rendu.js       construction des pages à partir de contenu/*.md
      interface.js   thème, menu mobile, apparitions, particules, filtre, flèches
      formulaire.js  formulaire de contact (page contact uniquement)
+     presentation.js  épée, bouclier et présentation de l'oral (fiche du projet 2 uniquement)
      main.js        ce fichier : réglages CONFIG puis démarrage
    Le texte des pages se modifie dans les fichiers Markdown du dossier contenu/.
    ========================================================================== */
@@ -45,8 +46,10 @@ const CONFIG = {
   if (P.interface) P.interface.initEntete();
 
   // Le contenu est construit à partir du Markdown, puis les animations et le formulaire sont activés.
+  // L'épée et le bouclier sont placés avant les apparitions au défilement, qui les prennent en compte.
   const rendu = P.rendre ? P.rendre() : Promise.resolve();
   rendu.then(() => {
+    if (P.presentation) P.presentation.init();
     if (P.interface) P.interface.initContenu();
     if (P.formulaire) P.formulaire.init();
   });

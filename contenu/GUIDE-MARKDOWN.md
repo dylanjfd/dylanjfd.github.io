@@ -223,6 +223,18 @@ Je ne télécharge jamais de vrai logiciel malveillant.
 
 - Liens vers un autre site (`https://…`) : ils s'ouvrent dans un nouvel onglet, ce que signalent une petite flèche ↗ et, pour les lecteurs d'écran, la mention « (nouvel onglet) ». Rien à écrire de plus.
 
+### Présentation de l'oral — `::: presentation` (petit secret d'une fiche projet)
+
+```markdown
+::: presentation
+Clique ou fais glisser une arme vers le centre.
+
+- [Présentation orale du TP (PDF)](assets/docs/tp-installation-os-virtualbox-presentation.pdf)
+:::
+```
+
+Le bloc devient une épée et un bouclier sur les bords de la page, juste au-dessus du séparateur, sans titre ni bouton. La phrase n'apparaît qu'au survol d'une arme (ou au clavier). Quand les armes se rencontrent, le PDF du lien s'ouvre en plein écran, diapo par diapo. Le texte du lien, sans « (PDF) », sert de nom à la présentation pour les lecteurs d'écran. La page HTML doit charger `assets/css/08-presentation.css` et `assets/js/presentation.js`, comme `pages/projets/projet-2.html`.
+
 ### Compétences — `::: competences`
 
 ```markdown

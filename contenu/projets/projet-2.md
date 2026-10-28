@@ -11,6 +11,10 @@ parent: [Projets](pages/projets.html)
   Documentation du TP : assets/docs/tp-installation-os-virtualbox.pdf
     Pour la remplacer, dépose le nouveau PDF dans assets/docs/ sous le même nom :
     les deux liens de cette fiche (section « Livrable » et encart « Archives ») suivent.
+  Petit secret : le bloc « ::: presentation » (fin de la section « Livrable ») devient
+    une épée et un bouclier, au-dessus du séparateur. Quand ils se rencontrent, la
+    présentation de l'oral s'ouvre en plein écran : assets/docs/tp-installation-os-virtualbox-presentation.pdf
+    (même principe pour la remplacer). La phrase n'apparaît qu'au survol d'une arme.
 -->
 
 # Fiche de quête · Quête secondaire | Installation de systèmes sous VirtualBox
@@ -84,6 +88,12 @@ La documentation complète du TP : la procédure pas à pas, illustrée de 133 c
 
 ::: actions
 - [Consulter la documentation technique (PDF)](assets/docs/tp-installation-os-virtualbox.pdf)
+:::
+
+::: presentation
+Clique ou fais glisser une arme vers le centre.
+
+- [Présentation orale du TP (PDF)](assets/docs/tp-installation-os-virtualbox-presentation.pdf)
 :::
 
 ::: encart competences

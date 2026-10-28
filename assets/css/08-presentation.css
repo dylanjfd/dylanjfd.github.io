@@ -1,0 +1,517 @@
+/* ==========================================================================
+   Portfolio BTS SIO — 08-presentation.css
+   Petit secret de la fiche du projet 2 : épée, bouclier et présentation de l'oral
+   (chargé seulement par pages/projets/projet-2.html, après style.css ;
+   la numérotation des sections est celle du sommaire général)
+   --------------------------------------------------------------------------
+   31. Épée et bouclier (au-dessus du séparateur)
+   32. Choc : flash et étincelles
+   33. Diaporama plein écran
+   34. Responsive, mouvement réduit et impression
+   ========================================================================== */
+
+
+/* ==========================================================================
+   31. Épée et bouclier
+   <div class="presentation"> créée par presentation.js à la fin de la fiche :
+   une rangée sur toute la largeur de la page, l'épée au bord gauche, le
+   bouclier au bord droit, le losange de rencontre au centre.
+   ========================================================================== */
+.section:has(> .presentation) {
+  padding-bottom: clamp(1rem, 0.5rem + 1.5vw, 2rem);
+}
+
+.presentation {
+  --arene-h: 6.2rem;
+  --epee-l: 9.6rem;
+  --bouclier-l: 4.3rem;
+  --epee-h: calc(var(--epee-l) * 64 / 240);
+  --bouclier-h: calc(var(--bouclier-l) * 132 / 112);
+  --bord: clamp(0.75rem, 2.2vw, 2.25rem);
+  position: relative;
+  height: var(--arene-h);
+  margin-top: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+}
+
+.presentation__arme {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: inherit;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: scale 0.25s var(--ease);
+}
+
+.presentation__arme--epee {
+  top: calc(50% - var(--epee-h) / 2);
+  left: var(--bord);
+  width: var(--epee-l);
+  height: var(--epee-h);
+}
+
+/* Le bouclier passe devant : la pointe de l'épée disparaît sous son rebord */
+.presentation__arme--bouclier {
+  z-index: 3;
+  top: calc(50% - var(--bouclier-h) / 2);
+  right: var(--bord);
+  width: var(--bouclier-l);
+  height: var(--bouclier-h);
+}
+
+.presentation__arme:hover {
+  scale: 1.04;
+}
+
+.presentation__arme.is-saisie {
+  z-index: 6;
+  cursor: grabbing;
+  scale: 1.06;
+}
+
+.is-glisse-arme,
+.is-glisse-arme * {
+  cursor: grabbing !important;
+  user-select: none !important;
+}
+
+.presentation__flotte {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: presentation-flotte 3.6s ease-in-out infinite;
+}
+
+.presentation__arme--bouclier .presentation__flotte {
+  animation-duration: 4.2s;
+  animation-delay: -1.3s;
+}
+
+.presentation__flotte svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 10px var(--glow));
+  transition: filter 0.3s;
+}
+
+.presentation__arme:hover .presentation__flotte svg,
+.presentation__arme:focus-visible .presentation__flotte svg,
+.presentation__arme.is-saisie .presentation__flotte svg {
+  filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 16px var(--gold));
+}
+
+@keyframes presentation-flotte {
+  0%,
+  100% {
+    transform: translateY(-5px) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(1deg);
+  }
+}
+
+/* Couleurs des dessins : doré du site, bleu nuit, acier aux reflets clairs */
+.presentation__teinte-or-clair { stop-color: var(--btn-gold-hover-top); }
+.presentation__teinte-or { stop-color: var(--btn-gold-bottom); }
+.presentation__teinte-or-sombre { stop-color: var(--btn-gold-border); }
+.presentation__teinte-nuit-clair { stop-color: #2c3b5e; }
+.presentation__teinte-nuit { stop-color: #0e1320; }
+.presentation__teinte-acier-clair { stop-color: #f6f2e8; }
+.presentation__teinte-acier { stop-color: #bcc7d4; }
+.presentation__teinte-acier-sombre { stop-color: #6c7a8f; }
+
+.presentation__contour {
+  stroke: rgba(8, 11, 20, 0.55);
+  stroke-width: 1;
+}
+
+.presentation__filet {
+  fill: none;
+  stroke: var(--btn-gold-top);
+  stroke-opacity: 0.6;
+}
+
+.presentation__gemme {
+  fill: #0e1320;
+  stroke: var(--btn-gold-hover-top);
+  stroke-width: 1;
+}
+
+.presentation__rivets {
+  fill: var(--btn-gold-hover-top);
+}
+
+/* Reflet qui parcourt la lame de temps en temps */
+.presentation__reflet {
+  animation: presentation-reflet 5.5s ease-in-out infinite;
+}
+
+@keyframes presentation-reflet {
+  0%,
+  60% {
+    translate: 0 0;
+  }
+  100% {
+    translate: 210px 0;
+  }
+}
+
+/* Losange de rencontre : il s'illumine quand une arme approche */
+.presentation__sceau {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin: -0.425rem 0 0 -0.425rem;
+  border: 1.5px solid var(--gold);
+  rotate: 45deg;
+  opacity: 0.55;
+  animation: presentation-sceau 3s ease-in-out infinite;
+  transition: scale 0.25s var(--ease), background-color 0.25s, opacity 0.25s;
+}
+
+.presentation__sceau::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 0.25rem;
+  height: 0.25rem;
+  background: var(--gold);
+}
+
+.presentation__sceau.is-proche {
+  animation: none;
+  background: var(--gold-soft);
+  opacity: 1;
+  scale: 1.5;
+  box-shadow: 0 0 18px var(--glow), 0 0 6px var(--gold);
+}
+
+@keyframes presentation-sceau {
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 14px var(--glow);
+  }
+}
+
+/* Indication : visible seulement au survol, au clavier ou pendant le glisser */
+.presentation__aide {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: max-content;
+  max-width: min(24rem, 56%);
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition: opacity 0.3s;
+}
+
+.presentation:not(.is-rencontre):has(.presentation__arme:hover, .presentation__arme:focus-visible, .presentation__arme.is-saisie) .presentation__aide {
+  opacity: 1;
+}
+
+/* Rencontre en cours : plus d'indication ni de losange ; le léger zoom du survol
+   disparaît d'un coup, pour que le point de rencontre soit calculé à la taille réelle */
+.presentation.is-rencontre .presentation__aide,
+.presentation.is-rencontre .presentation__sceau {
+  animation: none;
+  opacity: 0;
+}
+
+.presentation.is-rencontre .presentation__arme {
+  cursor: default;
+  scale: 1;
+  transition: none;
+}
+
+/* Retour après la présentation : les armes réapparaissent à leur place */
+.presentation.is-retour .presentation__arme {
+  animation: presentation-retour 0.6s var(--ease) both;
+}
+
+@keyframes presentation-retour {
+  from {
+    opacity: 0;
+    scale: 0.85;
+  }
+}
+
+
+/* ==========================================================================
+   32. Choc : flash et étincelles (animés par presentation.js)
+   ========================================================================== */
+.presentation__eclat {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  width: 7.2rem;
+  height: 7.2rem;
+  margin: -3.6rem 0 0 -3.6rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffaf0 0, rgba(255, 244, 214, 0.95) 12%, var(--btn-gold-top) 28%, var(--glow) 50%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.presentation__etincelle {
+  position: absolute;
+  z-index: 5;
+  width: 1.1rem;
+  height: 3px;
+  margin: -1.5px 0 0 -0.55rem;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, #fff6dc 40%, var(--btn-gold-top));
+  box-shadow: 0 0 8px var(--gold), 0 0 2px #fff6dc;
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   33. Diaporama plein écran
+   <dialog class="diaporama"> : une diapo à la fois, dessinée par PDF.js dans
+   un <canvas>, sur fond nuit quel que soit le thème (meilleur contraste pour
+   projeter). Le bouton × et le curseur s'effacent quand la souris ne bouge
+   plus (.is-calme) ; le compteur reste, discret, en haut à droite.
+   ========================================================================== */
+.diaporama {
+  --dia-or: #c9a35b;
+  --dia-or-clair: #e3c27d;
+  --dia-fond: #05070d;
+  --focus: #e3c27d;
+  color-scheme: dark;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: var(--dia-fond);
+  color: #efe6d2;
+}
+
+.diaporama[open] {
+  display: block;
+  animation: diaporama-entree 0.35s var(--ease);
+}
+
+.diaporama::backdrop {
+  background: #05070d;
+}
+
+@keyframes diaporama-entree {
+  from {
+    opacity: 0;
+  }
+}
+
+.diaporama__scene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  touch-action: pinch-zoom;
+}
+
+.diaporama__scene:focus {
+  outline: none;
+}
+
+.diaporama__diapo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: diaporama-diapo 0.18s ease-out;
+}
+
+@keyframes diaporama-diapo {
+  from {
+    opacity: 0.35;
+  }
+}
+
+.diaporama__message {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  color: var(--dia-or-clair);
+  font-family: var(--font-rpg);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  pointer-events: none;
+}
+
+.diaporama__message[hidden] {
+  display: none;
+}
+
+.diaporama__message p {
+  margin: 0;
+}
+
+.diaporama__message .btn {
+  font-family: var(--font-body);
+  letter-spacing: normal;
+  pointer-events: auto;
+}
+
+/* Compteur en haut à droite, à côté du bouton × : la bande du haut est vide sur
+   toutes les diapos (le pied de page des diapos, lui, est occupé) */
+.diaporama__compteur {
+  position: absolute;
+  top: calc(max(0.9rem, env(safe-area-inset-top)) + 0.55rem);
+  right: calc(max(0.9rem, env(safe-area-inset-right)) + 3.5rem);
+  margin: 0;
+  padding: 0.3rem 0.85rem;
+  border: 1px solid rgba(201, 163, 91, 0.35);
+  border-radius: 999px;
+  background: rgba(14, 19, 32, 0.78);
+  color: var(--dia-or-clair);
+  font-family: var(--font-rpg);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.diaporama__compteur:empty {
+  display: none;
+}
+
+.diaporama__fermer {
+  position: absolute;
+  top: max(0.9rem, env(safe-area-inset-top));
+  right: max(0.9rem, env(safe-area-inset-right));
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid rgba(201, 163, 91, 0.55);
+  border-radius: 50%;
+  background: rgba(14, 19, 32, 0.78);
+  color: var(--dia-or-clair);
+  cursor: pointer;
+  transition: opacity 0.4s, background-color 0.2s, border-color 0.2s;
+}
+
+.diaporama__fermer svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.diaporama__fermer:hover {
+  border-color: var(--dia-or-clair);
+  background: rgba(201, 163, 91, 0.2);
+}
+
+.diaporama.is-calme .diaporama__fermer:not(:focus-visible) {
+  opacity: 0;
+}
+
+.diaporama.is-calme .diaporama__scene {
+  cursor: none;
+}
+
+/* Page figée derrière la présentation (comme pour l'aperçu du CV) */
+:root:has(.diaporama[open]) {
+  overflow: hidden;
+}
+
+:root:has(.diaporama[open]) body > :not(.diaporama),
+:root:has(.diaporama[open]) body > :not(.diaporama) * {
+  animation-play-state: paused;
+}
+
+
+/* ==========================================================================
+   34. Responsive, mouvement réduit et impression
+   Sur mobile, l'épée et le bouclier rapetissent et restent dans l'écran.
+   ========================================================================== */
+@media (max-width: 63.99rem) {
+  .presentation {
+    --arene-h: 5.6rem;
+    --epee-l: 7.8rem;
+    --bouclier-l: 3.7rem;
+  }
+}
+
+@media (max-width: 39.99rem) {
+  .presentation {
+    --arene-h: 4.6rem;
+    --epee-l: 5.6rem;
+    --bouclier-l: 2.7rem;
+    --bord: 0.75rem;
+  }
+
+  .presentation__aide {
+    max-width: 48%;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 26rem) {
+  .presentation {
+    --epee-l: 4.7rem;
+    --bouclier-l: 2.3rem;
+    --bord: 0.5rem;
+  }
+}
+
+/* Mouvement réduit : armes immobiles, pas de choc ; un clic ouvre directement la présentation */
+@media (prefers-reduced-motion: reduce) {
+  .presentation__flotte,
+  .presentation__reflet,
+  .presentation__sceau,
+  .diaporama[open],
+  .diaporama__diapo {
+    animation: none !important;
+  }
+
+  .presentation__arme {
+    cursor: pointer;
+  }
+
+  .presentation__arme:hover {
+    scale: none;
+  }
+}
+
+@media print {
+  .presentation,
+  .diaporama {
+    display: none !important;
+  }
+
+  .section:has(> .presentation) {
+    padding-bottom: clamp(3.5rem, 2.25rem + 4.5vw, 6rem);
+  }
+}

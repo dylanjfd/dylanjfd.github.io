@@ -34,6 +34,7 @@ Le code source du site est distribué sous licence MIT (fichier `LICENSE` à la 
 ## Crédits
 
 - **Police Cinzel** — créée par Natanael Gama, © 2020 The Cinzel Project Authors ([github.com/NDISCOVER/Cinzel](https://github.com/NDISCOVER/Cinzel)). Distribuée sous licence SIL Open Font License 1.1 et hébergée sur ce site (aucun appel à un service externe). Texte de la licence : [OFL.txt](assets/fonts/OFL.txt).
+- **PDF.js** — bibliothèque d'affichage des documents PDF créée par Mozilla ([mozilla.github.io/pdf.js](https://mozilla.github.io/pdf.js/)). Distribuée sous licence Apache 2.0 et hébergée sur ce site (aucun appel à un service externe). Texte de la licence : [LICENSE.txt](assets/js/pdfjs/LICENSE.txt).
 - **Illustrations et icônes** — carte topographique, rose des vents, ornements, favicon et icônes : créations originales en SVG réalisées pour ce portfolio. Aucun personnage, logo, nom ou visuel issu d'un jeu vidéo, d'un manga ou d'un anime n'est utilisé.
 - **Texte courant** — polices système de l'appareil du visiteur.
 
