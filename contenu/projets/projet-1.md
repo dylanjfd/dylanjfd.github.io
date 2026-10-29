@@ -3,6 +3,8 @@ mise-en-page: fiche
 fil-ariane: Projet 1
 titre-onglet: Projet serveur web
 parent: [Projets](pages/projets.html)
+titre-seo: Serveur web Debian en HTTPS — Projet de Dylan JOFFREDO
+description: Projet BTS SIO SISR de Dylan JOFFREDO : héberger son portfolio sur un serveur Debian sécurisé, en HTTPS, avec sauvegardes et supervision.
 ---
 
 <!--
@@ -67,6 +69,12 @@ Un hébergement sécurisé et complet, avec sauvegardes et supervision.
 - Cloudflare
 - Git
 - Uptime Kuma
+:::
+
+::: encart
+## Codex | Pour aller plus loin
+- [Mes compétences systèmes et réseaux](pages/competences.html)
+- [Veille réseau : souveraineté numérique des PME](pages/veille/reseau.html)
 :::
 
 ::: navigation Navigation entre les projets

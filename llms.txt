@@ -1,0 +1,40 @@
+# Dylan JOFFREDO — Portfolio BTS SIO
+
+> Technicien support et systèmes en alternance chez MyDigitalSchool à Nantes, étudiant en BTS SIO option SISR (2026 – 2028).
+
+Portfolio de l'épreuve E5 du BTS SIO : projets, compétences, veille technologique, alternance et certifications.
+
+## Pages principales
+
+- [Accueil](https://dylanjoffredo.me/): Dylan JOFFREDO, technicien support et systèmes en alternance à Nantes (BTS SIO SISR) : projets, compétences, veille technologique et certifications.
+- [Projets](https://dylanjoffredo.me/pages/projets.html): Projets de Dylan JOFFREDO, technicien support en alternance à Nantes (BTS SIO SISR) : serveur web Debian, systèmes sous VirtualBox, parc de PC gaming.
+- [Compétences](https://dylanjoffredo.me/pages/competences.html): Compétences de Dylan JOFFREDO, technicien support en BTS SIO SISR : systèmes, réseaux, cybersécurité, outils et langues, avec niveau de maîtrise.
+- [Veille technologique](https://dylanjoffredo.me/pages/veille.html): Veille technologique de Dylan JOFFREDO (BTS SIO SISR, Nantes) : gestion d'un parc de PC, souveraineté numérique des PME, cybersécurité des joueurs.
+- [Alternance](https://dylanjoffredo.me/pages/alternance.html): Alternance de Dylan JOFFREDO en BTS SIO SISR : technicien support et systèmes chez MyDigitalSchool à Nantes, missions confiées et compétences E5.
+- [Certifications](https://dylanjoffredo.me/pages/certifications.html): Certifications, MOOC, langues et badges numériques de Dylan JOFFREDO, étudiant en BTS SIO SISR en alternance à Nantes, avec leurs justificatifs.
+- [Tableau de synthèse E5](https://dylanjoffredo.me/pages/tableau-e5.html): Tableau de synthèse de l'épreuve E5 du BTS SIO SISR de Dylan JOFFREDO : réalisations professionnelles et compétences du référentiel mobilisées.
+- [Contact](https://dylanjoffredo.me/pages/contact.html): Contacter Dylan JOFFREDO, technicien support et systèmes en BTS SIO SISR à Nantes : proposition d'alternance, d'emploi ou question sur un projet.
+
+## Projets détaillés
+
+- [Projet serveur web](https://dylanjoffredo.me/pages/projets/projet-1.html): Projet BTS SIO SISR de Dylan JOFFREDO : héberger son portfolio sur un serveur Debian sécurisé, en HTTPS, avec sauvegardes et supervision.
+- [Installation de systèmes sous VirtualBox](https://dylanjoffredo.me/pages/projets/projet-2.html): Projet BTS SIO SISR de Dylan JOFFREDO : six systèmes Windows et Linux installés sous VirtualBox, mis en réseau, testés et documentés.
+- [Labo : gestion et sécurisation d'un parc de PC gaming](https://dylanjoffredo.me/pages/projets/labo-parc-gaming.html): Labo de Dylan JOFFREDO (BTS SIO SISR) : déployer, restaurer et protéger 25 PC gaming avec Clonezilla, FOG Project, Unified Write Filter et EICAR.
+
+## Veilles technologiques
+
+- [Gérer un parc de PC en libre-service](https://dylanjoffredo.me/pages/veille/systeme.html): Veille système BTS SIO SISR : déploiement d'images, restauration au redémarrage ou diskless pour les 25 PC d'une salle gaming. Actualités et analyse.
+- [Souveraineté numérique des PME](https://dylanjoffredo.me/pages/veille/reseau.html): Veille réseau BTS SIO SISR de Dylan JOFFREDO sur la souveraineté numérique des PME : problématique, méthode, synthèses mensuelles et sources fiables.
+- [Pourquoi les joueurs sont-ils l'une des cibles favorites des cybercriminels ?](https://dylanjoffredo.me/pages/veille/cybersecurite.html): Veille cybersécurité BTS SIO SISR : pourquoi les joueurs sont une cible favorite des cybercriminels et comment protéger une salle de jeu.
+
+## Informations
+
+- [Mentions légales](https://dylanjoffredo.me/pages/mentions-legales.html): Mentions légales du portfolio de Dylan JOFFREDO : éditeur, hébergeur, propriété intellectuelle et crédits.
+- [Politique de confidentialité](https://dylanjoffredo.me/pages/confidentialite.html): Données du formulaire de contact du portfolio de Dylan JOFFREDO : finalité, durée de conservation et droits RGPD. Aucun cookie de suivi.
+- [Plan du site](https://dylanjoffredo.me/pages/plan-du-site.html): Toutes les pages du portfolio BTS SIO SISR de Dylan JOFFREDO : projets, compétences, veille technologique, alternance, certifications et contact.
+
+## Me retrouver
+
+- [CV (PDF)](https://dylanjoffredo.me/assets/docs/cv.pdf)
+- [LinkedIn](https://www.linkedin.com/in/dylan-joffredo-1212342a0/)
+- [GitHub](https://github.com/dylanjfd)

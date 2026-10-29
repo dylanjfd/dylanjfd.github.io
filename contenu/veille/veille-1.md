@@ -3,6 +3,8 @@ mise-en-page: fiche
 fil-ariane: Veille réseau
 titre-onglet: Veille réseau : souveraineté numérique
 parent: [Veille](pages/veille.html)
+titre-seo: Veille réseau : souveraineté numérique — Dylan JOFFREDO
+description: Veille réseau BTS SIO SISR de Dylan JOFFREDO sur la souveraineté numérique des PME : problématique, méthode, synthèses mensuelles et sources fiables.
 ---
 
 <!--

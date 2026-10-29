@@ -3,21 +3,47 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Veille technologique — Dylan JOFFREDO · Portfolio BTS SIO</title>
-  <meta name="description" content="Mes veilles technologiques : pour chaque sujet, la problématique, la méthode et les outils, les sources fiables, les synthèses et l'analyse critique.">
+  <title>Veille technologique BTS SIO SISR — Dylan JOFFREDO</title>
+  <!-- Titre, description, aperçu de lien et données structurées : écrits par outils/prerendu.mjs d'après l'en-tête de contenu/veille.md -->
+  <meta name="description" content="Veille technologique de Dylan JOFFREDO (BTS SIO SISR, Nantes) : gestion d'un parc de PC, souveraineté numérique des PME, cybersécurité des joueurs.">
   <link rel="canonical" href="https://dylanjoffredo.me/pages/veille.html">
-  <!-- Aperçu affiché quand le lien est partagé (LinkedIn, Discord, WhatsApp…) -->
+  <!-- Aperçu affiché quand le lien est partagé (LinkedIn, Discord, WhatsApp, X…) -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="Dylan JOFFREDO · Portfolio BTS SIO">
-  <meta property="og:title" content="Veille technologique — Dylan JOFFREDO">
-  <meta property="og:description" content="Mes veilles technologiques : pour chaque sujet, la problématique, la méthode et les outils, les sources fiables, les synthèses et l'analyse critique.">
+  <meta property="og:title" content="Veille technologique BTS SIO SISR — Dylan JOFFREDO">
+  <meta property="og:description" content="Veille technologique de Dylan JOFFREDO (BTS SIO SISR, Nantes) : gestion d'un parc de PC, souveraineté numérique des PME, cybersécurité des joueurs.">
   <meta property="og:url" content="https://dylanjoffredo.me/pages/veille.html">
   <meta property="og:image" content="https://dylanjoffredo.me/assets/img/apercu.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Dylan JOFFREDO, technicien support et systèmes, portfolio BTS SIO">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Veille technologique BTS SIO SISR — Dylan JOFFREDO">
+  <meta name="twitter:description" content="Veille technologique de Dylan JOFFREDO (BTS SIO SISR, Nantes) : gestion d'un parc de PC, souveraineté numérique des PME, cybersécurité des joueurs.">
+  <meta name="twitter:image" content="https://dylanjoffredo.me/assets/img/apercu.png">
+  <meta name="twitter:image:alt" content="Dylan JOFFREDO, technicien support et systèmes, portfolio BTS SIO">
+  <!-- Données structurées (schema.org) : qui je suis, fil d'Ariane -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://dylanjoffredo.me/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Veille",
+        "item": "https://dylanjoffredo.me/pages/veille.html"
+      }
+    ]
+  }
+  </script>
   <meta name="color-scheme" content="dark light">
   <!-- theme-color : bleu nuit (thème sombre) ; passe à #f3ecdd en thème clair -->
   <meta name="theme-color" content="#0e1320">
@@ -66,14 +92,8 @@
     </div>
   </header>
 
-  <!-- Le texte de cette page est rédigé en Markdown dans contenu/veille.md et affiché par assets/js/rendu.js -->
-  <main id="contenu" tabindex="-1" aria-busy="true">
-    <noscript>
-      <div class="container contenu-etat">
-        <p class="notice notice--info"><strong class="notice__title">JavaScript désactivé</strong> Ce portfolio affiche son contenu grâce à JavaScript. Version texte de cette page : <a href="../contenu/veille.md">contenu/veille.md</a>.</p>
-      </div>
-    </noscript>
-  </main>
+  <!-- Texte de cette page : contenu/veille.md. outils/prerendu.mjs l'écrit dans <main> à chaque push : modifier le .md, pas le HTML. -->
+  <main id="contenu" tabindex="-1" data-prerendu><header class="page-hero"><div class="page-hero__decor" aria-hidden="true"><div class="topo"></div></div><div class="container"><nav class="breadcrumb" aria-label="Fil d'Ariane"><ol><li><a href="../index.html">Accueil</a></li><li><span aria-current="page">Veille</span></li></ol></nav><p class="eyebrow">Codex</p><h1>Veille technologique</h1><p class="page-hero__intro">Ma veille part d'un projet concret : Reboot, un atelier de réparation informatique avec une salle gaming de 25 PC et des contrats de maintenance pour les professionnels et les particuliers. Chaque veille suit un domaine différent de l'informatique et répond à une question que pose ce projet.</p></div></header><section class="section" aria-labelledby="trois-veilles-trois-domaines-systeme-reseau-et-cybersecurite"><div class="container"><header class="section__header reveal"><p class="eyebrow">Trois domaines</p><h2 id="trois-veilles-trois-domaines-systeme-reseau-et-cybersecurite">Trois veilles, trois domaines : système, réseau et cybersécurité</h2><p class="section__intro">Chaque fiche présente la problématique, les actualités suivies avec leurs sources, mes synthèses et mon analyse critique.</p></header><ul class="quest-grid reveal-group"><li class="reveal"><article class="card quest-card card--link"><div class="quest-card__badges"><span class="badge badge--systeme"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="2.4" width="12.4" height="8.4" rx="1.3"/><path d="M8 10.8v2.6M5.4 13.6h5.2"/><path d="M5 8.2 7 6.3l1.4 1.2L11 5" stroke-width="1.3"/></svg>Système</span><span class="badge badge--progress"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.6"/></svg>En cours</span></div><h3 class="quest-card__title"><a class="stretched-link" href="../pages/veille/systeme.html">Gérer un parc de PC en libre-service</a></h3><p class="quest-card__desc">Déploiement d'images, restauration au redémarrage ou diskless : quelle solution pour gérer les 25 PC d'une salle gaming comme Reboot ?</p><p class="quest-card__meta">Veille en formation (BTS SIO) · depuis octobre 2026</p><ul class="tags" aria-label="Thèmes"><li>FOG Project</li><li>Clonezilla</li><li>Unified Write Filter</li><li>Diskless</li></ul><div class="rewards rewards--inline"><p class="rewards__label">Récompenses :</p><ul class="rewards__list" aria-label="Compétences E5 mobilisées"><li>Développement pro.</li></ul></div><span class="card__more" aria-hidden="true">Voir la fiche <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></article></li><li class="reveal"><article class="card quest-card card--link"><div class="quest-card__badges"><span class="badge badge--reseau"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="3.1" r="1.6"/><circle cx="3.1" cy="12.7" r="1.6"/><circle cx="12.9" cy="12.7" r="1.6"/><path d="M8 4.7v3.4M8 8.1 4.3 11.4M8 8.1l3.7 3.3M4.7 12.7h6.6"/></svg>Réseau</span><span class="badge badge--progress"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.6"/></svg>En cours</span></div><h3 class="quest-card__title"><a class="stretched-link" href="../pages/veille/reseau.html">Souveraineté numérique</a></h3><p class="quest-card__desc">La souveraineté numérique est-elle accessible aux PME, ou reste-t-elle réservée aux grandes organisations ?</p><p class="quest-card__meta">Veille en formation (BTS SIO) · depuis octobre 2026</p><ul class="tags" aria-label="Thèmes"><li>RGPD</li><li>Cloud Act</li><li>SecNumCloud</li><li>OVHcloud</li><li>Scaleway</li></ul><div class="rewards rewards--inline"><p class="rewards__label">Récompenses :</p><ul class="rewards__list" aria-label="Compétences E5 mobilisées"><li>Développement pro.</li></ul></div><span class="card__more" aria-hidden="true">Voir la fiche <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></article></li><li class="reveal"><article class="card quest-card card--link"><div class="quest-card__badges"><span class="badge badge--cyber"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5 2.9 3.6v3.9c0 3 2.1 5.5 5.1 7 3-1.5 5.1-4 5.1-7V3.6Z"/><circle cx="8" cy="7" r="1.3"/><path d="M8 8.3v2.4"/></svg>Cybersécurité</span><span class="badge badge--progress"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.6"/></svg>En cours</span></div><h3 class="quest-card__title"><a class="stretched-link" href="../pages/veille/cybersecurite.html">Pourquoi les joueurs sont-ils l'une des cibles favorites des cybercriminels ?</a></h3><p class="quest-card__desc">Comment protéger les joueurs et un lieu de jeu comme Reboot face à ces menaces ?</p><p class="quest-card__meta">Veille en formation (BTS SIO) · depuis octobre 2026</p><ul class="tags" aria-label="Thèmes"><li>Infostealers</li><li>Faux cheats</li><li>Arnaques Discord</li><li>Vol de comptes</li></ul><div class="rewards rewards--inline"><p class="rewards__label">Récompenses :</p><ul class="rewards__list" aria-label="Compétences E5 mobilisées"><li>Développement pro.</li></ul></div><span class="card__more" aria-hidden="true">Voir la fiche <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></article></li></ul></div></section><section class="section section--alt" aria-labelledby="comment-fonctionne-ma-veille"><div class="container"><header class="section__header reveal"><p class="eyebrow">Grimoire</p><h2 id="comment-fonctionne-ma-veille">Comment fonctionne ma veille</h2><p class="section__intro">Ma veille est automatisée avec un script Google Apps Script. Chaque soir, il lit 14 flux RSS de sites spécialisés et garde les articles récents qui correspondent à mes trois sujets : réseau, système et cybersécurité. Chaque lundi matin, je reçois un e-mail qui regroupe ces articles. J'y réponds avec mon avis sur les articles qui m'intéressent et une courte synthèse de la semaine. Au début de chaque mois, je regroupe ces synthèses de la semaine en une synthèse mensuelle.</p></header></div></section><section class="section" aria-labelledby="tableau-de-synthese-e5"><div class="container"><header class="section__header section__header--center reveal"><p class="eyebrow">Progression</p><h2 id="tableau-de-synthese-e5">Tableau de synthèse E5</h2><p class="section__intro">Toutes les réalisations et les compétences mobilisées pour chacune sont récapitulées dans le tableau de synthèse.</p><div class="section__actions"><a class="btn btn--primary" href="../pages/tableau-e5.html">Consulter le tableau E5<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></header></div></section></main>
 
   <footer class="site-footer">
     <div class="container footer__grid">
@@ -83,7 +103,7 @@
           <span data-site="nom">Dylan JOFFREDO</span>
         </p>
         <!-- Texte tiré de contenu/site.md -->
-        <div data-site="pied"><p>Portfolio réalisé dans le cadre du BTS SIO. Support de présentation pour l'épreuve E5.</p></div>
+        <div data-site="pied"><p>Portfolio réalisé dans le cadre du BTS SIO — option SISR. Support de présentation pour l'épreuve E5.</p></div>
       </div>
       <nav aria-labelledby="footer-nav-title">
         <h2 class="footer__title" id="footer-nav-title">Navigation</h2>

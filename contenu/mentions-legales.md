@@ -1,5 +1,7 @@
 ---
 mise-en-page: texte
+titre-seo: Mentions légales — Portfolio de Dylan JOFFREDO
+description: Mentions légales du portfolio de Dylan JOFFREDO : éditeur, hébergeur, propriété intellectuelle et crédits.
 ---
 
 <!--

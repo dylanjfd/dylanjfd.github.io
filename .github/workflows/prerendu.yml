@@ -1,0 +1,62 @@
+# Pré-rendu des pages (outils/prerendu.mjs)
+#
+# À chaque push sur main, le texte des fichiers contenu/*.md est écrit dans le HTML des pages,
+# avec leur en-tête (titre, description, aperçu de lien, données structurées), ainsi que
+# sitemap.xml et llms.txt. S'il y a du changement, le robot GitHub l'enregistre dans un commit
+# « Pré-rendu automatique des pages » puis demande la mise à jour du site (GitHub Pages).
+# Avant ton push suivant : git pull --rebase.
+#
+# Les commits de ce robot ne relancent pas ce workflow (règle de GitHub pour GITHUB_TOKEN).
+
+name: Pré-rendu des pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: prerendu
+  cancel-in-progress: false
+
+jobs:
+  prerendu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # historique complet : dates <lastmod> du sitemap
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: npm
+
+      - name: Installer jsdom
+        run: npm ci --no-fund --no-audit
+
+      - name: Écrire le texte des .md dans les pages
+        run: node outils/prerendu.mjs
+
+      - name: Enregistrer et publier
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPOT: ${{ github.repository }}
+        run: |
+          git add -A index.html 404.html pages sitemap.xml llms.txt
+          if git diff --cached --quiet; then
+            echo "Pages déjà à jour : rien à enregistrer."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Pré-rendu automatique des pages"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          gh api -X POST "repos/$DEPOT/pages/builds" --silent \
+            || echo "Demande de mise à jour refusée : le site sera publié au prochain push."

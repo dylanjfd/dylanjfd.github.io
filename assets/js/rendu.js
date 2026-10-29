@@ -3,6 +3,8 @@
    Construit chaque page à partir de son fichier Markdown (contenu/*.md) :
    en-tête de page, sections, cartes, jauges, frise, tableau E5…
    La structure HTML produite est celle attendue par les feuilles de style.
+   Ce même script sert au pré-rendu (outils/prerendu.mjs), qui écrit le
+   résultat directement dans le HTML des pages pour les moteurs de recherche.
    --------------------------------------------------------------------------
    SOMMAIRE
     1. Réglages et outils (éléments, texte en ligne, champs « clé: valeur »)
@@ -1184,11 +1186,16 @@
   /* ========================================================================
      8. Point d'entrée
      <body data-racine="../" data-contenu="contenu/projets.md">
+     Une page déjà écrite dans le HTML par outils/prerendu.mjs (<main data-prerendu>)
+     n'est pas reconstruite en ligne. Sur le serveur local (localhost), elle l'est
+     à partir du .md, pour voir ses modifications sans relancer le pré-rendu.
      ======================================================================== */
   P.rendre = async function rendre() {
     const corps = document.body;
     const main = document.getElementById('contenu');
     if (!main || !corps.hasAttribute('data-contenu')) return;
+    const prerendu = main.hasAttribute('data-prerendu');
+    if (prerendu && location.hostname !== 'localhost') return;
     RACINE = corps.getAttribute('data-racine') || '';
     const chemin = corps.getAttribute('data-contenu');
     const formulaire = main.querySelector('[data-contact-form]');
@@ -1204,7 +1211,8 @@
       main.textContent = '';
       const disposition = construirePage(main, page, formulaire);
       remplirGabarit(site);
-      document.title = titreOnglet(page, disposition);
+      // Page pré-rendue : son titre (champ « titre-seo: » du .md) est déjà dans le HTML
+      if (!prerendu) document.title = titreOnglet(page, disposition);
     } catch (erreur) {
       main.textContent = '';
       main.appendChild(etatErreur(chemin));

@@ -1,5 +1,7 @@
 ---
 mise-en-page: contact
+titre-seo: Contact — Dylan JOFFREDO, technicien support à Nantes
+description: Contacter Dylan JOFFREDO, technicien support et systèmes en BTS SIO SISR à Nantes : proposition d'alternance, d'emploi ou question sur un projet.
 ---
 
 <!--

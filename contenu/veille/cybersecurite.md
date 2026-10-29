@@ -3,6 +3,8 @@ mise-en-page: fiche
 fil-ariane: Veille cybersécurité
 titre-onglet: Veille cybersécurité : les joueurs, cibles des cybercriminels
 parent: [Veille](pages/veille.html)
+titre-seo: Veille cybersécurité : les joueurs ciblés — Dylan JOFFREDO
+description: Veille cybersécurité BTS SIO SISR : pourquoi les joueurs sont une cible favorite des cybercriminels et comment protéger une salle de jeu.
 ---
 
 <!--

@@ -1,5 +1,7 @@
 ---
 mise-en-page: texte
+titre-seo: Confidentialité — Portfolio de Dylan JOFFREDO
+description: Données du formulaire de contact du portfolio de Dylan JOFFREDO : finalité, durée de conservation et droits RGPD. Aucun cookie de suivi.
 ---
 
 <!--

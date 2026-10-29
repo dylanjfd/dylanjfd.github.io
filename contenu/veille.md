@@ -1,6 +1,8 @@
 ---
 fil-ariane: Veille
 titre-onglet: Veille technologique
+titre-seo: Veille technologique BTS SIO SISR — Dylan JOFFREDO
+description: Veille technologique de Dylan JOFFREDO (BTS SIO SISR, Nantes) : gestion d'un parc de PC, souveraineté numérique des PME, cybersécurité des joueurs.
 ---
 
 <!--

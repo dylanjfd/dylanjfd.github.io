@@ -1,5 +1,7 @@
 ---
-photo: assets/img/photo.jpg
+photo: assets/img/photo.webp
+titre-seo: Compétences systèmes et réseaux — Dylan JOFFREDO, BTS SIO
+description: Compétences de Dylan JOFFREDO, technicien support en BTS SIO SISR : systèmes, réseaux, cybersécurité, outils et langues, avec niveau de maîtrise.
 ---
 
 <!--

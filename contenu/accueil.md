@@ -1,6 +1,8 @@
 ---
 mise-en-page: accueil
 disponibilite: En alternance chez MyDigitalSchool jusqu'en 2028
+titre-seo: Dylan JOFFREDO — Technicien support, BTS SIO SISR à Nantes
+description: Dylan JOFFREDO, technicien support et systèmes en alternance à Nantes (BTS SIO SISR) : projets, compétences, veille technologique et certifications.
 ---
 
 <!--
@@ -23,7 +25,7 @@ disponibilite: En alternance chez MyDigitalSchool jusqu'en 2028
 <!-- Fiche de personnage : niveau = année de BTS (1 ou 2) ; photo = chemin de ta photo ; lien = page ouverte au clic sur la fiche ; attributs notés sur 5 (à ajuster) -->
 ::: fiche
 niveau: 1
-photo: assets/img/photo.jpg
+photo: assets/img/photo.webp
 lien: [Voir mes compétences](pages/competences.html)
 
 - Rigueur & méthodologie : 4

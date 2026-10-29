@@ -3,21 +3,47 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact — Dylan JOFFREDO · Portfolio BTS SIO</title>
-  <meta name="description" content="Contact : proposition d'alternance, d'emploi ou question sur un projet.">
+  <title>Contact — Dylan JOFFREDO, technicien support à Nantes</title>
+  <!-- Titre, description, aperçu de lien et données structurées : écrits par outils/prerendu.mjs d'après l'en-tête de contenu/contact.md -->
+  <meta name="description" content="Contacter Dylan JOFFREDO, technicien support et systèmes en BTS SIO SISR à Nantes : proposition d'alternance, d'emploi ou question sur un projet.">
   <link rel="canonical" href="https://dylanjoffredo.me/pages/contact.html">
-  <!-- Aperçu affiché quand le lien est partagé (LinkedIn, Discord, WhatsApp…) -->
+  <!-- Aperçu affiché quand le lien est partagé (LinkedIn, Discord, WhatsApp, X…) -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="Dylan JOFFREDO · Portfolio BTS SIO">
-  <meta property="og:title" content="Contact — Dylan JOFFREDO">
-  <meta property="og:description" content="Contact : proposition d'alternance, d'emploi ou question sur un projet.">
+  <meta property="og:title" content="Contact — Dylan JOFFREDO, technicien support à Nantes">
+  <meta property="og:description" content="Contacter Dylan JOFFREDO, technicien support et systèmes en BTS SIO SISR à Nantes : proposition d'alternance, d'emploi ou question sur un projet.">
   <meta property="og:url" content="https://dylanjoffredo.me/pages/contact.html">
   <meta property="og:image" content="https://dylanjoffredo.me/assets/img/apercu.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Dylan JOFFREDO, technicien support et systèmes, portfolio BTS SIO">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contact — Dylan JOFFREDO, technicien support à Nantes">
+  <meta name="twitter:description" content="Contacter Dylan JOFFREDO, technicien support et systèmes en BTS SIO SISR à Nantes : proposition d'alternance, d'emploi ou question sur un projet.">
+  <meta name="twitter:image" content="https://dylanjoffredo.me/assets/img/apercu.png">
+  <meta name="twitter:image:alt" content="Dylan JOFFREDO, technicien support et systèmes, portfolio BTS SIO">
+  <!-- Données structurées (schema.org) : qui je suis, fil d'Ariane -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://dylanjoffredo.me/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Contact",
+        "item": "https://dylanjoffredo.me/pages/contact.html"
+      }
+    ]
+  }
+  </script>
   <meta name="color-scheme" content="dark light">
   <!-- theme-color : bleu nuit (thème sombre) ; passe à #f3ecdd en thème clair -->
   <meta name="theme-color" content="#0e1320">
@@ -67,19 +93,14 @@
     </div>
   </header>
 
-  <!-- Le texte de cette page est rédigé en Markdown dans contenu/contact.md et affiché par assets/js/rendu.js -->
-  <main id="contenu" tabindex="-1" aria-busy="true">
-    <noscript>
-      <div class="container contenu-etat">
-        <p class="notice notice--info"><strong class="notice__title">JavaScript désactivé</strong> Ce portfolio affiche son contenu grâce à JavaScript. Version texte de cette page : <a href="../contenu/contact.md">contenu/contact.md</a>.</p>
-      </div>
-    </noscript>
-    <!--
-      Formulaire de contact : structure ici, comportement dans assets/js/formulaire.js.
-      Envoi : Formspree ou contact.php, à régler dans assets/js/main.js (CONFIG.FORM_ENDPOINT).
-      Sans JavaScript, le formulaire est envoyé à contact.php (hébergement PHP).
-    -->
-    <form class="card form" action="../contact.php" method="post" data-contact-form aria-labelledby="formulaire-title">
+  <!-- Texte de cette page : contenu/contact.md. outils/prerendu.mjs l'écrit dans <main> à chaque push : modifier le .md, pas le HTML. -->
+  <main id="contenu" tabindex="-1" data-prerendu><header class="page-hero"><div class="page-hero__decor" aria-hidden="true"><div class="topo"></div></div><div class="container"><nav class="breadcrumb" aria-label="Fil d'Ariane"><ol><li><a href="../index.html">Accueil</a></li><li><span aria-current="page">Contact</span></li></ol></nav><p class="eyebrow">Rejoindre l'équipe</p><h1>Contact</h1><p class="page-hero__intro">Une proposition d'alternance ou d'emploi, ou une question sur l'un de mes projets ? Écrivez-moi, je vous réponds rapidement.</p></div></header><section class="section" aria-labelledby="formulaire-title"><div class="container contact-layout"><div class="reveal"><form class="card form" action="../contact.php" method="post" data-contact-form aria-labelledby="formulaire-title">
+      <!--
+        Formulaire de contact : structure ici, comportement dans assets/js/formulaire.js.
+        Le pré-rendu (outils/prerendu.mjs) le place à côté des coordonnées : il reste modifiable ici.
+        Envoi : Formspree ou contact.php, à régler dans assets/js/main.js (CONFIG.FORM_ENDPOINT).
+        Sans JavaScript, le formulaire est envoyé à contact.php (hébergement PHP).
+      -->
       <div>
         <h2 id="formulaire-title">Envoyer un message</h2>
         <p class="form__note">Tous les champs sont obligatoires.</p>
@@ -102,7 +123,7 @@
       <div class="field">
         <label for="subject">Objet</label>
         <select id="subject" name="subject" required aria-describedby="subject-error">
-          <option value="">Choisissez un objet</option>
+          <option value>Choisissez un objet</option>
           <option value="Proposition d'alternance">Proposition d'alternance</option>
           <option value="Offre d'emploi">Offre d'emploi</option>
           <option value="Question sur un projet">Question sur un projet</option>
@@ -140,8 +161,7 @@
 
       <!-- Zone d'état annoncée aux lecteurs d'écran : erreurs, aide, confirmation et notification de quête -->
       <div class="form-status" role="status" data-form-status></div>
-    </form>
-  </main>
+    </form></div><aside class="contact-aside reveal" aria-label="Coordonnées"><div class="card"><p class="card__kicker">Point de ralliement</p><h2>Coordonnées</h2><ul class="contact-list"><li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.9-3.6 3.7-5.5 7-5.5s6.1 1.9 7 5.5"/></svg><div><strong>LinkedIn</strong><a href="https://www.linkedin.com/in/dylan-joffredo-1212342a0/" target="_blank" rel="noopener noreferrer">linkedin.com/in/dylan-joffredo-1212342a0<span class="lien-externe" aria-hidden="true">↗</span><span class="sr-only"> (nouvel onglet)</span></a></div></li><li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 7.5 4 12l4.5 4.5M15.5 7.5 20 12l-4.5 4.5M13.5 5l-3 14"/></svg><div><strong>GitHub</strong><a href="https://github.com/dylanjfd" target="_blank" rel="noopener noreferrer">github.com/dylanjfd<span class="lien-externe" aria-hidden="true">↗</span><span class="sr-only"> (nouvel onglet)</span></a></div></li><li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg><div><strong>Disponibilité</strong>En alternance chez MyDigitalSchool jusqu'en 2028</div></li></ul></div><div class="card"><p class="card__kicker">Protection</p><h2>Vos données</h2><p class="card__text">Les informations envoyées servent uniquement à vous répondre. Ce site n'utilise aucun cookie ni outil de mesure d'audience.</p><p class="card__text"><a href="../pages/confidentialite.html">Politique de confidentialité</a></p></div></aside></div></section></main>
 
   <footer class="site-footer">
     <div class="container footer__grid">
@@ -151,7 +171,7 @@
           <span data-site="nom">Dylan JOFFREDO</span>
         </p>
         <!-- Texte tiré de contenu/site.md -->
-        <div data-site="pied"><p>Portfolio réalisé dans le cadre du BTS SIO. Support de présentation pour l'épreuve E5.</p></div>
+        <div data-site="pied"><p>Portfolio réalisé dans le cadre du BTS SIO — option SISR. Support de présentation pour l'épreuve E5.</p></div>
       </div>
       <nav aria-labelledby="footer-nav-title">
         <h2 class="footer__title" id="footer-nav-title">Navigation</h2>

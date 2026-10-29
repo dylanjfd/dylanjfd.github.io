@@ -1,6 +1,6 @@
 # Guide de rédaction des pages en Markdown
 
-Tout le texte du portfolio se trouve dans ce dossier `contenu/` : **un fichier `.md` par page**. Les pages HTML ne contiennent que la structure (en-tête, menu, pied de page) : `assets/js/rendu.js` lit le fichier Markdown de la page et l'affiche avec le thème « Quête d'aventure ».
+Tout le texte du portfolio se trouve dans ce dossier `contenu/` : **un fichier `.md` par page**. Les pages HTML ne contiennent que la structure (en-tête, menu, pied de page) : `assets/js/rendu.js` lit le fichier Markdown de la page et l'affiche avec le thème « Quête d'aventure ». À chaque push, le pré-rendu (`outils/prerendu.mjs`) écrit ce texte directement dans le HTML, pour les moteurs de recherche : ne modifie jamais le `<main>` d'une page HTML, seulement son `.md`.
 
 | Page | Fichier à modifier |
 |---|---|
@@ -15,11 +15,12 @@ Tout le texte du portfolio se trouve dans ce dossier `contenu/` : **un fichier `
 | Tableau E5 | `tableau-e5.md` |
 | Contact | `contact.md` (le formulaire lui-même est dans `pages/contact.html`) |
 | Mentions légales, confidentialité, plan du site | `mentions-legales.md`, `confidentialite.md`, `plan-du-site.md` |
+| Page 404 (adresse inconnue) | `404.md` |
 | Réglages communs (ton nom, e-mail, liens, pied de page) | `site.md` |
 
 ## Voir ses modifications
 
-Le navigateur refuse de lire les fichiers `.md` quand on ouvre `index.html` par un double-clic. Lance plutôt le serveur local : **double-clic sur `outils/serveur-local.bat`** (ou extension *Live Server* de VS Code). Modifie un fichier `.md`, enregistre, puis actualise la page (F5).
+Le navigateur refuse de lire les fichiers `.md` quand on ouvre `index.html` par un double-clic. Lance plutôt le serveur local : **double-clic sur `outils/serveur-local.bat`** (ou extension *Live Server* de VS Code). Modifie un fichier `.md`, enregistre, puis actualise la page (F5). Sur `localhost`, les pages sont toujours reconstruites à partir des `.md` ; en ligne, elles le sont par le pré-rendu, une minute environ après le push.
 
 ## 1. Les bases
 
@@ -88,9 +89,17 @@ Quelques réglages se placent tout en haut du fichier, entre deux lignes `---` :
 mise-en-page: fiche          (accueil, fiche, texte, contact ; rien = page standard)
 fil-ariane: Projet 1         (texte court affiché dans le fil d'Ariane)
 parent: [Projets](pages/projets.html)
-photo: assets/img/photo.jpg  (ta photo dans un cadre doré, à côté du titre ; ex. page Compétences)
+photo: assets/img/photo.webp (ta photo dans un cadre doré, à côté du titre ; ex. page Compétences)
+titre-onglet: Projet serveur web   (titre de l'onglet en aperçu local, si différent du titre de la page)
+titre-seo: Serveur web Debian en HTTPS — Projet de Dylan JOFFREDO
+description: Projet BTS SIO SISR de Dylan JOFFREDO : héberger son portfolio sur un serveur Debian…
+indexer: non                 (page cachée aux moteurs de recherche et absente du sitemap)
 ---
 ```
+
+- **`titre-seo:`** : titre affiché par Google et dans l'onglet, **60 caractères au plus**. Mets-y ton nom et ce que chercherait un recruteur ou un jury (BTS SIO SISR, technicien support, alternance Nantes) plus le sujet de la page, sans bourrage de mots-clés.
+- **`description:`** : texte affiché sous le titre dans Google et dans l'aperçu d'un lien partagé, **155 caractères au plus**, unique pour chaque page.
+- Ces deux champs sont repris par le pré-rendu ; le journal du pré-rendu signale un texte trop long.
 
 ## 6. Blocs spéciaux
 
@@ -132,7 +141,7 @@ Juste sous le titre d'une carte, les lignes `date:` et `source:` s'affichent en 
 ```markdown
 ::: fiche
 niveau: 2
-photo: assets/img/photo.jpg
+photo: assets/img/photo.webp
 lien: [Voir mes compétences](pages/competences.html)
 
 - Rigueur : 4
@@ -326,17 +335,17 @@ Un `x` = coche dorée ; une ligne dont seule la première case est en **gras** =
 ## 7. Ajouter une page
 
 1. Copie une page HTML existante (ex. `pages/veille.html`) sous un nouveau nom.
-2. Dans cette copie, change `<title>`, la `description` et l'attribut `data-contenu="contenu/ma-page.md"` de la balise `<body>`.
-3. Crée `contenu/ma-page.md`.
-4. Ajoute la page au menu (dans chaque page HTML), à `plan-du-site.md` et à `sitemap.xml`.
+2. Dans cette copie, change l'attribut `data-contenu="contenu/ma-page.md"` de la balise `<body>` (le reste de l'en-tête et le `<main>` sont réécrits par le pré-rendu).
+3. Crée `contenu/ma-page.md`, avec `titre-seo:` et `description:` dans son en-tête.
+4. Ajoute la page au menu (dans chaque page HTML) et à `plan-du-site.md`. `sitemap.xml` et `llms.txt` se mettent à jour seuls au push.
 
 ## 8. Ajouter une veille
 
 Chaque veille a sa fiche, comme un projet. Les trois veilles système, réseau et cybersécurité suivent la même structure : Introduction → Problématique → Contenu (actualités datées et sourcées, analyse) → Synthèses → Analyse critique et bilan → Sources → encadré « Mise en pratique ». Une veille reste de la veille : les tests en machines virtuelles vont dans une fiche projet (ici `projets/labo-parc-gaming.md`).
 
 1. Copie `pages/veille/systeme.html` sous le nouveau nom (ex. `pages/veille/stockage.html`).
-2. Dans la copie, change `<title>`, la `description`, `data-contenu="contenu/veille/stockage.md"` dans la balise `<body>` et le lien de la `<noscript>`.
-3. Copie `contenu/veille/systeme.md` en `contenu/veille/stockage.md` et remplace son texte (garde l'en-tête `mise-en-page: fiche`). Renomme les marqueurs `SYNTHESES-SYSTEME` (ex. `SYNTHESES-STOCKAGE`). Ne touche pas aux marqueurs `SYNTHESES` de `veille-1.md` : `/veille` écrit dedans.
+2. Dans la copie, change `data-contenu="contenu/veille/stockage.md"` dans la balise `<body>`.
+3. Copie `contenu/veille/systeme.md` en `contenu/veille/stockage.md` et remplace son texte (garde l'en-tête `mise-en-page: fiche`, adapte `titre-seo:` et `description:`). Renomme les marqueurs `SYNTHESES-SYSTEME` (ex. `SYNTHESES-STOCKAGE`). Ne touche pas aux marqueurs `SYNTHESES` de `veille-1.md` : `/veille` écrit dedans.
 4. Dans `veille.md`, ajoute une carte `### Titre` dans un bloc `::: quetes veilles`, avec `fiche: pages/veille/stockage.html`.
-5. Ajoute la fiche à `plan-du-site.md`, à `sitemap.xml` et, si besoin, au tableau E5 (`tableau-e5.md`).
+5. Ajoute la fiche à `plan-du-site.md` et, si besoin, au tableau E5 (`tableau-e5.md`). `sitemap.xml` se met à jour seul au push.
 6. Pour qu'elle ait sa section dans l'e-mail du lundi : ajoute-la à `CONFIG.VEILLES` dans `veille/apps-script/Code.gs` (nom, catégorie, lettre, flux, groupes de mots-clés, nombre d'articles), puis à `veille/config.json` avec sa fiche et ses marqueurs, et ajoute-la au tableau de `.claude/commands/veille.md` (voir le README, section « Veille automatisée »).

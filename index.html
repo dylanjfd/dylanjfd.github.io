@@ -3,21 +3,71 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dylan JOFFREDO — Portfolio BTS SIO</title>
-  <meta name="description" content="Dylan JOFFREDO, étudiant en BTS SIO option SISR en alternance à Nantes (support et systèmes) : projets, compétences, veille technologique et certifications.">
+  <title>Dylan JOFFREDO — Technicien support, BTS SIO SISR à Nantes</title>
+  <!-- Titre, description, aperçu de lien et données structurées : écrits par outils/prerendu.mjs d'après l'en-tête de contenu/accueil.md -->
+  <meta name="description" content="Dylan JOFFREDO, technicien support et systèmes en alternance à Nantes (BTS SIO SISR) : projets, compétences, veille technologique et certifications.">
   <link rel="canonical" href="https://dylanjoffredo.me/">
-  <!-- Aperçu affiché quand le lien est partagé (LinkedIn, Discord, WhatsApp…) -->
+  <!-- Aperçu affiché quand le lien est partagé (LinkedIn, Discord, WhatsApp, X…) -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="Dylan JOFFREDO · Portfolio BTS SIO">
-  <meta property="og:title" content="Dylan JOFFREDO — Portfolio BTS SIO">
-  <meta property="og:description" content="Dylan JOFFREDO, étudiant en BTS SIO option SISR en alternance à Nantes (support et systèmes) : projets, compétences, veille technologique et certifications.">
+  <meta property="og:title" content="Dylan JOFFREDO — Technicien support, BTS SIO SISR à Nantes">
+  <meta property="og:description" content="Dylan JOFFREDO, technicien support et systèmes en alternance à Nantes (BTS SIO SISR) : projets, compétences, veille technologique et certifications.">
   <meta property="og:url" content="https://dylanjoffredo.me/">
   <meta property="og:image" content="https://dylanjoffredo.me/assets/img/apercu.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Dylan JOFFREDO, technicien support et systèmes, portfolio BTS SIO">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dylan JOFFREDO — Technicien support, BTS SIO SISR à Nantes">
+  <meta name="twitter:description" content="Dylan JOFFREDO, technicien support et systèmes en alternance à Nantes (BTS SIO SISR) : projets, compétences, veille technologique et certifications.">
+  <meta name="twitter:image" content="https://dylanjoffredo.me/assets/img/apercu.png">
+  <meta name="twitter:image:alt" content="Dylan JOFFREDO, technicien support et systèmes, portfolio BTS SIO">
+  <!-- Données structurées (schema.org) : qui je suis, fil d'Ariane -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://dylanjoffredo.me/#personne",
+        "name": "Dylan JOFFREDO",
+        "jobTitle": "Technicien support et systèmes",
+        "description": "Technicien support et systèmes en alternance chez MyDigitalSchool à Nantes, étudiant en BTS SIO option SISR (2026 – 2028).",
+        "url": "https://dylanjoffredo.me/",
+        "image": "https://dylanjoffredo.me/assets/img/photo.jpg",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Nantes",
+          "addressCountry": "FR"
+        },
+        "worksFor": {
+          "@type": "Organization",
+          "name": "MyDigitalSchool"
+        },
+        "affiliation": {
+          "@type": "EducationalOrganization",
+          "name": "MyDigitalSchool Nantes"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/in/dylan-joffredo-1212342a0/",
+          "https://github.com/dylanjfd"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://dylanjoffredo.me/#site",
+        "url": "https://dylanjoffredo.me/",
+        "name": "Dylan JOFFREDO · Portfolio BTS SIO",
+        "description": "Dylan JOFFREDO, technicien support et systèmes en alternance à Nantes (BTS SIO SISR) : projets, compétences, veille technologique et certifications.",
+        "inLanguage": "fr-FR",
+        "author": {
+          "@id": "https://dylanjoffredo.me/#personne"
+        }
+      }
+    ]
+  }
+  </script>
   <meta name="color-scheme" content="dark light">
   <!-- theme-color : bleu nuit (thème sombre) ; passe à #f3ecdd en thème clair -->
   <meta name="theme-color" content="#0e1320">
@@ -33,7 +83,7 @@
   <script src="assets/js/interface.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </head>
-<body data-racine="" data-contenu="contenu/accueil.md">
+<body data-racine data-contenu="contenu/accueil.md">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
 
   <header class="site-header">
@@ -66,14 +116,31 @@
     </div>
   </header>
 
-  <!-- Le texte de cette page est rédigé en Markdown dans contenu/accueil.md et affiché par assets/js/rendu.js -->
-  <main id="contenu" tabindex="-1" aria-busy="true">
-    <noscript>
-      <div class="container contenu-etat">
-        <p class="notice notice--info"><strong class="notice__title">JavaScript désactivé</strong> Ce portfolio affiche son contenu grâce à JavaScript. Version texte de cette page : <a href="contenu/accueil.md">contenu/accueil.md</a>.</p>
-      </div>
-    </noscript>
-  </main>
+  <!-- Texte de cette page : contenu/accueil.md. outils/prerendu.mjs l'écrit dans <main> à chaque push : modifier le .md, pas le HTML. -->
+  <main id="contenu" tabindex="-1" data-prerendu><section class="hero" aria-labelledby="hero-title"><div class="hero__decor" aria-hidden="true"><div class="topo"></div><svg class="hero__compass" viewBox="0 0 200 200" focusable="false">
+    <defs>
+      <g id="compass-point"><path d="M100 6 107 93 100 100Z"/><path d="M100 6 93 93 100 100Z" fill-opacity=".38"/></g>
+      <g id="compass-point-small"><path d="M100 36 104.5 95.5 100 100Z"/><path d="M100 36 95.5 95.5 100 100Z" fill-opacity=".38"/></g>
+    </defs>
+    <g class="compass__ring" fill="none" stroke="currentColor">
+      <circle cx="100" cy="100" r="97" stroke-width=".7"/>
+      <circle cx="100" cy="100" r="91" stroke-width="3" stroke-dasharray=".7 4.065"/>
+      <circle cx="100" cy="100" r="85.5" stroke-width=".6"/>
+      <circle cx="100" cy="100" r="60" stroke-width=".5" stroke-dasharray="1.5 3"/>
+    </g>
+    <g class="compass__needle" fill="currentColor">
+      <use href="#compass-point-small" transform="rotate(45 100 100)"/>
+      <use href="#compass-point-small" transform="rotate(135 100 100)"/>
+      <use href="#compass-point-small" transform="rotate(225 100 100)"/>
+      <use href="#compass-point-small" transform="rotate(315 100 100)"/>
+      <use href="#compass-point"/>
+      <use href="#compass-point" transform="rotate(90 100 100)"/>
+      <use href="#compass-point" transform="rotate(180 100 100)"/>
+      <use href="#compass-point" transform="rotate(270 100 100)"/>
+      <circle cx="100" cy="100" r="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+      <circle cx="100" cy="100" r="2.2"/>
+    </g>
+  </svg><canvas class="hero__particles" data-particles></canvas></div><div class="container hero__grid"><div class="hero__content"><p class="status-pill"><span class="status-pill__dot" aria-hidden="true"></span><span>En alternance chez MyDigitalSchool jusqu'en 2028</span></p><p class="eyebrow">Prologue</p><h1 class="hero__title" id="hero-title">Dylan JOFFREDO</h1><p class="lead">Étudiant en <strong>BTS Services Informatiques aux Organisations</strong>, option <strong>SISR</strong>, en alternance chez MyDigitalSchool à Nantes : j'assure le support informatique et l'administration du parc du campus. Passionné de hardware depuis mes 16 ans et issu d'une reconversion, j'apporte rigueur, sang-froid et sens du service.</p><div class="hero__actions"><a class="btn btn--primary" href="assets/docs/cv.pdf" data-apercu-pdf><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/></svg>Voir mon CV</a><a class="btn btn--ghost" href="pages/projets.html">Voir mes projets<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div><ul class="chip-links" aria-label="Me retrouver"><li><a class="chip-link" href="https://github.com/dylanjfd" target="_blank" rel="me noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 7.5 4 12l4.5 4.5M15.5 7.5 20 12l-4.5 4.5M13.5 5l-3 14"/></svg>GitHub<span class="sr-only"> (nouvel onglet)</span></a></li><li><a class="chip-link" href="https://www.linkedin.com/in/dylan-joffredo-1212342a0/" target="_blank" rel="me noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.9-3.6 3.7-5.5 7-5.5s6.1 1.9 7 5.5"/></svg>LinkedIn<span class="sr-only"> (nouvel onglet)</span></a></li><li><a class="chip-link" href="pages/contact.html"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg>Me contacter</a></li></ul></div><div class="hero__sheet reveal"><aside class="card sheet card--link" aria-labelledby="sheet-title"><p class="eyebrow sheet__label" id="sheet-title">Fiche de personnage</p><div class="sheet__head"><div class="portrait"><div class="portrait__frame"><img src="assets/img/photo.webp" alt="Photo de Dylan JOFFREDO" width="216" height="216"></div></div><div><p class="sheet__name">Dylan JOFFREDO</p><dl class="sheet-stats"><div><dt>Classe</dt><dd><span>SISR</span><span class="sheet-stats__hint">Solutions d'infrastructure, systèmes et réseaux</span></dd></div><div><dt>Niveau</dt><dd>Niv. 1<span class="sheet-stats__hint">année de BTS (1 ou 2)</span></dd></div></dl></div></div><div class="divider" aria-hidden="true"></div><p class="sheet__subtitle">Attributs <span>savoir-être</span></p><ul class="attributes"><li class="attribute"><span class="attribute__name">Rigueur &amp; méthodologie</span><span class="attribute__value">4<span aria-hidden="true">/</span><span class="sr-only"> sur </span>5</span><span class="gauge" data-value="4" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span></li><li class="attribute"><span class="attribute__name">Gestion du stress</span><span class="attribute__value">5<span aria-hidden="true">/</span><span class="sr-only"> sur </span>5</span><span class="gauge" data-value="5" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span></li><li class="attribute"><span class="attribute__name">Autonomie &amp; adaptabilité</span><span class="attribute__value">4<span aria-hidden="true">/</span><span class="sr-only"> sur </span>5</span><span class="gauge" data-value="4" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span></li><li class="attribute"><span class="attribute__name">Sens du service client</span><span class="attribute__value">5<span aria-hidden="true">/</span><span class="sr-only"> sur </span>5</span><span class="gauge" data-value="5" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span></li></ul><a class="card__more stretched-link" href="pages/competences.html">Voir mes compétences <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></aside></div></div></section><div class="section section--alt"><div class="container split"><section class="reveal" aria-labelledby="biographie"><p class="eyebrow">Origines</p><h2 id="biographie">Biographie</h2><p>Passionné de hardware depuis mes 16 ans, je monte et dépanne des PC pour mon entourage : choix des composants selon le besoin et le budget, assemblage, installation du système, optimisation des performances et diagnostic de pannes. Après une formation en aménagement paysager puis plusieurs années en cuisine, j'ai choisi de faire de cette passion mon métier.</p><p>Depuis 2026, je prépare le BTS SIO option SISR en alternance chez MyDigitalSchool (groupe Eduservices) : support des utilisateurs, déploiement de postes Windows, gestion du cycle de vie du matériel et documentation technique. Mes expériences passées m'ont appris à garder mon sang-froid sous pression, à organiser le travail d'une équipe et à respecter des normes strictes.</p><dl class="info-list"><div><dt>Formation</dt><dd>BTS SIO en alternance — MyDigitalSchool, Nantes (2026 – 2028)</dd></div><div><dt>Option</dt><dd>SISR</dd></div><div><dt>Alternance</dt><dd>Technicien support &amp; systèmes, campus de Nantes</dd></div><div><dt>Localisation</dt><dd>Nantes et alentours</dd></div><div><dt>Langues</dt><dd>Français (natif), anglais (niveau B2)</dd></div><div><dt>Centres d'intérêt</dt><dd>Veille hardware, musculation, voyages</dd></div></dl></section><section class="reveal" aria-labelledby="parcours"><p class="eyebrow">Chapitres de l'aventure</p><h2 id="parcours">Parcours</h2><ol class="timeline"><li class="timeline__item is-current"><p class="timeline__date">2026 – 2028<span class="badge badge--progress"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.6"/></svg>En cours</span></p><h3 class="timeline__title">BTS SIO — option SISR, en alternance</h3><p class="timeline__meta">MyDigitalSchool — campus de Nantes</p></li><li class="timeline__item is-current"><p class="timeline__date">Depuis 2026<span class="badge badge--progress"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.6"/></svg>En cours</span></p><h3 class="timeline__title">Alternant support informatique &amp; parc</h3><p class="timeline__meta">MyDigitalSchool (groupe Eduservices) — support utilisateurs, déploiement de postes, documentation</p></li><li class="timeline__item is-done"><p class="timeline__date">2022 – 2025<span class="badge badge--done"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 8.5 3.2 3.2L13 4.8"/></svg>Terminé</span></p><h3 class="timeline__title">Cuisinier</h3><p class="timeline__meta">Gestion du stress, organisation d'équipe, rigueur et logistique</p></li><li class="timeline__item is-done"><p class="timeline__date">2021<span class="badge badge--done"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 8.5 3.2 3.2L13 4.8"/></svg>Terminé</span></p><h3 class="timeline__title">Paysagiste / créateur d'espaces verts</h3><p class="timeline__meta">Lecture de plans, respect des délais, relation client</p></li><li class="timeline__item is-done"><p class="timeline__date">2020-2021<span class="badge badge--done"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 8.5 3.2 3.2L13 4.8"/></svg>Terminé</span></p><h3 class="timeline__title">BEP puis Bac pro Aménagement paysager</h3><p class="timeline__meta">Lycée de Kerplouz — Auray</p></li></ol></section></div></div><section class="section" aria-labelledby="projet-professionnel"><div class="container"><header class="section__header reveal"><p class="eyebrow">Prochaine destination</p><h2 id="projet-professionnel">Projet professionnel</h2><p class="section__intro">Mon objectif après le BTS est de suivre des formations en montage d'ordinateurs et en microsoudure, afin d'être apte à créer mon entreprise.</p></header><ul class="grid grid--3 reveal-group"><li class="reveal"><div class="card"><p class="card__kicker">Étape I</p><h3 class="card__title">À court terme</h3><p class="card__text">Obtenir mon BTS SIO option SISR en 2028, en consolidant en alternance mes compétences réseau (TCP/IP, DHCP, DNS, VLAN).</p></div></li><li class="reveal"><div class="card"><p class="card__kicker">Étape II</p><h3 class="card__title">À moyen terme</h3><p class="card__text">Faire mes formations pour acquérir de nouvelles compétences.</p></div></li><li class="reveal"><div class="card"><p class="card__kicker">Destination finale</p><h3 class="card__title">À long terme</h3><p class="card__text">Créer mon entreprise de réparation d'ordinateurs, de location de PC haute performance et d'événementiel.</p></div></li></ul></div></section><section class="section section--alt" aria-labelledby="explorer-le-portfolio"><div class="container"><header class="section__header reveal"><p class="eyebrow">Carte du monde</p><h2 id="explorer-le-portfolio">Explorer le portfolio</h2></header><ul class="grid grid--3 reveal-group"><li class="reveal"><div class="card card--link explore-card"><span class="explore-card__num" aria-hidden="true">I</span><p class="card__kicker">Journal de quêtes</p><h3 class="card__title"><a class="stretched-link" href="pages/projets.html">Projets</a></h3><p class="card__text">Mes réalisations détaillées : contexte, objectifs, solution, résultats.</p><span class="card__more" aria-hidden="true">Découvrir <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></li><li class="reveal"><div class="card card--link explore-card"><span class="explore-card__num" aria-hidden="true">II</span><p class="card__kicker">Arbre de talents</p><h3 class="card__title"><a class="stretched-link" href="pages/competences.html">Compétences</a></h3><p class="card__text">Langages, outils, systèmes et réseaux, bases de données, avec niveaux.</p><span class="card__more" aria-hidden="true">Découvrir <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></li><li class="reveal"><div class="card card--link explore-card"><span class="explore-card__num" aria-hidden="true">III</span><p class="card__kicker">Codex</p><h3 class="card__title"><a class="stretched-link" href="pages/veille.html">Veille</a></h3><p class="card__text">Mes sujets de veille technologique : outils, sources et synthèses.</p><span class="card__more" aria-hidden="true">Découvrir <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></li><li class="reveal"><div class="card card--link explore-card"><span class="explore-card__num" aria-hidden="true">IV</span><p class="card__kicker">Chapitres</p><h3 class="card__title"><a class="stretched-link" href="pages/alternance.html">Alternance</a></h3><p class="card__text">Missions réalisées et bilan.</p><span class="card__more" aria-hidden="true">Découvrir <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></li><li class="reveal"><div class="card card--link explore-card"><span class="explore-card__num" aria-hidden="true">V</span><p class="card__kicker">Succès</p><h3 class="card__title"><a class="stretched-link" href="pages/certifications.html">Certifications</a></h3><p class="card__text">Certifications, MOOC, langues et badges numériques.</p><span class="card__more" aria-hidden="true">Découvrir <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></li><li class="reveal"><div class="card card--link explore-card"><span class="explore-card__num" aria-hidden="true">VI</span><p class="card__kicker">Progression</p><h3 class="card__title"><a class="stretched-link" href="pages/tableau-e5.html">Tableau E5</a></h3><p class="card__text">Le tableau de synthèse officiel des réalisations professionnelles.</p><span class="card__more" aria-hidden="true">Découvrir <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></li></ul></div></section></main>
 
   <footer class="site-footer">
     <div class="container footer__grid">
@@ -83,7 +150,7 @@
           <span data-site="nom">Dylan JOFFREDO</span>
         </p>
         <!-- Texte tiré de contenu/site.md -->
-        <div data-site="pied"><p>Portfolio réalisé dans le cadre du BTS SIO. Support de présentation pour l'épreuve E5.</p></div>
+        <div data-site="pied"><p>Portfolio réalisé dans le cadre du BTS SIO — option SISR. Support de présentation pour l'épreuve E5.</p></div>
       </div>
       <nav aria-labelledby="footer-nav-title">
         <h2 class="footer__title" id="footer-nav-title">Navigation</h2>

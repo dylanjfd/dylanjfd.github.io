@@ -2,6 +2,8 @@
 mise-en-page: fiche
 fil-ariane: Labo parc gaming
 parent: [Projets](pages/projets.html)
+titre-seo: Sécuriser un parc de PC gaming — Labo de Dylan JOFFREDO
+description: Labo de Dylan JOFFREDO (BTS SIO SISR) : déployer, restaurer et protéger 25 PC gaming avec Clonezilla, FOG Project, Unified Write Filter et EICAR.
 ---
 
 <!--
@@ -202,6 +204,7 @@ Lui expliquer les bonnes pratiques. [[Conseils donnés.]]
 ## Codex | Veilles liées
 - **Système** : [Gérer un parc de PC en libre-service](pages/veille/systeme.html)
 - **Cybersécurité** : [Pourquoi les joueurs sont-ils ciblés ?](pages/veille/cybersecurite.html)
+- [Mes compétences systèmes et réseaux](pages/competences.html)
 :::
 
 ::: encart ressources

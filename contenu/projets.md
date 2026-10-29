@@ -1,3 +1,8 @@
+---
+titre-seo: Projets BTS SIO SISR — Dylan JOFFREDO, alternance Nantes
+description: Projets de Dylan JOFFREDO, technicien support en alternance à Nantes (BTS SIO SISR) : serveur web Debian, systèmes sous VirtualBox, parc de PC gaming.
+---
+
 <!--
   PAGE PROJETS (pages/projets.html) — « Journal de quêtes »
   Une quête par projet, dans le bloc « ::: quetes » :

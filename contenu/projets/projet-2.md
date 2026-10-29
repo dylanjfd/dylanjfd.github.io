@@ -3,6 +3,8 @@ mise-en-page: fiche
 fil-ariane: Projet 2
 titre-onglet: Installation de systèmes sous VirtualBox
 parent: [Projets](pages/projets.html)
+titre-seo: Systèmes sous VirtualBox — Projet BTS SIO de Dylan JOFFREDO
+description: Projet BTS SIO SISR de Dylan JOFFREDO : six systèmes Windows et Linux installés sous VirtualBox, mis en réseau, testés et documentés.
 ---
 
 <!--
@@ -71,7 +73,7 @@ Ubuntu (mises à jour, serveur SSH), Linux Mint (miroirs de mises à jour franç
 Ping entre les machines, vers Internet (8.8.8.8) et par nom (www.debian.org), découverte du réseau avec nmap depuis Kali, puis restauration d'un instantané : le fichier de test créé après l'instantané a bien disparu.
 :::
 
-![Scan nmap -sn 192.168.50.0/24 lancé depuis Kali : les machines démarrées, la passerelle et le serveur DHCP du réseau RN-TPOS répondent.](assets/img/projet-2-nmap.png)
+![Scan nmap -sn 192.168.50.0/24 lancé depuis Kali : les machines démarrées, la passerelle et le serveur DHCP du réseau RN-TPOS répondent.](assets/img/projet-2-nmap.webp)
 
 ## Butin et bilan | Résultats
 
@@ -118,6 +120,12 @@ Clique ou fais glisser une arme vers le centre.
 ::: encart ressources
 ## Archives | Documents
 - [Documentation technique (PDF)](assets/docs/tp-installation-os-virtualbox.pdf)
+:::
+
+::: encart
+## Codex | Pour aller plus loin
+- [Mes compétences systèmes et réseaux](pages/competences.html)
+- [Veille système : gérer un parc de PC en libre-service](pages/veille/systeme.html)
 :::
 
 ::: navigation Navigation entre les projets

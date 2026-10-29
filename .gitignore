@@ -8,5 +8,8 @@ veille/tampon.json
 # Python
 __pycache__/
 
+# Node (pré-rendu : outils/prerendu.mjs)
+node_modules/
+
 # Réglages locaux de Claude Code
 .claude/settings.local.json

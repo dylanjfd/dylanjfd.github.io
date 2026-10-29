@@ -4,7 +4,7 @@ Site statique (HTML, CSS et JavaScript, sans framework ni bibliothèque) qui ser
 
 Thème visuel : **« Quête d'aventure »**, une interface inspirée des jeux d'aventure / RPG modernes, sobre et professionnelle (titres classiques, vocabulaire RPG réservé aux petits libellés).
 
-**Le texte de chaque page se modifie dans un fichier Markdown** (`contenu/*.md`) : pas besoin de toucher au HTML. La syntaxe est expliquée dans [`contenu/GUIDE-MARKDOWN.md`](contenu/GUIDE-MARKDOWN.md).
+**Le texte de chaque page se modifie dans un fichier Markdown** (`contenu/*.md`) : pas besoin de toucher au HTML. La syntaxe est expliquée dans [`contenu/GUIDE-MARKDOWN.md`](contenu/GUIDE-MARKDOWN.md). À chaque push, un pré-rendu écrit ce texte dans les pages HTML, pour les moteurs de recherche et les robots des IA (section 5).
 
 ## Sommaire
 
@@ -25,7 +25,9 @@ Thème visuel : **« Quête d'aventure »**, une interface inspirée des jeux d'
 Chaque langage a ses propres fichiers : **HTML** pour la structure, **Markdown** pour le texte, **CSS** pour l'apparence, **JavaScript** pour le comportement. Aucun style ni script n'est écrit dans les pages HTML.
 
 ```
-index.html, pages/*.html      Structure des pages (en-tête, menu, pied de page)
+index.html, pages/*.html      Pages du site : en-tête, menu, pied de page ; le texte du <main> et
+                              les balises de référencement sont écrits par outils/prerendu.mjs
+404.html                      Page affichée pour une adresse inconnue (texte : contenu/404.md)
 pages/projets/*.html          Structure des fiches projet (projet-1 à 3, labo-parc-gaming)
 pages/veille/*.html           Structure des fiches de veille : systeme, reseau, cybersecurite
                               (veille-1.html : ancienne adresse de reseau.html, simple redirection)
@@ -33,7 +35,7 @@ contenu/                      TEXTE DES PAGES, un fichier Markdown par page
   site.md                     Ton nom, ton e-mail, tes liens, le texte du pied de page
   accueil.md, projets.md, competences.md, veille.md, alternance.md,
   certifications.md, tableau-e5.md, contact.md,
-  mentions-legales.md, confidentialite.md, plan-du-site.md
+  mentions-legales.md, confidentialite.md, plan-du-site.md, 404.md
   projets/projet-1.md … projet-3.md, labo-parc-gaming.md (tests liés aux veilles)
   veille/systeme.md, cybersecurite.md   Veilles système et cybersécurité (projet Reboot)
   veille/veille-1.md          Veille réseau « souveraineté numérique » (ne pas renommer)
@@ -59,7 +61,9 @@ assets/js/
   presentation.js             Épée, bouclier et présentation de l'oral en plein écran (fiche du projet 2)
   pdfjs/                      PDF.js de Mozilla (affichage des diapos) + licence Apache 2.0 LICENSE.txt
   main.js                     Réglages CONFIG (option SISR/SLAM, formulaire) + démarrage
-assets/img/                   favicon.svg, topo.svg (carte topographique originale)
+assets/img/                   favicon.svg, topo.svg (carte topographique originale), photo.webp
+                              (photo.jpg : données structurées), apercu.png (aperçu des liens partagés),
+                              captures des projets en WebP
 assets/fonts/                 Police Cinzel + licence OFL.txt
 assets/docs/                  cv-nuit.pdf et cv-parchemin.pdf (ton CV, thèmes sombre et clair),
                               cv.pdf (copie de cv-nuit.pdf, utilisée sans JavaScript),
@@ -67,6 +71,8 @@ assets/docs/                  cv-nuit.pdf et cv-parchemin.pdf (ton CV, thèmes s
                               tp-installation-os-virtualbox.pdf (documentation du projet 2),
                               tp-installation-os-virtualbox-presentation.pdf (diapos de l'oral du projet 2)
 outils/serveur-local.bat      Serveur local de prévisualisation (Windows)
+outils/prerendu.mjs           Pré-rendu des pages (Node + jsdom), sitemap.xml et llms.txt
+package.json, package-lock.json  Outils du pré-rendu (jsdom) ; rien n'est chargé par le site
 veille/                       Veille automatisée (voir section 9)
   apps-script/Code.gs         Collecte et e-mail du lundi des trois veilles (Google Apps Script) : la référence
   config.json                 Copie de la configuration de Code.gs (veilles, flux, mots-clés, fiches)
@@ -75,11 +81,14 @@ veille/                       Veille automatisée (voir section 9)
   seen.json, digests/         Ancienne méthode : liens déjà envoyés, articles de chaque e-mail
   processed.json              Réponses déjà utilisées dans une synthèse
   tests/                      Tests des scripts Python
+.github/workflows/prerendu.yml  Pré-rendu à chaque push sur main (GitHub Actions)
 .github/workflows/veille.yml  Ancienne méthode, lancement manuel seulement (GitHub Actions)
 .claude/commands/veille.md    Commande /veille de Claude Code (synthèses du mois)
 .env.example                  Modèle du fichier .env (identifiants Gmail locaux, jamais publiés)
 contact.php                   Envoi du formulaire sur un hébergement PHP
-sitemap.xml, robots.txt       Référencement
+sitemap.xml, llms.txt         Plan du site et présentation pour les assistants IA (écrits par le pré-rendu)
+robots.txt                    Robots autorisés (moteurs de recherche et IA)
+googleb0f14027f8473c03.html   Validation Google Search Console : ne jamais supprimer
 .nojekyll                     Indique à GitHub Pages de publier les fichiers tels quels
 LICENSE                       Licence MIT du code
 ```
@@ -93,7 +102,7 @@ Le navigateur refuse de lire les fichiers `.md` quand on ouvre `index.html` par 
 - **Python** (s'il est installé) : `python -m http.server 8000`.
 - **PHP** (exécute aussi `contact.php`) : `php -S localhost:8000`.
 
-Modifie un fichier `.md`, enregistre, puis actualise la page (F5).
+Modifie un fichier `.md`, enregistre, puis actualise la page (F5). Sur `localhost`, chaque page est reconstruite à partir de son `.md` : pas besoin de relancer le pré-rendu pour voir ses modifications.
 
 ## 3. Modifier le contenu
 
@@ -112,7 +121,7 @@ Tout texte entre **doubles crochets** `[[…]]` s'affiche encadré en pointillé
 
 ### Raccourcis utiles (détails dans le guide)
 
-- **Photo** : dépose ta photo dans `assets/img/` puis indique son chemin dans `contenu/accueil.md` (`photo: assets/img/photo.jpg`, bloc `::: fiche`).
+- **Photo** : dépose ta photo dans `assets/img/` puis indique son chemin dans `contenu/accueil.md` (`photo: assets/img/photo.webp`, bloc `::: fiche`). Pense aussi au champ `photo:` de `site.md` (données structurées, en JPG).
 - **Niveau et attributs** de la fiche de personnage : bloc `::: fiche` de `accueil.md` (attributs notés sur 5, la jauge suit).
 - **Compétences** : une ligne `- Nom — précisions : niveau` (1 Notions, 2 Intermédiaire, 3 Avancé, 4 Maîtrise).
 - **Projets** : bloc `::: quetes` de `projets.md` (type principale/secondaire/annexe, statut, compétences E5…) et un fichier par fiche dans `contenu/projets/`.
@@ -154,6 +163,15 @@ Le portfolio doit être accessible en ligne, en HTTPS. Exemple avec **GitHub Pag
 5. Utilise Formspree pour le formulaire (GitHub Pages n'exécute pas PHP).
 
 Le fichier `.nojekyll` empêche GitHub Pages de transformer les fichiers `.md` : ils restent lisibles par le site. Avec GitHub, tu peux aussi corriger un texte directement dans le navigateur : ouvre le fichier `.md` sur github.com, clique sur le crayon, enregistre (*Commit changes*), et le site est mis à jour en une minute.
+
+### Pré-rendu et référencement
+
+Le texte des pages est construit à partir des `.md` par `assets/js/rendu.js`. Pour que les moteurs de recherche et les robots des IA (qui n'exécutent pas tous JavaScript) le lisent, `outils/prerendu.mjs` exécute ces mêmes scripts dans jsdom et écrit le résultat directement dans le `<main>` de chaque page : le HTML obtenu est identique à celui du navigateur. Dans le navigateur, `rendu.js` voit que la page est déjà construite (`<main data-prerendu>`) et ne la refait pas ; `interface.js` ajoute le thème, les animations, le CV assorti, etc.
+
+- **Automatique** : `.github/workflows/prerendu.yml` lance le pré-rendu à chaque push sur `main`. S'il y a du changement, le robot GitHub ajoute un commit « Pré-rendu automatique des pages » et le site est republié. **Avant ton push suivant : `git pull --rebase`.**
+- **À la main** (facultatif, Node 26 ou plus) : `npm install` une fois, puis `npm run prerendu`. Le journal indique, pour chaque page, le nombre de mots, la longueur du titre et de la description, les cases à compléter et les titres `<h1>`-`<h6>` mal ordonnés.
+- **Titre et description de chaque page** : champs `titre-seo:` (60 caractères au plus) et `description:` (155 au plus) en tête du `.md`. `indexer: non` retire une page des moteurs de recherche et du sitemap (ex. `projet-3.md`, pas encore rédigé).
+- Le pré-rendu écrit aussi la balise canonical, l'aperçu de lien (`og:`, `twitter:`), les données structurées JSON-LD (accueil : `Person` et `WebSite` d'après `site.md` ; autres pages : fil d'Ariane), `sitemap.xml` (dates `<lastmod>` d'après Git) et `llms.txt`. À vérifier : [test des résultats enrichis de Google](https://search.google.com/test/rich-results?url=https%3A%2F%2Fdylanjoffredo.me%2F) et [validateur schema.org](https://validator.schema.org/#url=https%3A%2F%2Fdylanjoffredo.me%2F).
 
 Alternatives : Netlify ou Vercel (glisser-déposer du dossier), ou un hébergeur PHP (OVH, Infomaniak, Hostinger…) pour utiliser `contact.php`. Un nom de domaine (`prenom-nom.fr`, environ 10 €/an) est recommandé mais pas obligatoire.
 
@@ -223,7 +241,7 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 | Mentions légales : auteur, contact, hébergeur, crédits | `contenu/mentions-legales.md` | Hébergeur à compléter |
 | RGPD : politique de confidentialité, consentement ; aucun cookie donc pas de bandeau | `contenu/confidentialite.md`, case de consentement | Fait |
 | Ressources libres de droits | Visuels SVG originaux, police sous licence OFL | Fait (photo : la tienne) |
-| SEO : balises meta, titres descriptifs, HTML sémantique, sitemap XML | Toutes les pages, `sitemap.xml`, `robots.txt` | Domaine à renseigner |
+| SEO : balises meta, titres descriptifs, HTML sémantique, sitemap XML | Toutes les pages (pré-rendu, JSON-LD), `sitemap.xml`, `robots.txt`, `llms.txt` | Fait |
 | Liens fonctionnels (pas de 404) | Liens internes vérifiés | Fait |
 | Licence du code + fichier `LICENSE` | `LICENSE` (MIT) | Fait |
 | Accessibilité RGAA : alternatives textuelles, contrastes, clavier | Voir section 8 | Fait |
@@ -233,7 +251,7 @@ Consignes : <https://ghenry.net/bts/sio/[E5]_Details_Portefolio.php>
 
 ## 8. Accessibilité, RGPD et licence
 
-- **Accessibilité** : lien d'évitement, navigation complète au clavier, focus visible en or, flèches directionnelles (← → : page précédente / suivante dans l'ordre du menu, ou boutons de bas de page sur une fiche projet ; après Tab, les quatre flèches déplacent la sélection vers l'élément le plus proche dans toute la page, Échap la retire), menu mobile utilisable au clavier (Échap pour fermer), textes alternatifs, décors masqués aux lecteurs d'écran, aucune information portée uniquement par la couleur (icônes et textes sur les badges, statuts et jauges), contrastes AA vérifiés dans les deux thèmes, respect de `prefers-reduced-motion`. Sans JavaScript, chaque page indique où lire sa version texte (fichier Markdown) et le formulaire de contact reste utilisable.
+- **Accessibilité** : lien d'évitement, navigation complète au clavier, focus visible en or, flèches directionnelles (← → : page précédente / suivante dans l'ordre du menu, ou boutons de bas de page sur une fiche projet ; après Tab, les quatre flèches déplacent la sélection vers l'élément le plus proche dans toute la page, Échap la retire), menu mobile utilisable au clavier (Échap pour fermer), textes alternatifs, décors masqués aux lecteurs d'écran, aucune information portée uniquement par la couleur (icônes et textes sur les badges, statuts et jauges), contrastes AA vérifiés dans les deux thèmes, respect de `prefers-reduced-motion`. Sans JavaScript, tout le texte des pages s'affiche (pré-rendu) et le formulaire de contact reste utilisable.
 - **RGPD** : aucun cookie, aucun outil de mesure d'audience, aucune ressource chargée depuis un service tiers. Seul le choix du thème est mémorisé dans le navigateur (`localStorage`, clé `theme`). Le formulaire demande un consentement explicite.
 - **Licence** : code sous licence MIT (`LICENSE`). La police Cinzel reste sous SIL Open Font License 1.1, PDF.js (`assets/js/pdfjs/`, version 6.4.299) sous licence Apache 2.0 ; les contenus personnels restent la propriété de leur auteur.
 

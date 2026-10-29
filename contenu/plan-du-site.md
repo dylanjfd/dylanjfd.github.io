@@ -1,7 +1,12 @@
+---
+titre-seo: Plan du site — Portfolio BTS SIO de Dylan JOFFREDO
+description: Toutes les pages du portfolio BTS SIO SISR de Dylan JOFFREDO : projets, compétences, veille technologique, alternance, certifications et contact.
+---
+
 <!--
   PAGE PLAN DU SITE (pages/plan-du-site.html)
   Dans le bloc « ::: plan », chaque « ## Titre » devient une carte de liens.
-  Pense à ajouter ici toute nouvelle page (et dans sitemap.xml).
+  Pense à ajouter ici toute nouvelle page (sitemap.xml se met à jour tout seul au push).
 -->
 
 # Carte du monde | Plan du site
@@ -16,8 +21,8 @@ Toutes les pages du portfolio, regroupées par thème.
 
 ## Réalisations
 - [Projets](pages/projets.html)
-  - [Projet 1](pages/projets/projet-1.html)
-  - [Projet 2](pages/projets/projet-2.html)
+  - [Projet 1 : serveur web Debian en HTTPS](pages/projets/projet-1.html)
+  - [Projet 2 : systèmes sous VirtualBox](pages/projets/projet-2.html)
   - [Labo : parc de PC gaming](pages/projets/labo-parc-gaming.html)
 - [Tableau de synthèse E5](pages/tableau-e5.html)
 

@@ -2,6 +2,7 @@
 mise-en-page: fiche
 fil-ariane: Projet 3
 parent: [Projets](pages/projets.html)
+indexer: non
 ---
 
 <!--

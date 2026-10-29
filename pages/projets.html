@@ -3,21 +3,47 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Projets — Dylan JOFFREDO · Portfolio BTS SIO</title>
-  <meta name="description" content="Projets réalisés en entreprise et en formation dans le cadre du BTS SIO : contexte, objectifs, solution et résultats.">
+  <title>Projets BTS SIO SISR — Dylan JOFFREDO, alternance Nantes</title>
+  <!-- Titre, description, aperçu de lien et données structurées : écrits par outils/prerendu.mjs d'après l'en-tête de contenu/projets.md -->
+  <meta name="description" content="Projets de Dylan JOFFREDO, technicien support en alternance à Nantes (BTS SIO SISR) : serveur web Debian, systèmes sous VirtualBox, parc de PC gaming.">
   <link rel="canonical" href="https://dylanjoffredo.me/pages/projets.html">
-  <!-- Aperçu affiché quand le lien est partagé (LinkedIn, Discord, WhatsApp…) -->
+  <!-- Aperçu affiché quand le lien est partagé (LinkedIn, Discord, WhatsApp, X…) -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="Dylan JOFFREDO · Portfolio BTS SIO">
-  <meta property="og:title" content="Projets — Dylan JOFFREDO">
-  <meta property="og:description" content="Projets réalisés en entreprise et en formation dans le cadre du BTS SIO : contexte, objectifs, solution et résultats.">
+  <meta property="og:title" content="Projets BTS SIO SISR — Dylan JOFFREDO, alternance Nantes">
+  <meta property="og:description" content="Projets de Dylan JOFFREDO, technicien support en alternance à Nantes (BTS SIO SISR) : serveur web Debian, systèmes sous VirtualBox, parc de PC gaming.">
   <meta property="og:url" content="https://dylanjoffredo.me/pages/projets.html">
   <meta property="og:image" content="https://dylanjoffredo.me/assets/img/apercu.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Dylan JOFFREDO, technicien support et systèmes, portfolio BTS SIO">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Projets BTS SIO SISR — Dylan JOFFREDO, alternance Nantes">
+  <meta name="twitter:description" content="Projets de Dylan JOFFREDO, technicien support en alternance à Nantes (BTS SIO SISR) : serveur web Debian, systèmes sous VirtualBox, parc de PC gaming.">
+  <meta name="twitter:image" content="https://dylanjoffredo.me/assets/img/apercu.png">
+  <meta name="twitter:image:alt" content="Dylan JOFFREDO, technicien support et systèmes, portfolio BTS SIO">
+  <!-- Données structurées (schema.org) : qui je suis, fil d'Ariane -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://dylanjoffredo.me/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Projets",
+        "item": "https://dylanjoffredo.me/pages/projets.html"
+      }
+    ]
+  }
+  </script>
   <meta name="color-scheme" content="dark light">
   <!-- theme-color : bleu nuit (thème sombre) ; passe à #f3ecdd en thème clair -->
   <meta name="theme-color" content="#0e1320">
@@ -66,14 +92,8 @@
     </div>
   </header>
 
-  <!-- Le texte de cette page est rédigé en Markdown dans contenu/projets.md et affiché par assets/js/rendu.js -->
-  <main id="contenu" tabindex="-1" aria-busy="true">
-    <noscript>
-      <div class="container contenu-etat">
-        <p class="notice notice--info"><strong class="notice__title">JavaScript désactivé</strong> Ce portfolio affiche son contenu grâce à JavaScript. Version texte de cette page : <a href="../contenu/projets.md">contenu/projets.md</a>.</p>
-      </div>
-    </noscript>
-  </main>
+  <!-- Texte de cette page : contenu/projets.md. outils/prerendu.mjs l'écrit dans <main> à chaque push : modifier le .md, pas le HTML. -->
+  <main id="contenu" tabindex="-1" data-prerendu><header class="page-hero"><div class="page-hero__decor" aria-hidden="true"><div class="topo"></div></div><div class="container"><nav class="breadcrumb" aria-label="Fil d'Ariane"><ol><li><a href="../index.html">Accueil</a></li><li><span aria-current="page">Projets</span></li></ol></nav><p class="eyebrow">Journal de quêtes</p><h1>Projets</h1><p class="page-hero__intro">Mes réalisations, en entreprise, en formation et en projet personnel. Chaque fiche présente le contexte, les objectifs, la solution mise en œuvre et les résultats obtenus.</p><ul class="legend" aria-label="Légende"><li><span class="badge badge--main"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="currentColor"/></svg>Quête principale</span>projet réalisé en entreprise</li><li><span class="badge badge--side"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2.2 13.8 8 8 13.8 2.2 8Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Quête secondaire</span>projet réalisé en formation</li><li><span class="badge badge--personal"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.2Q9 7 14.8 8 9 9 8 14.8 7 9 1.2 8 7 7 8 1.2Z" fill="currentColor"/></svg>Quête annexe</span>projet personnel</li></ul></div></header><section class="section" aria-labelledby="liste-des-projets"><div class="container"><h2 class="sr-only" id="liste-des-projets">Liste des projets</h2><div class="filters" role="group" aria-label="Filtrer les projets"><button class="filter-btn" type="button" data-filter="all" aria-pressed="true">Tous les projets</button><button class="filter-btn" type="button" data-filter="entreprise" aria-pressed="false">Quêtes principales <span class="filter-btn__hint">(entreprise)</span></button><button class="filter-btn" type="button" data-filter="academique" aria-pressed="false">Quêtes secondaires <span class="filter-btn__hint">(formation)</span></button><button class="filter-btn" type="button" data-filter="personnel" aria-pressed="false">Quêtes annexes <span class="filter-btn__hint">(personnel)</span></button></div><p class="filters__count" role="status" data-filter-count>3 projets affichés</p><ul class="quest-grid reveal-group"><li class="reveal" data-type="personnel"><article class="card quest-card card--link"><div class="quest-card__badges"><span class="badge badge--personal"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.2Q9 7 14.8 8 9 9 8 14.8 7 9 1.2 8 7 7 8 1.2Z" fill="currentColor"/></svg>Quête annexe</span><span class="badge badge--progress"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.6"/></svg>En cours</span></div><h3 class="quest-card__title"><a class="stretched-link" href="../pages/projets/projet-1.html">Déploiement et administration d’un serveur web personnel</a></h3><p class="quest-card__desc">Hébergement de mon portfolio sur un serveur Debian que j'ai installé, sécurisé et supervisé moi-même, en HTTPS.</p><p class="quest-card__meta">Projet personnel · depuis octobre 2026</p><ul class="tags" aria-label="Technologies"><li>Debian</li><li>Nginx</li><li>Cloudflare</li><li>Git</li><li>Uptime Kuma</li></ul><div class="rewards rewards--inline"><p class="rewards__label">Récompenses :</p><ul class="rewards__list" aria-label="Compétences E5 mobilisées"><li>Patrimoine</li><li>Présence en ligne</li><li>Mode projet</li></ul></div><span class="card__more" aria-hidden="true">Voir la fiche <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></article></li><li class="reveal" data-type="academique"><article class="card quest-card card--link"><div class="quest-card__badges"><span class="badge badge--side"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2.2 13.8 8 8 13.8 2.2 8Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Quête secondaire</span><span class="badge badge--done"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 8.5 3.2 3.2L13 4.8"/></svg>Terminée</span></div><h3 class="quest-card__title"><a class="stretched-link" href="../pages/projets/projet-2.html">Installation de systèmes d'exploitation sous VirtualBox</a></h3><p class="quest-card__desc">Six machines virtuelles Windows et Linux installées, reliées en réseau, testées et documentées pas à pas, avec 16 incidents résolus.</p><p class="quest-card__meta">Projet en formation — 1re année · octobre 2026</p><ul class="tags" aria-label="Technologies"><li>VirtualBox</li><li>Windows 11</li><li>Windows Server 2025</li><li>Ubuntu</li><li>Linux Mint</li><li>Kali Linux</li></ul><div class="rewards rewards--inline"><p class="rewards__label">Récompenses :</p><ul class="rewards__list" aria-label="Compétences E5 mobilisées"><li>Patrimoine</li><li>Incidents</li><li>Mise à disposition</li></ul></div><span class="card__more" aria-hidden="true">Voir la fiche <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></article></li><li class="reveal" data-type="personnel"><article class="card quest-card card--link"><div class="quest-card__badges"><span class="badge badge--personal"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.2Q9 7 14.8 8 9 9 8 14.8 7 9 1.2 8 7 7 8 1.2Z" fill="currentColor"/></svg>Quête annexe</span><span class="badge badge--progress"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.6"/></svg>En cours</span></div><h3 class="quest-card__title"><a class="stretched-link" href="../pages/projets/labo-parc-gaming.html">Labo : gestion et sécurisation d'un parc de PC gaming</a></h3><p class="quest-card__desc">Tests en machines virtuelles pour déployer, restaurer et protéger les 25 PC de la salle gaming de Reboot, et procédure de l'atelier pour un PC infecté.</p><p class="quest-card__meta">Projet personnel, lié à mes veilles · <span class="todo">depuis …</span></p><ul class="tags" aria-label="Technologies"><li>Clonezilla</li><li>FOG Project</li><li>Unified Write Filter</li><li>EICAR</li></ul><div class="rewards rewards--inline"><p class="rewards__label">Récompenses :</p><ul class="rewards__list" aria-label="Compétences E5 mobilisées"><li>Patrimoine</li><li>Incidents</li><li>Mise à disposition</li></ul></div><span class="card__more" aria-hidden="true">Voir la fiche <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></article></li></ul></div></section><section class="section section--alt" aria-labelledby="tableau-de-synthese-e5"><div class="container"><header class="section__header section__header--center reveal"><p class="eyebrow">Progression</p><h2 id="tableau-de-synthese-e5">Tableau de synthèse E5</h2><p class="section__intro">Toutes les réalisations et les compétences mobilisées pour chacune sont récapitulées dans le tableau de synthèse.</p><div class="section__actions"><a class="btn btn--primary" href="../pages/tableau-e5.html">Consulter le tableau E5<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></header></div></section></main>
 
   <footer class="site-footer">
     <div class="container footer__grid">
@@ -83,7 +103,7 @@
           <span data-site="nom">Dylan JOFFREDO</span>
         </p>
         <!-- Texte tiré de contenu/site.md -->
-        <div data-site="pied"><p>Portfolio réalisé dans le cadre du BTS SIO. Support de présentation pour l'épreuve E5.</p></div>
+        <div data-site="pied"><p>Portfolio réalisé dans le cadre du BTS SIO — option SISR. Support de présentation pour l'épreuve E5.</p></div>
       </div>
       <nav aria-labelledby="footer-nav-title">
         <h2 class="footer__title" id="footer-nav-title">Navigation</h2>

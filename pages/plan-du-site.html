@@ -3,21 +3,47 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Plan du site — Dylan JOFFREDO · Portfolio BTS SIO</title>
-  <meta name="description" content="Plan du site : toutes les pages du portfolio BTS SIO.">
+  <title>Plan du site — Portfolio BTS SIO de Dylan JOFFREDO</title>
+  <!-- Titre, description, aperçu de lien et données structurées : écrits par outils/prerendu.mjs d'après l'en-tête de contenu/plan-du-site.md -->
+  <meta name="description" content="Toutes les pages du portfolio BTS SIO SISR de Dylan JOFFREDO : projets, compétences, veille technologique, alternance, certifications et contact.">
   <link rel="canonical" href="https://dylanjoffredo.me/pages/plan-du-site.html">
-  <!-- Aperçu affiché quand le lien est partagé (LinkedIn, Discord, WhatsApp…) -->
+  <!-- Aperçu affiché quand le lien est partagé (LinkedIn, Discord, WhatsApp, X…) -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="Dylan JOFFREDO · Portfolio BTS SIO">
-  <meta property="og:title" content="Plan du site — Dylan JOFFREDO">
-  <meta property="og:description" content="Plan du site : toutes les pages du portfolio BTS SIO.">
+  <meta property="og:title" content="Plan du site — Portfolio BTS SIO de Dylan JOFFREDO">
+  <meta property="og:description" content="Toutes les pages du portfolio BTS SIO SISR de Dylan JOFFREDO : projets, compétences, veille technologique, alternance, certifications et contact.">
   <meta property="og:url" content="https://dylanjoffredo.me/pages/plan-du-site.html">
   <meta property="og:image" content="https://dylanjoffredo.me/assets/img/apercu.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Dylan JOFFREDO, technicien support et systèmes, portfolio BTS SIO">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Plan du site — Portfolio BTS SIO de Dylan JOFFREDO">
+  <meta name="twitter:description" content="Toutes les pages du portfolio BTS SIO SISR de Dylan JOFFREDO : projets, compétences, veille technologique, alternance, certifications et contact.">
+  <meta name="twitter:image" content="https://dylanjoffredo.me/assets/img/apercu.png">
+  <meta name="twitter:image:alt" content="Dylan JOFFREDO, technicien support et systèmes, portfolio BTS SIO">
+  <!-- Données structurées (schema.org) : qui je suis, fil d'Ariane -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://dylanjoffredo.me/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Plan du site",
+        "item": "https://dylanjoffredo.me/pages/plan-du-site.html"
+      }
+    ]
+  }
+  </script>
   <meta name="color-scheme" content="dark light">
   <!-- theme-color : bleu nuit (thème sombre) ; passe à #f3ecdd en thème clair -->
   <meta name="theme-color" content="#0e1320">
@@ -66,14 +92,8 @@
     </div>
   </header>
 
-  <!-- Le texte de cette page est rédigé en Markdown dans contenu/plan-du-site.md et affiché par assets/js/rendu.js -->
-  <main id="contenu" tabindex="-1" aria-busy="true">
-    <noscript>
-      <div class="container contenu-etat">
-        <p class="notice notice--info"><strong class="notice__title">JavaScript désactivé</strong> Ce portfolio affiche son contenu grâce à JavaScript. Version texte de cette page : <a href="../contenu/plan-du-site.md">contenu/plan-du-site.md</a>.</p>
-      </div>
-    </noscript>
-  </main>
+  <!-- Texte de cette page : contenu/plan-du-site.md. outils/prerendu.mjs l'écrit dans <main> à chaque push : modifier le .md, pas le HTML. -->
+  <main id="contenu" tabindex="-1" data-prerendu><header class="page-hero"><div class="page-hero__decor" aria-hidden="true"><div class="topo"></div></div><div class="container"><nav class="breadcrumb" aria-label="Fil d'Ariane"><ol><li><a href="../index.html">Accueil</a></li><li><span aria-current="page">Plan du site</span></li></ol></nav><p class="eyebrow">Carte du monde</p><h1>Plan du site</h1><p class="page-hero__intro">Toutes les pages du portfolio, regroupées par thème.</p></div></header><section class="section"><div class="container sitemap"><section class="card" aria-labelledby="presentation"><h2 id="presentation">Présentation</h2><ul><li><a href="../index.html">Accueil</a> — biographie, parcours, projet professionnel</li><li><a href="../assets/docs/cv.pdf">CV (PDF)</a></li></ul></section><section class="card" aria-labelledby="realisations"><h2 id="realisations">Réalisations</h2><ul><li><a href="../pages/projets.html">Projets</a><ul><li><a href="../pages/projets/projet-1.html">Projet 1 : serveur web Debian en HTTPS</a></li><li><a href="../pages/projets/projet-2.html">Projet 2 : systèmes sous VirtualBox</a></li><li><a href="../pages/projets/labo-parc-gaming.html">Labo : parc de PC gaming</a></li></ul></li><li><a href="../pages/tableau-e5.html">Tableau de synthèse E5</a></li></ul></section><section class="card" aria-labelledby="parcours-et-competences"><h2 id="parcours-et-competences">Parcours et compétences</h2><ul><li><a href="../pages/competences.html">Compétences</a></li><li><a href="../pages/veille.html">Veille technologique</a><ul><li><a href="../pages/veille/systeme.html">Veille système : parc de PC en libre-service</a></li><li><a href="../pages/veille/reseau.html">Veille réseau : souveraineté numérique des PME</a></li><li><a href="../pages/veille/cybersecurite.html">Veille cybersécurité : les joueurs ciblés</a></li></ul></li><li><a href="../pages/alternance.html">Alternance</a></li><li><a href="../pages/certifications.html">Certifications</a></li></ul></section><section class="card" aria-labelledby="informations"><h2 id="informations">Informations</h2><ul><li><a href="../pages/contact.html">Contact</a></li><li><a href="../pages/mentions-legales.html">Mentions légales</a></li><li><a href="../pages/confidentialite.html">Politique de confidentialité</a></li><li><a href="../pages/plan-du-site.html">Plan du site</a></li></ul></section></div></section></main>
 
   <footer class="site-footer">
     <div class="container footer__grid">
@@ -83,7 +103,7 @@
           <span data-site="nom">Dylan JOFFREDO</span>
         </p>
         <!-- Texte tiré de contenu/site.md -->
-        <div data-site="pied"><p>Portfolio réalisé dans le cadre du BTS SIO. Support de présentation pour l'épreuve E5.</p></div>
+        <div data-site="pied"><p>Portfolio réalisé dans le cadre du BTS SIO — option SISR. Support de présentation pour l'épreuve E5.</p></div>
       </div>
       <nav aria-labelledby="footer-nav-title">
         <h2 class="footer__title" id="footer-nav-title">Navigation</h2>

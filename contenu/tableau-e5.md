@@ -1,6 +1,8 @@
 ---
 fil-ariane: Tableau E5
 titre-onglet: Tableau de synthèse E5
+titre-seo: Tableau de synthèse E5 BTS SIO SISR — Dylan JOFFREDO
+description: Tableau de synthèse de l'épreuve E5 du BTS SIO SISR de Dylan JOFFREDO : réalisations professionnelles et compétences du référentiel mobilisées.
 ---
 
 <!--

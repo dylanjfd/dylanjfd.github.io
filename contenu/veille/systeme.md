@@ -3,6 +3,8 @@ mise-en-page: fiche
 fil-ariane: Veille système
 titre-onglet: Veille système : gérer un parc de PC en libre-service
 parent: [Veille](pages/veille.html)
+titre-seo: Veille système : gérer un parc de PC — Dylan JOFFREDO
+description: Veille système BTS SIO SISR : déploiement d'images, restauration au redémarrage ou diskless pour les 25 PC d'une salle gaming. Actualités et analyse.
 ---
 
 <!--
