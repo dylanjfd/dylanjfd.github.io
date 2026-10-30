@@ -28,6 +28,8 @@ Chaque langage a ses propres fichiers : **HTML** pour la structure, **Markdown**
 index.html, pages/*.html      Pages du site : en-tête, menu, pied de page ; le texte du <main> et
                               les balises de référencement sont écrits par outils/prerendu.mjs
 404.html                      Page affichée pour une adresse inconnue (texte : contenu/404.md)
+favicon.ico, apple-touch-icon.png  Logo (losange doré) pour les anciens navigateurs et l'écran d'accueil iPhone
+site.webmanifest              Nom et logo du site pour l'écran d'accueil Android
 pages/projets/*.html          Structure des fiches projet (projet-1 à 3, labo-parc-gaming)
 pages/veille/*.html           Structure des fiches de veille : systeme, reseau, cybersecurite
                               (veille-1.html : ancienne adresse de reseau.html, simple redirection)
@@ -61,7 +63,8 @@ assets/js/
   presentation.js             Épée, bouclier et présentation de l'oral en plein écran (fiche du projet 2)
   pdfjs/                      PDF.js de Mozilla (affichage des diapos) + licence Apache 2.0 LICENSE.txt
   main.js                     Réglages CONFIG (option SISR/SLAM, formulaire) + démarrage
-assets/img/                   favicon.svg, topo.svg (carte topographique originale), photo.webp
+assets/img/                   favicon.svg (logo : losange doré), icon-192.png et icon-512.png (logo pour
+                              Android), topo.svg (carte topographique originale), photo.webp
                               (photo.jpg : données structurées), apercu.png (aperçu des liens partagés),
                               captures des projets en WebP
 assets/fonts/                 Police Cinzel + licence OFL.txt
