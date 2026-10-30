@@ -92,6 +92,7 @@ contact.php                   Envoi du formulaire sur un hébergement PHP
 sitemap.xml, llms.txt         Plan du site et présentation pour les assistants IA (écrits par le pré-rendu)
 robots.txt                    Robots autorisés (moteurs de recherche et IA)
 googleb0f14027f8473c03.html   Validation Google Search Console : ne jamais supprimer
+dc78f2ceac64947040ec302e4163d39b.txt  Clé IndexNow (Bing, Yandex…) : ne jamais supprimer
 .nojekyll                     Indique à GitHub Pages de publier les fichiers tels quels
 LICENSE                       Licence MIT du code
 ```
@@ -175,6 +176,7 @@ Le texte des pages est construit à partir des `.md` par `assets/js/rendu.js`. P
 - **À la main** (facultatif, Node 26 ou plus) : `npm install` une fois, puis `npm run prerendu`. Le journal indique, pour chaque page, le nombre de mots, la longueur du titre et de la description, les cases à compléter et les titres `<h1>`-`<h6>` mal ordonnés.
 - **Titre et description de chaque page** : champs `titre-seo:` (60 caractères au plus) et `description:` (155 au plus) en tête du `.md`. `indexer: non` retire une page des moteurs de recherche et du sitemap (ex. `projet-3.md`, pas encore rédigé).
 - Le pré-rendu écrit aussi la balise canonical, l'aperçu de lien (`og:`, `twitter:`), les données structurées JSON-LD (accueil : `Person` et `WebSite` d'après `site.md` ; autres pages : fil d'Ariane), `sitemap.xml` (dates `<lastmod>` d'après Git) et `llms.txt`. À vérifier : [test des résultats enrichis de Google](https://search.google.com/test/rich-results?url=https%3A%2F%2Fdylanjoffredo.me%2F) et [validateur schema.org](https://validator.schema.org/#url=https%3A%2F%2Fdylanjoffredo.me%2F).
+- **IndexNow** : la dernière étape de `prerendu.yml` attend que le site soit republié, puis signale les pages dont la date `<lastmod>` a changé à Bing (qui alimente aussi Yahoo, DuckDuckGo, Ecosia, Qwant et Copilot), Yandex, Seznam, Naver et Yep. Le fichier `dc78f2ceac64947040ec302e4163d39b.txt` à la racine prouve que le site t'appartient. Pour signaler toutes les pages d'un coup : onglet *Actions* → *Pré-rendu des pages* → *Run workflow*. Google n'utilise pas IndexNow : il lit `sitemap.xml`, déclaré dans [Search Console](https://search.google.com/search-console).
 
 Alternatives : Netlify ou Vercel (glisser-déposer du dossier), ou un hébergeur PHP (OVH, Infomaniak, Hostinger…) pour utiliser `contact.php`. Un nom de domaine (`prenom-nom.fr`, environ 10 €/an) est recommandé mais pas obligatoire.
 

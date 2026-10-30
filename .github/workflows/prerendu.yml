@@ -60,3 +60,36 @@ jobs:
           git push origin HEAD:main
           gh api -X POST "repos/$DEPOT/pages/builds" --silent \
             || echo "Demande de mise à jour refusée : le site sera publié au prochain push."
+
+      # IndexNow : signale les pages dont la date <lastmod> a changé à Bing (qui alimente aussi
+      # Yahoo, DuckDuckGo, Ecosia, Qwant et Copilot), Yandex, Seznam, Naver et Yep, une fois le
+      # site republié. Lancement manuel (Run workflow) : toutes les pages du sitemap sont signalées.
+      # Le fichier <CLE>.txt à la racine du site prouve qu'il t'appartient : ne jamais le supprimer.
+      - name: Prévenir les moteurs de recherche (IndexNow)
+        continue-on-error: true
+        env:
+          AVANT: ${{ github.event.before }}
+          CLE: dc78f2ceac64947040ec302e4163d39b
+          SITE: https://dylanjoffredo.me
+        run: |
+          entrees() { grep -o '<loc>[^<]*</loc><lastmod>[^<]*</lastmod>' | sort; }
+          if [ -n "$AVANT" ] && git cat-file -e "$AVANT:sitemap.xml" 2>/dev/null; then
+            CHANGEES=$(comm -13 <(git show "$AVANT:sitemap.xml" | entrees) <(entrees < sitemap.xml))
+          else
+            CHANGEES=$(entrees < sitemap.xml)
+          fi
+          URLS=$(printf '%s\n' "$CHANGEES" | sed -n 's|^<loc>\([^<]*\)</loc>.*|"\1"|p' | paste -sd, -)
+          if [ -z "$URLS" ]; then
+            echo "Aucune page modifiée : rien à signaler."
+            exit 0
+          fi
+          # Attendre que GitHub Pages ait publié ce sitemap (5 minutes au plus)
+          for i in $(seq 1 20); do
+            curl -sf "$SITE/sitemap.xml?v=$RANDOM" | cmp -s - sitemap.xml && break
+            sleep 15
+          done
+          echo "Pages signalées : $URLS"
+          curl -s -o /dev/null -w "Réponse IndexNow : %{http_code} (200 ou 202 = reçu)\n" \
+            -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"${SITE#https://}\",\"key\":\"$CLE\",\"keyLocation\":\"$SITE/$CLE.txt\",\"urlList\":[$URLS]}"
