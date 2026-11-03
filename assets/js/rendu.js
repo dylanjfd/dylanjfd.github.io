@@ -684,7 +684,7 @@
     return el('nav', { class: 'section section--alt', 'aria-label': b.args || 'Navigation entre les pages' }, div);
   }
 
-  /** Arbre de talents : « ### Branche I | Titre {icone=… option=…} » + « - Nom — détail : niveau » */
+  /** Arbre de talents : « ### Branche I | Titre {icone=… option=…} » + « - Nom — détail : niveau | preuve: page » */
   function competences(b) {
     const option = optionCourante();
     const legendeNiveaux = el('ul', { class: 'xp-legend', 'aria-label': 'Échelle des niveaux' },
@@ -716,13 +716,20 @@
 
   function competence(texte, option) {
     let t = texte.trim();
+    const p = RE_PREUVE.exec(t);
+    const lien = p ? PREUVES.get(p[1]) : null;
+    if (p) t = t.slice(0, p.index) + (p[2] ? ` ${p[2]}` : '');
     const filtre = /\s*\{option=(\w+)\}\s*$/i.exec(t);
     if (filtre) {
       if (filtre[1].toUpperCase() !== option) return null;
       t = t.slice(0, filtre.index);
     }
+    // « Vu dans : Titre de la page » sous la compétence (lien préparé par chargerPreuves)
+    const preuve = lien ? el('p', { class: 'skill__proof' }, [
+      'Vu dans : ', el('a', { href: lien.href, target: lien.target, rel: lien.rel }, lien.html),
+    ]) : null;
     const m = /^(.*?)\s*:\s*([1-4]|notions|interm[ée]diaire|avanc[ée]|ma[îi]trise)\s*$/i.exec(t);
-    if (!m) return el('li', { class: 'skill' }, el('span', { class: 'skill__name' }, ligne(t)));
+    if (!m) return el('li', { class: 'skill' }, [el('span', { class: 'skill__name' }, ligne(t)), preuve]);
     let niveau = Number(m[2]);
     if (!niveau) niveau = { notions: 1, intermediaire: 2, avance: 3, maitrise: 4 }[MD.normaliserCle(m[2])] || 1;
     const [nom, ...detail] = m[1].split(/\s+—\s+/);
@@ -730,7 +737,56 @@
       el('span', { class: 'skill__name' }, [ligne(nom.trim()), detail.length ? el('span', { class: 'skill__detail' }, ligne(detail.join(' — '))) : null]),
       el('span', { class: 'skill__level' }, NIVEAUX_XP[niveau - 1]),
       jauge(niveau, 4, true),
+      preuve,
     ]);
+  }
+
+  /**
+   * Preuves des compétences : « - Nom — détail : 3 | preuve: pages/projets/projet-2.html »,
+   * ou « | preuve: [Texte du lien](pages/…) » pour choisir le texte. Elles sont lues avant la
+   * construction de la page : le texte du lien est le titre de la page visée (« titre-onglet: »
+   * de son .md, sinon son titre « # »). Aucun lien vers une page introuvable, non publiée
+   * (« indexer: non », ex. projet-3) ou dont le titre est encore [[à compléter]].
+   */
+  const RE_PREUVE = /\s+\|\s*preuve\s*:\s*(.+?)\s*(\{option=\w+\})?\s*$/i;
+  let PREUVES = new Map();
+
+  async function chargerPreuves(blocs, variables) {
+    PREUVES = new Map();
+    const valeurs = new Set();
+    (function parcourir(liste) {
+      liste.filter((x) => x.type === 'conteneur').forEach((x) => {
+        if (x.nom !== 'competences') return parcourir(x.enfants);
+        x.enfants.filter((l) => l.type === 'liste').forEach((l) => l.elements.forEach((item) => {
+          const p = RE_PREUVE.exec(item.texte.trim());
+          if (p) valeurs.add(p[1]);
+        }));
+      });
+    }(blocs));
+    await Promise.all([...valeurs].map(async (valeur) => PREUVES.set(valeur, await lienPreuve(valeur, variables))));
+  }
+
+  async function lienPreuve(valeur, variables) {
+    const choisi = /^\[(.+)\]\(([^()\s]+)\)$/.exec(valeur);
+    const chemin = choisi ? choisi[2] : valeur;
+    let titre = choisi ? choisi[1] : '';
+    try {
+      if (!/^[a-z][\w+.-]*:/i.test(chemin)) {
+        // Page du portfolio : son .md (attribut data-contenu de la page) donne son titre et dit si elle est publiée
+        const source = /\bdata-contenu="([^"]+)"/.exec(await charger(chemin.replace(/[?#].*$/, '')));
+        if (!source) throw new Error('page sans fichier Markdown');
+        const page = MD.analyser(remplacerVariables(await charger(source[1]), variables));
+        if (MD.normaliserCle(page.entete.indexer || 'oui') === 'non') throw new Error('page non publiée (indexer: non)');
+        const h1 = page.blocs.find((x) => x.type === 'titre' && x.niveau === 1);
+        titre = titre || page.entete['titre-onglet'] || (h1 ? h1.texte : '');
+      }
+      if (!titre) throw new Error('texte du lien manquant : écrire « preuve: [Texte](adresse) »');
+      if (/\[\[/.test(titre)) throw new Error('titre de la page encore à compléter');
+    } catch (erreur) {
+      console.warn(`[Portfolio] Preuve « ${valeur} » sans lien : ${erreur.message}`);
+      return null;
+    }
+    return lienDepuis(`[${titre.replace(/[[\]]/g, '\\$&')}](${chemin})`);
   }
 
   /** Sources : « - [Nom](adresse) — description » (le texte du lien peut lui-même contenir « — »). */
@@ -1208,6 +1264,7 @@
       const site = MD.analyser(remplacerVariables(texteSite, variables));
       SITE = site.entete;
       const page = MD.analyser(remplacerVariables(textePage, variables));
+      await chargerPreuves(page.blocs, variables);
       main.textContent = '';
       const disposition = construirePage(main, page, formulaire);
       remplirGabarit(site);

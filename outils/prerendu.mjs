@@ -14,6 +14,10 @@
      (og:, twitter:) et données structurées JSON-LD, d'après l'en-tête du .md
      (champs « titre-seo: », « description: », « indexer: non ») ;
    - sitemap.xml (dates <lastmod> comprises) et llms.txt.
+   Page Compétences : les liens « Vu dans » (« | preuve: page » dans le .md)
+   prennent le titre de la page visée, lu dans son .md par rendu.js ; une preuve
+   refusée (page introuvable, non publiée ou titre [[à compléter]]) est signalée
+   dans le journal, avec le nombre de compétences qui ont une preuve.
    --------------------------------------------------------------------------
    Lancé à chaque push par .github/workflows/prerendu.yml.
    En local : npm install (une seule fois), puis npm run prerendu.
@@ -442,8 +446,10 @@ console.log(`Pré-rendu : ${pages.length} pages${erreurs ? `, ${erreurs} en erre
 pages.forEach((p) => {
   const mots = p.main.textContent.split(/\s+/).filter(Boolean).length;
   const cases = p.main.querySelectorAll('.todo').length;
+  const competences = p.main.querySelectorAll('.skill').length;
   const details = [`${mots} mots`, `titre ${p.titre.length}/${LIMITES.titre}`, `description ${p.description.length}/${LIMITES.description}`];
   if (cases) details.push(`${cases} case(s) à compléter`);
+  if (competences) details.push(`${p.main.querySelectorAll('.skill__proof').length}/${competences} compétences avec preuve`);
   if (p.noindex) details.push('noindex');
   console.log(`${p.alertes.length ? '!' : '✓'} ${p.chemin}${p.modifie ? ' (mis à jour)' : ''} — ${details.join(', ')}`);
   p.alertes.forEach((a) => console.log(`    ${a}`));

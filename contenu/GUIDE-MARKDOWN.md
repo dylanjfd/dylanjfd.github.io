@@ -248,13 +248,15 @@ Le bloc devient une épée et un bouclier sur les bords de la page, juste au-des
 
 ```markdown
 ::: competences
-### Branche I | Systèmes {icone=serveur option=SISR}
-- Windows Server — AD DS, DNS, DHCP : 3
-- Scripts d'administration — PowerShell : 1
+### Branche I | Matériel et systèmes {icone=serveur option=SISR}
+- Virtualisation — VirtualBox, machines virtuelles de test : 3 | preuve: pages/projets/projet-2.html
+- Montage de PC — Choix des pièces, BIOS, pilotes : 3
 :::
 ```
 
 Niveau en fin de ligne : `1` Notions, `2` Intermédiaire, `3` Avancé, `4` Maîtrise (la jauge et le libellé suivent). Icônes : `serveur`, `reseau`, `bouclier`, `code`, `application`, `base`, `outils`, `langue`. `{option=SISR}` ou `{option=SLAM}` limite la branche à une option.
+
+Preuve (facultatif) : `| preuve: chemin de la page` après le niveau affiche sous la jauge un petit lien « Vu dans : Titre de la page », vers la page du portfolio qui montre la compétence. Le titre est lu dans le .md de cette page (`titre-onglet:`, sinon son titre `#`) ; pour choisir le texte : `| preuve: [Texte](pages/…)`. Aucun lien n'est créé vers une page introuvable, non publiée (`indexer: non`) ou dont le titre est encore `[[à compléter]]` : un avertissement s'affiche dans la console du navigateur et dans le journal du pré-rendu.
 
 ### Veille — `::: sources`
 

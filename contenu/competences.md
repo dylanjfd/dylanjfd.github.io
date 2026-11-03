@@ -1,7 +1,7 @@
 ---
 photo: assets/img/photo.webp
-titre-seo: Compétences systèmes et réseaux — Dylan JOFFREDO, BTS SIO
-description: Compétences de Dylan JOFFREDO, technicien support en BTS SIO SISR : systèmes, réseaux, cybersécurité, outils et langues, avec niveau de maîtrise.
+titre-seo: Compétences support et systèmes — Dylan JOFFREDO, BTS SIO
+description: Compétences de Dylan JOFFREDO, technicien support en BTS SIO SISR : montage de PC, virtualisation, réseau, gestion de parc et cybersécurité, avec preuves.
 ---
 
 <!--
@@ -9,31 +9,34 @@ description: Compétences de Dylan JOFFREDO, technicien support en BTS SIO SISR 
   En-tête « photo: » : ta photo, affichée à côté du titre (la même que sur la fiche de personnage de l'accueil).
   Dans le bloc « ::: competences » :
     ### Branche I | Nom de la branche {icone=serveur option=SISR}
-    - Nom de la compétence — précisions : niveau
+    - Nom de la compétence — précisions : niveau | preuve: pages/projets/projet-2.html
   Niveau : 1 = Notions, 2 = Intermédiaire, 3 = Avancé, 4 = Maîtrise (la jauge suit automatiquement).
+  « | preuve: chemin de la page » (facultatif) : petit lien « Vu dans : Titre de la page » sous la compétence,
+    vers la page du portfolio qui la montre (le titre est lu dans le .md de cette page).
+    Pour choisir le texte du lien : « | preuve: [Texte](pages/…) ». Sans preuve, pas de lien.
+    Aucun lien n'est créé vers une page non publiée (« indexer: non », comme projet-3) ou dont le titre est [[à compléter]].
   Icônes disponibles : serveur, reseau, bouclier, code, application, base, outils, langue.
   {option=SISR} ou {option=SLAM} : la branche ne s'affiche que pour cette option (réglée dans assets/js/main.js).
+  « Prochaines quêtes » : simple liste, sans niveau, des compétences que je vais travailler.
 -->
 
 # Arbre de talents | Compétences
 
-Les compétences techniques acquises en formation, en alternance et en autoformation, avec leur niveau de maîtrise.
+Les compétences acquises en formation, en alternance et en autoformation, avec leur niveau de maîtrise. Sous une compétence, « Vu dans » mène à la page où je la mets en pratique.
 
 ## Compétences par domaine {masque}
 
 ::: competences
-### Branche I | Systèmes {icone=serveur option=SISR}
-- Windows Server — AD DS, DNS, DHCP, stratégies de groupe : 3
-- Linux (Debian, Ubuntu Server) — Services, droits, gestion des paquets : 2
-- Virtualisation — VirtualBox, Proxmox, VMware : 3
-- Scripts d'administration — PowerShell, Bash : 1
+### Branche I | Matériel et systèmes {icone=serveur option=SISR}
+- Montage de PC — Montage complet seul : choix des pièces, BIOS, installation de Windows et des pilotes : 3
+- Entretien de PC — Dépoussiérage, changement de pâte thermique, mises à jour : 3
+- Virtualisation — VirtualBox : création de machines virtuelles à partir d'images ISO pour mes tests : 3 | preuve: pages/projets/projet-2.html
+- Windows Server — Installation et premiers pas en machine virtuelle : 1 | preuve: pages/projets/projet-2.html
+- Linux — Installation d'Ubuntu, Linux Mint et Kali Linux en machine virtuelle et mises à jour : 1 | preuve: pages/projets/projet-2.html
 
 ### Branche II | Réseaux {icone=reseau option=SISR}
-- Adressage IP — IPv4, sous-réseaux, bases d'IPv6 : 3
-- Commutation et routage — VLAN, routage inter-VLAN, Cisco IOS : 2
-- Services réseau — DHCP, DNS, VPN : 2
-- Pare-feu — pfSense, règles de filtrage : 1
-- Schémas d'architecture réseau — draw.io, plans d'adressage, documentation : 3
+- Diagnostic réseau — Trouver pourquoi Internet ne marche pas : câble, Wi-Fi, ping, ipconfig : 3 | preuve: pages/projets/projet-2.html
+- Adressage IP — Adresse IP fixe configurée à la main, réseau entre machines virtuelles : 2 | preuve: pages/projets/projet-2.html
 
 ### Branche I | Développement d'applications {icone=application option=SLAM}
 - Programmation orientée objet — Java, C#, Python : 2
@@ -47,32 +50,39 @@ Les compétences techniques acquises en formation, en alternance et en autoforma
 - SGBD relationnels et NoSQL — MySQL / MariaDB, PostgreSQL, MongoDB : 2
 - Sécurité des données — Injections SQL, gestion des droits : 2
 
-### Branche III | Cybersécurité {icone=bouclier}
-- Sauvegarde et restauration — Stratégie 3-2-1, tests de restauration : 2
-- Gestion des habilitations — Comptes, groupes, principe du moindre privilège : 2
-- Protection des données — RGPD, sensibilisation des utilisateurs : 3
+### Branche III | Support et gestion de parc {icone=outils}
+- Support utilisateurs — Assistance aux étudiants et aux équipes du campus, sur place : 3 | preuve: pages/alternance.html
+- Inventaire du parc — Hector, étiquetage par QR code, suivi du matériel : 3 | preuve: pages/alternance.html
+- Matériel et salles — Préparation des salles, écrans, vidéoprojecteurs, petites réparations : 3
 
-### Branche IV | Développement et bases de données {icone=code option=SISR}
-- HTML et CSS — Sémantique, responsive, accessibilité : 3
-- JavaScript — DOM, événements, requêtes fetch : 2
-- PHP — Traitement de formulaires, accès aux données : 1
-- Bases de données — SQL, MySQL / MariaDB, sauvegarde d'une base : 2
+### Branche IV | Cybersécurité {icone=bouclier}
+- Sauvegarde des données — Avant une réinstallation ou une réparation : 2 | preuve: pages/projets/projet-2.html
+- Sensibilisation des utilisateurs — Arnaques, mots de passe, bons réflexes : 2
+- Veille sur les menaces — Logiciels malveillants qui visent les joueurs : 2 | preuve: pages/veille/cybersecurite.html
 
 ### Branche IV | Développement web {icone=code option=SLAM}
 - HTML et CSS — Sémantique, responsive, accessibilité : 3
 - JavaScript — DOM, événements, requêtes fetch : 2
 - PHP — Traitement de formulaires, accès aux données : 1
 
-### Branche V | Outils et méthodes {icone=outils}
-- Support utilisateur — Diagnostic, assistance de niveaux 1 et 2 : 3
-- Gestion de parc et tickets — GLPI, inventaire, suivi des demandes : 3
-- Git et GitHub — Versions, branches, dépôts distants : 2
-- Gestion de projet — Méthodes agiles (Scrum, Kanban), diagramme de Gantt : 2
-- Documentation technique — Procédures, Markdown, schémas : 3
+### Branche V | Web et outils {icone=code}
+- GitHub — Publication de mon portfolio avec GitHub Pages et mon nom de domaine : 2
+- Automatisation assistée par IA — Claude Code pour faire évoluer mon site, Google Apps Script pour ma veille : 2 | preuve: pages/veille.html
+- Rédaction en Markdown — Contenu de mon portfolio et documentation : 2
 
 ### Branche VI | Langues {icone=langue}
-- Anglais — Documentation technique, échanges écrits : 2
+- Anglais — Lecture de documentation technique : 2 | preuve: pages/veille/cybersecurite.html
 :::
+
+## Prochaines quêtes | Ce que j'apprends
+
+Les compétences que je vais travailler pendant mon BTS. Elles rejoindront l'arbre de talents, avec leur niveau, quand une réalisation les montrera.
+
+- Linux (Debian)
+- Active Directory (comptes, groupes, stratégies)
+- Scripts PowerShell
+- GLPI
+- VLAN et routage
 
 ## En situation | Ces compétences dans mes réalisations {centre}
 

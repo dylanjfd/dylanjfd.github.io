@@ -733,6 +733,31 @@ figcaption {
   grid-column: 1 / -1;
 }
 
+/* « Vu dans : page » sous la jauge : la page qui montre la compétence (« | preuve: … » dans le Markdown) */
+.skill__proof {
+  position: relative;
+  grid-column: 1 / -1;
+  margin: 0;
+  padding-left: 1.1em;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.skill__proof::before {
+  content: "";
+  position: absolute;
+  top: 0.62em;
+  left: 0.1em;
+  width: 0.42em;
+  height: 0.42em;
+  border: 1px solid var(--gold);
+  transform: rotate(45deg);
+}
+
+.skill__proof a {
+  font-weight: 600;
+}
+
 
 /* ==========================================================================
    19. Codex (veille technologique)
