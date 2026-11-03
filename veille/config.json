@@ -104,12 +104,11 @@
         { "nom": "Tom's Guide (Sécurité)", "url": "https://www.tomsguide.fr/category/web/securite/feed/", "langue": "FR" },
         { "nom": "Security Affairs", "url": "https://securityaffairs.com/feed", "langue": "EN" },
         { "nom": "The Hacker News", "url": "https://feeds.feedburner.com/TheHackersNews", "langue": "EN" },
-        { "nom": "Cybernews", "url": "https://cybernews.com/feed/", "langue": "EN" },
         { "nom": "Kaspersky Securelist", "url": "https://securelist.com/feed/", "langue": "EN" },
         { "nom": "Bitdefender (Hot for Security)", "url": "https://www.bitdefender.com/nuxt/api/en-us/rss/hotforsecurity/", "langue": "EN" },
-        { "nom": "Check Point Research", "url": "https://research.checkpoint.com/feed/", "langue": "EN" },
         { "nom": "Huntress", "url": "https://www.huntress.com/blog/rss.xml", "langue": "EN" }
       ],
+      "_flux_refuses": "Cybernews (cybernews.com/feed/) et Check Point Research (research.checkpoint.com/feed/) ont un flux RSS, mais refusent Apps Script (HTTP 403) : non suivis.",
       "_google_actualites": "Recherches Google Actualités (flux RSS), lues par Code.gs uniquement : adresse https://news.google.com/rss/search?q=REQUÊTE+when:7d&hl=fr&gl=FR&ceid=FR:fr (FR) ou &hl=en-US&gl=US&ceid=US:en (EN), when:90d pour rattrapageCyber. Nom affiché : « Google Actualités : <requête> », vrai nom du site tiré de la balise <source>. Les deux groupes de mots-clés s'appliquent au titre. pertinence : doublons regroupés (« + N autres sources ») et classement par pertinence (mots-clés menace + jeu, +2 si un mot de mots_titre_bonus est dans le titre), puis par date. max_en_attente : articles gardés en attente pour cette veille.",
       "google_actualites": [
         { "requete": "\"joueurs\" malware OR piratage OR arnaque", "langue": "FR" },
