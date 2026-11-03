@@ -478,10 +478,11 @@ function regrouper_(veille, articles) {
     p: a.p != null ? a.p : pertinence_(veille, a.t, a.r || ''),
     f: a.f || FIABILITE.flux,                                  // anciens articles : venus d'un flux
   })).sort((a, b) => b.f - a.f || b.p - a.p || b.d - a.d);
+  const generiques = motsGeneriques_(veille);
   const groupes = [];
   tries.forEach(a => {
     const mots = motsTitre_(a.t);
-    const groupe = groupes.find(g => g.mots.some(m => titresProches_(m, mots)));
+    const groupe = groupes.find(g => g.mots.some(m => titresProches_(m, mots, generiques)));
     if (groupe) { groupe.membres.push(a); groupe.mots.push(mots); }
     else groupes.push({ membres: [a], mots: [mots] });
   });
@@ -498,17 +499,34 @@ function regrouper_(veille, articles) {
 const MOTS_VIDES = ('les des une pour par sur dans avec qui que est sont aux son ses leur leurs cette ces plus pas ' +
   'apres selon comme the and for with from that this are was has have its into over after new how your you ' +
   'their they will can not now what why who').split(' ');
-/** Mots significatifs d'un titre (3 lettres et plus, sans accents ni mots vides). */
+/** Racine simple d'un mot : « emulators » → « emulator », « spreading » → « spread », « joueurs » → « joueur ». */
+function racine_(m) {
+  if (m.length > 5) m = m.replace(/(ing|ed)$/, '');
+  return m.length > 3 ? m.replace(/s$/, '') : m;
+}
+/** Mots significatifs d'un titre (3 lettres et plus, sans accents ni mots vides), ramenés à leur racine. */
 function motsTitre_(titre) {
   return normaliser_(titre).replace(/[^a-z0-9]+/g, ' ').split(' ')
-    .filter((m, i, t) => m.length >= 3 && MOTS_VIDES.indexOf(m) < 0 && t.indexOf(m) === i);
+    .filter(m => m.length >= 3 && MOTS_VIDES.indexOf(m) < 0).map(racine_)
+    .filter((m, i, t) => t.indexOf(m) === i);
 }
-/** Deux titres « très proches » : au moins 3 mots communs couvrant 75 % du plus court, ou 60 % de mots communs en tout. */
-function titresProches_(a, b) {
+/** Mots des mots-clés de la veille (malware, gamer, fake…) : communs à beaucoup d'articles, ils ne suffisent pas à dire « même actu ». */
+function motsGeneriques_(veille) {
+  return [].concat(...veille.groupesMotsCles.map(g => [].concat(...g.map(motsTitre_))));
+}
+/**
+ * Deux titres parlent de la même actu : au moins 5 mots communs, ou 4 dont 2 qui ne sont pas des mots-clés
+ * de la veille (ex. « emulator », « github »), ou 3 mots communs couvrant 75 % du plus court, ou 60 % de mots
+ * communs en tout. « Fake Minecraft mods push malware to gamers » et « Fake PS5 emulators push malware to
+ * gamers » ne partagent que des mots génériques et « push » : deux actus différentes.
+ */
+function titresProches_(a, b, generiques) {
   if (!a.length || !b.length) return false;
-  const communs = a.filter(m => b.indexOf(m) >= 0).length;
-  const total = a.length + b.length - communs;
-  return (communs >= 3 && communs / Math.min(a.length, b.length) >= 0.75) || communs / total >= 0.6;
+  const communs = a.filter(m => b.indexOf(m) >= 0);
+  const distinctifs = communs.filter(m => (generiques || []).indexOf(m) < 0).length;
+  const total = a.length + b.length - communs.length;
+  return communs.length >= 5 || (communs.length >= 4 && distinctifs >= 2) ||
+    (communs.length >= 3 && communs.length / Math.min(a.length, b.length) >= 0.75) || communs.length / total >= 0.6;
 }
 function autresSources_(a) {
   const n = a.autres.length;
