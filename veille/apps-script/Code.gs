@@ -15,6 +15,11 @@
  *    puis ta synthèse de la semaine sur une ligne qui commence par #SEMAINE.
  *  - Le premier lundi du mois, l'e-mail rappelle de demander à Claude les synthèses du mois précédent,
  *    construites en regroupant les synthèses de la semaine (#SEMAINE) de ce mois.
+ *  - Veille cybersécurité (C) : en plus des flux, des recherches Google Actualités ; la même actu reprise
+ *    par plusieurs sites n'apparaît qu'une fois (« + N autres sources ») et les articles sont classés
+ *    par pertinence (mots-clés menace + jeu trouvés, bonus si « joueur/gamer » est dans le titre), puis par date.
+ *  - `rattrapageCyber` (à lancer une seule fois à la main) : mêmes recherches sur 90 jours, dans un e-mail
+ *    à part « [Veille] Rattrapage cybersécurité », sans toucher à l'e-mail du lundi.
  *
  * Mise en place : coller ce fichier dans le projet Apps Script, exécuter `testerFlux`, puis `apercu`
  * (e-mail affiché dans le journal sans l'envoyer), puis une fois `installer`.
@@ -66,7 +71,12 @@ const CONFIG = {
     },
     {
       nom: 'Pourquoi les joueurs sont-ils l\'une des cibles favorites des cybercriminels ?',
-      categorie: 'Cybersécurité', prefixe: 'C', articlesMax: 6, actif: true,
+      categorie: 'Cybersécurité', prefixe: 'C', articlesMax: 10, actif: true,
+      // pertinence : la même actu reprise par plusieurs sites n'apparaît qu'une fois (« + N autres sources »)
+      // et les articles sont classés par pertinence (mots-clés menace + jeu, bonus motsTitreBonus), puis par date.
+      // maxEnAttente : articles gardés en attente pour cette veille (beaucoup de sources, donc plus que les autres).
+      pertinence: true, maxEnAttente: 80,
+      motsTitreBonus: ['joueur', 'joueuse', 'gamer'],
       flux: [
         { nom: 'CERT-FR (ANSSI)',                url: 'https://www.cert.ssi.gouv.fr/feed/', langue: 'FR' },
         { nom: 'Cybermalveillance.gouv.fr',      url: 'https://www.cybermalveillance.gouv.fr/feed/atom-flux-actualites', langue: 'FR' },
@@ -77,6 +87,30 @@ const CONFIG = {
         { nom: 'Numerama (Cyberguerre)',         url: 'https://www.numerama.com/cyberguerre/feed/', langue: 'FR' },
         { nom: 'Infosecurity Magazine',          url: 'https://www.infosecurity-magazine.com/rss/news/', langue: 'EN' },
         { nom: 'Tom\'s Guide (Sécurité)',        url: 'https://www.tomsguide.fr/category/web/securite/feed/', langue: 'FR' },
+        { nom: 'Security Affairs',               url: 'https://securityaffairs.com/feed', langue: 'EN' },
+        { nom: 'The Hacker News',                url: 'https://feeds.feedburner.com/TheHackersNews', langue: 'EN' },
+        { nom: 'Cybernews',                      url: 'https://cybernews.com/feed/', langue: 'EN' },
+        { nom: 'Kaspersky Securelist',           url: 'https://securelist.com/feed/', langue: 'EN' },
+        { nom: 'Bitdefender (Hot for Security)', url: 'https://www.bitdefender.com/nuxt/api/en-us/rss/hotforsecurity/', langue: 'EN' },
+        { nom: 'Check Point Research',           url: 'https://research.checkpoint.com/feed/', langue: 'EN' },
+        { nom: 'Huntress',                       url: 'https://www.huntress.com/blog/rss.xml', langue: 'EN' },
+      ],
+      // Recherches Google Actualités (flux RSS) : l'adresse est construite par urlGoogleActualites_
+      // (« when:7d », ou « when:90d » pour rattrapageCyber). Nom affiché : « Google Actualités : <requête> ».
+      // Le vrai nom du site vient de la balise <source> du flux. Ces articles passent aussi par les deux
+      // groupes de mots-clés (sur le titre : Google ne donne pas de résumé), car une requête comme « joueurs »
+      // remonte aussi du sport ou des piratages de plateformes crypto.
+      googleActualites: [
+        { requete: '"joueurs" malware OR piratage OR arnaque', langue: 'FR' },
+        { requete: '"jeu vidéo" cyberattaque', langue: 'FR' },
+        { requete: 'Steam OR Discord OR Roblox arnaque OR piratage', langue: 'FR' },
+        { requete: '"faux jeu" OR "faux cheat" virus', langue: 'FR' },
+        { requete: 'gamers malware OR infostealer', langue: 'EN' },
+        { requete: '"fake game" OR "fake cheat" malware', langue: 'EN' },
+        { requete: 'Steam OR Discord OR Roblox OR Minecraft malware', langue: 'EN' },
+        { requete: '"game mod" OR crack malware', langue: 'EN' },
+        { requete: '"GTA 6" malware OR scam', langue: 'EN' },
+        { requete: 'esports OR "gaming account" hack OR stolen', langue: 'EN' },
       ],
       // Alertes Google : déjà ciblées, elles ne passent pas par les mots-clés, seulement par l'anti-doublon.
       // Pour en ajouter une : sur https://www.google.fr/alerts, crée l'alerte (ex. « arnaque Steam »),
@@ -87,15 +121,20 @@ const CONFIG = {
         [ // menace
           'infostealer', 'voleur de données', 'stealer', 'malware', 'logiciel malveillant', 'Lumma', 'StealC',
           'phishing', 'hameçonnage', 'vol de compte', 'account takeover', 'cookie', 'session hijacking',
-          'piratage', 'piraté', 'hacked', 'hack', 'arnaque', 'escroquerie', 'scam', 'compromis', 'compromised',
-          'fuite de données', 'data breach', 'ransomware', 'rançongiciel', 'trojan', 'cheval de Troie',
-          'chevaux de Troie', 'backdoor',
+          'piratage', 'piraté', 'pirate', 'hacked', 'hack', 'hacker', 'arnaque', 'escroquerie', 'scam', 'fraud',
+          'fraude', 'compromis', 'compromised', 'fuite', 'fuite de données', 'data breach', 'ransomware',
+          'rançongiciel', 'wiper', 'trojan', 'cheval de Troie', 'chevaux de Troie', 'RAT', 'backdoor', 'virus',
+          'menace', 'cryptominer', 'minage', 'credential', 'identifiants', 'mot de passe', 'stolen', 'volé',
+          'fake', 'faux', 'piégé', 'piégée', 'cyberattaque', 'cyberattack',
         ],
         [ // jeu
-          'joueur', 'gamer', 'gaming', 'jeu vidéo', 'video game', 'cheat', 'mod', 'crack', 'Steam', 'Discord',
-          'Roblox', 'Fortnite', 'Minecraft', 'Valorant', 'Counter-Strike', 'CS2', 'GTA', 'skin', 'anti-cheat',
-          'Steam Workshop', 'itch.io', 'Epic Games', 'Riot Games', 'Battle.net', 'Xbox', 'PlayStation', 'Twitch',
-          'launcher', 'jeu PC', 'PC game', 'gamers',
+          'joueur', 'joueuse', 'gamer', 'gamers', 'gaming', 'jeu', 'jeux', 'jeu vidéo', 'video game', 'game',
+          'games', 'jeu PC', 'PC game', 'esport', 'esports', 'e-sport', 'cheat', 'cheats', 'triche', 'aimbot',
+          'anti-cheat', 'mod', 'modding', 'crack', 'skin', 'skins', 'loot', 'launcher', 'Steam', 'Steam Workshop',
+          'Discord', 'Roblox', 'Fortnite', 'Minecraft', 'Valorant', 'Counter-Strike', 'CS2', 'GTA', 'GTA 6',
+          'GTA VI', 'Grand Theft Auto', 'League of Legends', 'Call of Duty', 'Battlefield', 'Apex', 'Genshin',
+          'itch.io', 'Epic Games', 'Riot', 'Riot Games', 'Battle.net', 'EA', 'Ubisoft', 'Xbox', 'PlayStation',
+          'PSN', 'PS4', 'PS5', 'Nintendo', 'Nintendo Switch', 'Twitch',
         ],
       ],
     },
@@ -109,8 +148,12 @@ const PREFIXE_ANCIEN = 'R';
 
 // Propriétés du script : 500 Ko au plus en tout. « A: » = article mis de côté (7 jours au plus,
 // MAX_EN_ATTENTE par veille), « S: » = lien déjà envoyé (gardé un an, environ 30 octets).
-const MAX_EN_ATTENTE = 30;
+const MAX_EN_ATTENTE = 30;              // par veille, sauf si la veille a son propre maxEnAttente
 const LONGUEUR_RESUME = 250;
+const JOURS_RATTRAPAGE = 90;             // rattrapageCyber : recherches Google Actualités sur 90 jours
+const MAX_RATTRAPAGE = 30;               // articles au plus dans l'e-mail de rattrapage
+// Fiabilité d'une source, pour garder la meilleure quand la même actu est reprise par plusieurs sites
+const FIABILITE = { flux: 3, alerte: 2, actu: 1 };
 const JOURS_MEMOIRE = 365;
 const LIMITE_PROPRIETES = 500 * 1024;
 
@@ -127,34 +170,31 @@ function collecter() {
   let ajoutes = 0;
 
   veillesActives_().forEach(veille => {
-    const motifs = veille.groupesMotsCles.map(motifMotsCles_);
-    const alertes = veille.googleAlerts || [];
-    sources_(veille).forEach(source => {
+    sources_(veille, CONFIG.JOURS).forEach(source => {
       if (!lus[source.url]) lus[source.url] = lireFlux_(source);
-      const alerte = alertes.indexOf(source) >= 0;            // alerte Google : déjà ciblée, pas de mots-clés
       lus[source.url].forEach(a => {
-        if (!a.date || a.date.getTime() < limite) return;
-        const texte = normaliser_(a.titre + ' ' + a.resume);
-        if (!alerte && !motifs.every(m => m.test(texte))) return;
-        const lien = lienArticle_(a.lien);
-        const cle = cle_(lien);
+        const article = retenir_(veille, source, a, limite);
+        if (!article) return;
+        const cle = cle_(article.l);
         // Déjà mis de côté (pour cette veille ou une précédente) ou déjà envoyé : un article, une section, un envoi
         if (tampon[cle] || PROPS.getProperty('S:' + cle)) return;
-        tampon[cle] = { t: a.titre, l: lien, r: a.resume.slice(0, LONGUEUR_RESUME), s: source.nom,
-                        g: source.langue || '', d: a.date.getTime(), v: veille.prefixe };
+        tampon[cle] = article;
         ajoutes++;
       });
     });
   });
 
-  // Retire ce qui a plus de 7 jours, puis garde au plus MAX_EN_ATTENTE articles (les plus récents) par veille
+  // Retire ce qui a plus de 7 jours, puis garde au plus MAX_EN_ATTENTE articles par veille (ou le maxEnAttente
+  // de la veille) : les plus pertinents puis les plus récents (veille C), les plus récents sinon (pas de note).
   Object.keys(tampon).forEach(k => { if (tampon[k].d < limite) delete tampon[k]; });
   const parVeille = {};
-  Object.keys(tampon).sort((a, b) => tampon[b].d - tampon[a].d).forEach(k => {
-    const v = tampon[k].v || PREFIXE_ANCIEN;
-    parVeille[v] = (parVeille[v] || 0) + 1;
-    if (parVeille[v] > MAX_EN_ATTENTE) delete tampon[k];
-  });
+  Object.keys(tampon).sort((a, b) => (tampon[b].p || 0) - (tampon[a].p || 0) || tampon[b].d - tampon[a].d)
+    .forEach(k => {
+      const v = tampon[k].v || PREFIXE_ANCIEN;
+      const veille = CONFIG.VEILLES.find(x => x.prefixe === v);
+      parVeille[v] = (parVeille[v] || 0) + 1;
+      if (parVeille[v] > ((veille && veille.maxEnAttente) || MAX_EN_ATTENTE)) delete tampon[k];
+    });
   ecrireTampon_(tampon);
   console.log(`Collecte : ${ajoutes} nouvel(s) article(s), ${Object.keys(tampon).length} en attente. ${tailleProprietes_()}`);
 }
@@ -172,7 +212,7 @@ function apercu() {
 /** Teste chaque flux (une fois, même s'il sert à plusieurs veilles) et affiche OK ou l'erreur dans le journal. */
 function testerFlux() {
   const flux = {};
-  CONFIG.VEILLES.forEach(veille => sources_(veille).forEach(source => {
+  CONFIG.VEILLES.forEach(veille => sources_(veille, CONFIG.JOURS).forEach(source => {
     flux[source.url] = flux[source.url] || { source: source, veilles: [] };
     flux[source.url].veilles.push(veille.prefixe);
   }));
@@ -181,7 +221,8 @@ function testerFlux() {
     const f = flux[url];
     try {
       const articles = lireFluxBrut_(f.source);
-      if (!articles.length) throw new Error('aucun article lisible');
+      // Une recherche Google Actualités peut ne rien trouver sur 7 jours : ce n'est pas une erreur
+      if (!articles.length && f.source.type !== 'actu') throw new Error('aucun article lisible');
       const recent = Math.max.apply(null, articles.map(a => (a.date ? a.date.getTime() : 0)));
       console.log(`OK — ${f.source.nom} [${f.veilles.join(', ')}] : ${articles.length} articles` +
         (recent ? `, le plus récent du ${dateCourte_(recent)}` : ', sans date'));
@@ -191,6 +232,55 @@ function testerFlux() {
     }
   });
   console.log(`${Object.keys(flux).length} flux testés, ${erreurs} en erreur. ${tailleProprietes_()}`);
+}
+
+/**
+ * À lancer une seule fois à la main : actualités de la veille cybersécurité des 90 derniers jours
+ * (recherches Google Actualités en « when:90d », plus les flux de la veille), dans un e-mail à part
+ * « [Veille] Rattrapage cybersécurité ». Ne touche ni au tampon ni aux liens envoyés : l'e-mail du lundi
+ * ne change pas. Les liens déjà envoyés un lundi ne sont pas repris.
+ */
+function rattrapageCyber() {
+  rattrapage_('C', false);
+}
+
+/** Affiche l'e-mail de rattrapage dans le journal sans l'envoyer. */
+function apercuRattrapageCyber() {
+  rattrapage_('C', true);
+}
+
+function rattrapage_(prefixe, essai) {
+  const veille = CONFIG.VEILLES.find(v => v.prefixe === prefixe);
+  const limite = Date.now() - JOURS_RATTRAPAGE * JOUR_MS;
+  const trouves = {};
+  sources_(veille, JOURS_RATTRAPAGE).forEach(source => {
+    lireFlux_(source).forEach(a => {
+      const article = retenir_(veille, source, a, limite);
+      if (!article) return;
+      const cle = cle_(article.l);
+      if (trouves[cle] || PROPS.getProperty('S:' + cle)) return;     // lecture seule : rien n'est enregistré
+      trouves[cle] = Object.assign({ cle: cle }, article);
+    });
+  });
+  const candidats = Object.keys(trouves).map(k => trouves[k]);
+  const articles = regrouper_(veille, candidats).slice(0, MAX_RATTRAPAGE)
+    .map((a, i) => Object.assign({ numero: veille.prefixe + (i + 1) }, a));
+  const sections = [{ veille: veille, articles: articles }];
+
+  const aujourdhui = Utilities.formatDate(new Date(), CONFIG.FUSEAU, 'dd/MM/yyyy');
+  const sousTitre = `Rattrapage des ${JOURS_RATTRAPAGE} derniers jours, au ${aujourdhui}`;
+  const sujet = `[Veille] Rattrapage cybersécurité`;
+  const consigne = `${candidats.length} article(s) retenu(s), ${articles.length} actualité(s) affichée(s) ` +
+    `(au plus ${MAX_RATTRAPAGE}), classées par pertinence puis par date. Cet e-mail ne remplace pas celui du lundi.`;
+  const texte = construireTexte_(`Veille technologique — ${sousTitre}`, sections, consigne, []);
+  if (essai) {
+    console.log(`SUJET : ${sujet}\n\n${texte}`);
+    return;
+  }
+  const dest = CONFIG.DESTINATAIRE || Session.getEffectiveUser().getEmail();
+  GmailApp.sendEmail(dest, sujet, texte,
+    { htmlBody: construireHtml_(sections, sousTitre, consigne, []), name: 'Veille technologique' });
+  console.log(`Envoyé à ${dest} : ${sujet} (${articles.length} actualités)`);
 }
 
 /** À exécuter une fois : crée les deux déclencheurs (et supprime les anciens). */
@@ -214,12 +304,16 @@ function envoyer_(essai) {
     .map(k => Object.assign({ cle: k, v: PREFIXE_ANCIEN, g: 'FR' }, tampon[k]))
     .filter(a => a.d >= limite)
     .sort((a, b) => b.d - a.d);
-  const sections = veillesActives_().map(veille => ({
-    veille: veille,
-    articles: enAttente.filter(a => a.v === veille.prefixe)
-      .slice(0, veille.articlesMax)
-      .map((a, i) => Object.assign({ numero: veille.prefixe + (i + 1) }, a)),
-  }));
+  // Veille avec pertinence (C) : doublons regroupés, classement par pertinence ; sinon du plus récent au plus ancien
+  const sections = veillesActives_().map(veille => {
+    const siens = enAttente.filter(a => a.v === veille.prefixe);
+    return {
+      veille: veille,
+      articles: (veille.pertinence ? regrouper_(veille, siens) : siens)
+        .slice(0, veille.articlesMax)
+        .map((a, i) => Object.assign({ numero: veille.prefixe + (i + 1) }, a)),
+    };
+  });
   const articles = [].concat(...sections.map(s => s.articles));
 
   const maintenant = new Date();
@@ -239,14 +333,8 @@ function envoyer_(essai) {
 
   const sujet = `[Veille] Semaine du ${semaine} — ` +
     sections.map(s => `${s.veille.categorie} ${s.articles.length}`).join(', ');
-  const texte = [`Veille technologique — semaine du ${semaine}`]
-    .concat(...sections.map(s => [`== ${titreSection_(s.veille)} ==`].concat(s.articles.length
-      ? s.articles.map(a => [`#${a.numero} — ${a.t}`, `${a.s} · ${dateCourte_(a.d)} · ${a.g || '?'}`]
-          .concat(a.r ? [extrait_(a.r)] : [], [a.l]).join('\n'))
-      : ['Pas d\'actualité cette semaine.']).join('\n\n')))
-    .concat(consigne ? ['—\n' + consigne] : [], rappel.length ? [rappel.join('\n')] : [])
-    .join('\n\n');
-  const html = construireHtml_(sections, semaine, consigne, rappel);
+  const texte = construireTexte_(`Veille technologique — semaine du ${semaine}`, sections, consigne, rappel);
+  const html = construireHtml_(sections, `Semaine du ${semaine}`, consigne, rappel);
 
   if (essai) {
     console.log(`SUJET : ${sujet}\n\n${texte}`);
@@ -256,19 +344,35 @@ function envoyer_(essai) {
   const dest = CONFIG.DESTINATAIRE || Session.getEffectiveUser().getEmail();
   GmailApp.sendEmail(dest, sujet, texte, { htmlBody: html, name: 'Veille technologique' });
 
-  // Mémorise les liens envoyés (jamais renvoyés, quelle que soit la veille) et les retire du tampon
+  // Mémorise les liens envoyés (jamais renvoyés, quelle que soit la veille) et les retire du tampon,
+  // y compris ceux des autres sources de la même actu (« + N autres sources »)
   const t = Date.now();
-  articles.forEach(a => { PROPS.setProperty('S:' + a.cle, String(t)); delete tampon[a.cle]; });
+  articles.forEach(a => (a.cles || [a.cle]).forEach(c => { PROPS.setProperty('S:' + c, String(t)); delete tampon[c]; }));
   ecrireTampon_(tampon);
   nettoyerVus_();
   console.log(`Envoyé à ${dest} : ${sujet}`);
 }
 
+/**
+ * Version texte de l'e-mail. « + N autres sources » est écrit APRÈS la ligne du lien : fetch_replies.py
+ * lit numéro, titre, « Source · date · langue », extrait puis lien, et ignore la suite.
+ */
+function construireTexte_(entete, sections, consigne, rappel) {
+  return [entete]
+    .concat(...sections.map(s => [`== ${titreSection_(s.veille)} ==`].concat(s.articles.length
+      ? s.articles.map(a => [`#${a.numero} — ${a.t}`, `${a.s} · ${dateCourte_(a.d)} · ${a.g || '?'}`]
+          .concat(a.r ? [extrait_(a.r)] : [], [a.l], a.autres && a.autres.length ? [autresSources_(a)] : [])
+          .join('\n'))
+      : ['Pas d\'actualité cette semaine.']).join('\n\n')))
+    .concat(consigne ? ['—\n' + consigne] : [], rappel.length ? [rappel.join('\n')] : [])
+    .join('\n\n');
+}
+
 /** Chaque information sur sa propre ligne, lien visible en clair : fetch_replies.py retrouve ainsi les articles dans le texte cité de ta réponse. */
-function construireHtml_(sections, semaine, consigne, rappel) {
+function construireHtml_(sections, sousTitre, consigne, rappel) {
   let h = `<div style="font-family:Arial,sans-serif;max-width:680px;color:#222;line-height:1.45">
 <h2 style="margin:0 0 4px">Veille technologique</h2>
-<p style="color:#666;margin:0 0 12px">Semaine du ${semaine} · ${sections.map(s => esc_(s.veille.categorie)).join(', ')}</p>`;
+<p style="color:#666;margin:0 0 12px">${esc_(sousTitre)} · ${sections.map(s => esc_(s.veille.categorie)).join(', ')}</p>`;
   sections.forEach(s => {
     h += `<h3 style="margin:24px 0 4px;padding-bottom:3px;border-bottom:2px solid #c9a35b;color:#7a5c22">${esc_(titreSection_(s.veille))}</h3>`;
     if (!s.articles.length) h += '<p style="color:#666">Pas d\'actualité cette semaine.</p>';
@@ -278,6 +382,7 @@ function construireHtml_(sections, semaine, consigne, rappel) {
 <div style="color:#888;font-size:12px">${esc_(a.s)} · ${dateCourte_(a.d)} · ${esc_(a.g || '?')}</div>
 ${a.r ? `<div style="font-size:13px;color:#444">${esc_(extrait_(a.r))}</div>` : ''}
 <div style="font-size:12px"><a href="${esc_(a.l)}" style="color:#2c5f7c">${esc_(a.l)}</a></div>
+${a.autres && a.autres.length ? `<div style="color:#888;font-size:12px">${esc_(autresSources_(a))}</div>` : ''}
 </div>`;
     });
   });
@@ -294,8 +399,121 @@ ${a.r ? `<div style="font-size:13px;color:#444">${esc_(extrait_(a.r))}</div>` : 
 function veillesActives_() {
   return CONFIG.VEILLES.filter(v => v.actif !== false);
 }
-function sources_(veille) {
-  return veille.flux.concat(veille.googleAlerts || []);
+/** Sources d'une veille, avec leur type : flux, alerte (Google Alerts) ou actu (recherche Google Actualités sur `jours` jours). */
+function sources_(veille, jours) {
+  const type = t => f => Object.assign({ type: t }, f);
+  const actus = (veille.googleActualites || []).map(q => ({
+    nom: 'Google Actualités : ' + q.requete, url: urlGoogleActualites_(q, jours), langue: q.langue, type: 'actu',
+  }));
+  return veille.flux.map(type('flux')).concat((veille.googleAlerts || []).map(type('alerte')), actus);
+}
+/** Adresse du flux RSS d'une recherche Google Actualités, en français ou en anglais selon la langue. */
+function urlGoogleActualites_(q, jours) {
+  const pays = q.langue === 'EN' ? 'hl=en-US&gl=US&ceid=US:en' : 'hl=fr&gl=FR&ceid=FR:fr';
+  return 'https://news.google.com/rss/search?q=' + encodeURIComponent(q.requete).replace(/%20/g, '+') +
+    '+when:' + jours + 'd&' + pays;
+}
+
+/**
+ * Article d'un flux tel qu'il est gardé (tampon ou rattrapage), ou null s'il est trop ancien ou hors sujet.
+ * Alerte Google : pas de mots-clés. Recherche Google Actualités : titre sans « - Site », vrai nom du site
+ * (balise <source>), pas de résumé (il répète le titre), mots-clés vérifiés sur le titre.
+ */
+function retenir_(veille, source, a, limite) {
+  if (!a.date || a.date.getTime() < limite) return null;
+  let titre = a.titre, resume = a.resume, site = source.nom;
+  if (source.type === 'actu') {
+    site = a.site || 'Google Actualités';
+    titre = sansSite_(titre, a.site);
+    resume = '';
+  }
+  const texte = normaliser_(titre + ' ' + resume);
+  if (source.type !== 'alerte' && !motifsVeille_(veille).groupes.every(m => m.test(texte))) return null;
+  const article = { t: titre, l: lienArticle_(a.lien), r: resume.slice(0, LONGUEUR_RESUME), s: site,
+                    g: source.langue || '', d: a.date.getTime(), v: veille.prefixe };
+  if (veille.pertinence) {
+    article.p = pertinence_(veille, titre, resume);          // note de pertinence
+    article.f = FIABILITE[source.type] || FIABILITE.flux;    // fiabilité de la source
+  }
+  return article;
+}
+/** « Titre - Le Monde » → « Titre » (les titres Google Actualités finissent par le nom du site). */
+function sansSite_(titre, site) {
+  if (!site) return titre;
+  const fin = new RegExp('\\s+[-–—|]\\s+' + site.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*$');
+  return titre.replace(fin, '').trim() || titre;
+}
+
+/** Expressions d'une veille, calculées une fois : groupes, un motif par mot-clé (pour la note), mots du bonus. */
+const MOTIFS_ = {};
+function motifsVeille_(veille) {
+  if (!MOTIFS_[veille.prefixe]) {
+    MOTIFS_[veille.prefixe] = {
+      groupes: veille.groupesMotsCles.map(motifMotsCles_),
+      // Un motif par mot-clé distinct (« piraté » et « pirate » ne comptent qu'une fois)
+      mots: veille.groupesMotsCles.map(g => g.map(normaliser_).filter((m, i, t) => t.indexOf(m) === i)
+        .map(m => motifMotsCles_([m]))),
+      bonus: veille.motsTitreBonus && veille.motsTitreBonus.length ? motifMotsCles_(veille.motsTitreBonus) : null,
+    };
+  }
+  return MOTIFS_[veille.prefixe];
+}
+/** Pertinence : nombre de mots-clés différents trouvés (menace + jeu), +2 si un mot du bonus est dans le titre. */
+function pertinence_(veille, titre, resume) {
+  const m = motifsVeille_(veille);
+  const texte = normaliser_(titre + ' ' + resume);
+  let note = 0;
+  m.mots.forEach(groupe => groupe.forEach(motif => { if (motif.test(texte)) note++; }));
+  if (m.bonus && m.bonus.test(normaliser_(titre))) note += 2;
+  return note;
+}
+
+/**
+ * Regroupe la même actu reprise par plusieurs sites (titres très proches ; le même lien est déjà
+ * regroupé par la clé). Garde la source la plus fiable (flux spécialisé, puis alerte, puis Google
+ * Actualités), puis la plus pertinente ; les autres sont listées dans « + N autres sources ».
+ * Résultat classé par pertinence, puis du plus récent au plus ancien.
+ */
+function regrouper_(veille, articles) {
+  const tries = articles.map(a => Object.assign({}, a, {
+    p: a.p != null ? a.p : pertinence_(veille, a.t, a.r || ''),
+    f: a.f || FIABILITE.flux,                                  // anciens articles : venus d'un flux
+  })).sort((a, b) => b.f - a.f || b.p - a.p || b.d - a.d);
+  const groupes = [];
+  tries.forEach(a => {
+    const mots = motsTitre_(a.t);
+    const groupe = groupes.find(g => g.mots.some(m => titresProches_(m, mots)));
+    if (groupe) { groupe.membres.push(a); groupe.mots.push(mots); }
+    else groupes.push({ membres: [a], mots: [mots] });
+  });
+  return groupes.map(g => {
+    const choisi = g.membres[0];
+    const autres = g.membres.slice(1).map(x => x.s).filter((s, i, t) => s !== choisi.s && t.indexOf(s) === i);
+    return Object.assign({}, choisi, {
+      p: Math.max.apply(null, g.membres.map(x => x.p)),
+      autres: autres,
+      cles: g.membres.map(x => x.cle),
+    });
+  }).sort((a, b) => b.p - a.p || b.d - a.d);
+}
+const MOTS_VIDES = ('les des une pour par sur dans avec qui que est sont aux son ses leur leurs cette ces plus pas ' +
+  'apres selon comme the and for with from that this are was has have its into over after new how your you ' +
+  'their they will can not now what why who').split(' ');
+/** Mots significatifs d'un titre (3 lettres et plus, sans accents ni mots vides). */
+function motsTitre_(titre) {
+  return normaliser_(titre).replace(/[^a-z0-9]+/g, ' ').split(' ')
+    .filter((m, i, t) => m.length >= 3 && MOTS_VIDES.indexOf(m) < 0 && t.indexOf(m) === i);
+}
+/** Deux titres « très proches » : au moins 3 mots communs couvrant 75 % du plus court, ou 60 % de mots communs en tout. */
+function titresProches_(a, b) {
+  if (!a.length || !b.length) return false;
+  const communs = a.filter(m => b.indexOf(m) >= 0).length;
+  const total = a.length + b.length - communs;
+  return (communs >= 3 && communs / Math.min(a.length, b.length) >= 0.75) || communs / total >= 0.6;
+}
+function autresSources_(a) {
+  const n = a.autres.length;
+  return `+ ${n} ${n > 1 ? 'autres sources' : 'autre source'} (${a.autres.join(', ')})`;
 }
 function titreSection_(veille) {
   return `${veille.categorie} — ${veille.nom}`;
@@ -304,10 +522,14 @@ function extrait_(resume) {
   return resume.length > LONGUEUR_RESUME ? resume.slice(0, LONGUEUR_RESUME) + '…' : resume;
 }
 
-/** Mot-clé entier, pluriels compris (« hébergeurs », « jeux vidéo »), mais pas « cloud acteurs » : comme collect.py. */
+/**
+ * Mot-clé entier, pluriels compris (« hébergeurs », « jeux vidéo »), mais pas « cloud acteurs ».
+ * Mots de 3 lettres ou moins (RAT, mod, EA, PSN…) : seulement le « s » (« mods », pas « modes »), et jamais
+ * à l'intérieur d'un mot (pas « RAT » dans « pirate », pas « mod » dans « modèle »).
+ */
 function motifMotsCles_(motsCles) {
   const variantes = motsCles.map(m => normaliser_(m).split(' ')
-    .map(x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?:s|x|es)?').join('\\s+'));
+    .map(x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + (x.length <= 3 ? '(?:s)?' : '(?:s|x|es)?')).join('\\s+'));
   return new RegExp('\\b(?:' + variantes.join('|') + ')\\b');
 }
 
@@ -337,6 +559,7 @@ function lireFluxBrut_(source) {
       lien: texte_(e, 'link'),
       resume: nettoyerHtml_(texte_(e, 'description')),
       date: date_(texte_(e, 'pubDate')) || date_(texteNs_(e, 'date', DC)),
+      site: texte_(e, 'source'),                          // Google Actualités : vrai nom du site
     })).filter(a => a.titre && a.lien);
   }
   if (racine.getName() === 'feed') {
