@@ -21,6 +21,10 @@
     fleche: svg('0 0 24 24', trait(2), '<path d="M5 12h14M13 6l6 6-6 6"/>'),
     flecheRetour: svg('0 0 24 24', trait(2), '<path d="M19 12H5M11 6l-6 6 6 6"/>'),
 
+    // Versions du CV dans la fenêtre d'aperçu (mêmes dessins que le bouton de thème de l'en-tête)
+    lune: svg('0 0 24 24', trait(1.8), '<path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6Z"/>'),
+    soleil: svg('0 0 24 24', trait(1.8), '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/>'),
+
     // Réseaux et coordonnées
     code: svg('0 0 24 24', trait(1.8), '<path d="M8.5 7.5 4 12l4.5 4.5M15.5 7.5 20 12l-4.5 4.5M13.5 5l-3 14"/>'),
     personne: svg('0 0 24 24', trait(1.8), '<circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.9-3.6 3.7-5.5 7-5.5s6.1 1.9 7 5.5"/>'),

@@ -289,7 +289,9 @@
   /* ========================================================================
      6. Aperçu des PDF (CV, tableau E5)
      Les boutons [data-apercu-pdf] ouvrent le document dans une fenêtre
-     (<dialog>) avec un bouton « Télécharger ». Sur mobile, ou si le navigateur
+     (<dialog>) avec un bouton « Télécharger ». Pour le CV, « Choisis ton CV »
+     propose la version Nuit ou Jour (au départ, celle du thème affiché) ;
+     « Télécharger » suit la version choisie. Sur mobile, ou si le navigateur
      n'affiche pas les PDF lui-même, le document s'ouvre dans un nouvel onglet.
      ======================================================================== */
   function initPdfPreview() {
@@ -314,8 +316,15 @@
     dialog.innerHTML = `
       <div class="pdf-viewer__bar">
         <p class="pdf-viewer__title" id="pdf-viewer-title"></p>
+        <div class="pdf-viewer__versions" role="group" aria-labelledby="pdf-viewer-versions" hidden>
+          <span class="pdf-viewer__versions-label" id="pdf-viewer-versions">Choisis ton CV</span>
+          <span class="pdf-viewer__switch">
+            <button type="button" data-pdf-version="dark" aria-pressed="false">${icons.lune || ''}Nuit</button>
+            <button type="button" data-pdf-version="light" aria-pressed="false">${icons.soleil || ''}Jour</button>
+          </span>
+        </div>
         <div class="pdf-viewer__actions">
-          <a class="btn btn--primary" data-pdf-download download>${icons.telecharger || ''}Télécharger</a>
+          <a class="btn btn--primary" data-pdf-download download autofocus>${icons.telecharger || ''}Télécharger</a>
           <button class="btn btn--ghost" type="button" data-pdf-close>${icons.fermer || ''}Fermer</button>
         </div>
       </div>
@@ -323,21 +332,41 @@
     document.body.appendChild(dialog);
 
     const title = dialog.querySelector('#pdf-viewer-title');
+    const versions = dialog.querySelector('.pdf-viewer__versions');
     const download = dialog.querySelector('[data-pdf-download]');
     const frame = dialog.querySelector('iframe');
+    let cv = null; // adresse d'origine du lien de CV ouvert (…/cv.pdf), null pour un autre PDF
+
+    function show(href, name) {
+      frame.title = `Aperçu : ${name}`;
+      download.href = href;
+      if (frame.getAttribute('src') !== href) frame.setAttribute('src', href);
+    }
+
+    // Version du CV affichée (indépendante du thème du site) : Nuit = cv-nuit.pdf, Jour = cv-parchemin.pdf
+    function showCv(theme) {
+      versions.querySelectorAll('[data-pdf-version]').forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.getAttribute('data-pdf-version') === theme));
+      });
+      show(cv.replace(/cv\.pdf$/, CV[theme].fichier), `${title.textContent} (${CV[theme].version})`);
+    }
 
     function open(link) {
-      const href = link.getAttribute('href');
       // « Voir mon CV (PDF) » ou « Voir mon CV (PDF, version sombre) » → « Mon CV »
       const label = link.textContent.replace(/\((pdf|version)[^)]*\)/gi, '').trim().replace(/^(voir|afficher|consulter|télécharger)\s+/i, '');
       const name = label.charAt(0).toUpperCase() + label.slice(1);
       title.textContent = name;
-      frame.title = `Aperçu : ${name}`;
-      download.href = href;
-      if (frame.getAttribute('src') !== href) frame.setAttribute('src', href);
+      cv = link.getAttribute('data-cv'); // posé par updateCvLinks sur les liens vers cv.pdf
+      versions.hidden = !cv;
+      if (cv) showCv(currentTheme());
+      else show(link.getAttribute('href'), name);
       dialog.showModal();
       document.dispatchEvent(new CustomEvent('apercupdf', { detail: { ouvert: true } }));
     }
+
+    versions.querySelectorAll('[data-pdf-version]').forEach((button) => {
+      button.addEventListener('click', () => showCv(button.getAttribute('data-pdf-version')));
+    });
 
     links.forEach((link) => link.addEventListener('click', (event) => {
       if (event.ctrlKey || event.metaKey || event.shiftKey) return; // ouverture dans un onglet demandée

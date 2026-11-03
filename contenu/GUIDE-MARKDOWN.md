@@ -116,7 +116,7 @@ Un bloc commence par `::: nom` et se termine par `:::`. Les blocs peuvent s'imbr
 
 Le premier lien est le bouton doré ; les suivants sont secondaires. Un lien vers un PDF reçoit l'icône d'un œil : le clic affiche le document dans une fenêtre, avec un bouton « Télécharger » (sur mobile, le PDF s'ouvre dans un nouvel onglet).
 
-Le CV suit le thème du site : un lien vers `assets/docs/cv.pdf` ouvre `cv-nuit.pdf` en thème sombre et `cv-parchemin.pdf` en thème clair. Écris donc toujours `assets/docs/cv.pdf` dans les fichiers `.md` : c'est aussi l'adresse par défaut, valable sans JavaScript.
+Le CV suit le thème du site : un lien vers `assets/docs/cv.pdf` ouvre `cv-nuit.pdf` en thème sombre et `cv-parchemin.pdf` en thème clair. Dans la fenêtre d'aperçu, « Choisis ton CV » permet ensuite de passer à l'autre version (Nuit ou Jour), et « Télécharger » suit la version affichée. Écris donc toujours `assets/docs/cv.pdf` dans les fichiers `.md` : c'est aussi l'adresse par défaut, valable sans JavaScript.
 
 ### Deux colonnes — `::: colonnes`
 
