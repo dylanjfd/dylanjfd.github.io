@@ -89,12 +89,11 @@ const CONFIG = {
         { nom: 'Tom\'s Guide (Sécurité)',        url: 'https://www.tomsguide.fr/category/web/securite/feed/', langue: 'FR' },
         { nom: 'Security Affairs',               url: 'https://securityaffairs.com/feed', langue: 'EN' },
         { nom: 'The Hacker News',                url: 'https://feeds.feedburner.com/TheHackersNews', langue: 'EN' },
-        { nom: 'Cybernews',                      url: 'https://cybernews.com/feed/', langue: 'EN' },
         { nom: 'Kaspersky Securelist',           url: 'https://securelist.com/feed/', langue: 'EN' },
         { nom: 'Bitdefender (Hot for Security)', url: 'https://www.bitdefender.com/nuxt/api/en-us/rss/hotforsecurity/', langue: 'EN' },
-        { nom: 'Check Point Research',           url: 'https://research.checkpoint.com/feed/', langue: 'EN' },
         { nom: 'Huntress',                       url: 'https://www.huntress.com/blog/rss.xml', langue: 'EN' },
       ],
+      // Cybernews et Check Point Research ont un flux RSS, mais refusent Apps Script (HTTP 403) : non suivis.
       // Recherches Google Actualités (flux RSS) : l'adresse est construite par urlGoogleActualites_
       // (« when:7d », ou « when:90d » pour rattrapageCyber). Nom affiché : « Google Actualités : <requête> ».
       // Le vrai nom du site vient de la balise <source> du flux. Ces articles passent aussi par les deux
@@ -223,9 +222,9 @@ function testerFlux() {
       const articles = lireFluxBrut_(f.source);
       // Une recherche Google Actualités peut ne rien trouver sur 7 jours : ce n'est pas une erreur
       if (!articles.length && f.source.type !== 'actu') throw new Error('aucun article lisible');
-      const recent = Math.max.apply(null, articles.map(a => (a.date ? a.date.getTime() : 0)));
+      const recent = Math.max.apply(null, [0].concat(articles.map(a => (a.date ? a.date.getTime() : 0))));
       console.log(`OK — ${f.source.nom} [${f.veilles.join(', ')}] : ${articles.length} articles` +
-        (recent ? `, le plus récent du ${dateCourte_(recent)}` : ', sans date'));
+        (!articles.length ? ' sur la période' : recent ? `, le plus récent du ${dateCourte_(recent)}` : ', sans date'));
     } catch (err) {
       erreurs++;
       console.warn(`ERREUR — ${f.source.nom} [${f.veilles.join(', ')}] : ${err.message || err} (${url})`);
