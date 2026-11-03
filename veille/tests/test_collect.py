@@ -183,7 +183,7 @@ class Configuration(unittest.TestCase):
         config = collect.lire_json(collect.FICHIER_CONFIG, None)
         veilles = config['veilles']
         self.assertEqual([(v['prefixe'], v['categorie'], v['articles_max']) for v in veilles],
-                         [('R', 'Réseau', 8), ('S', 'Système', 6), ('C', 'Cybersécurité', 6)])
+                         [('R', 'Réseau', 8), ('S', 'Système', 6), ('C', 'Cybersécurité', 10)])
         reseau = veilles[0]
         self.assertEqual((reseau['nom'], reseau['page'], reseau['fichier'], reseau['marqueurs'], reseau['actif']),
                          ('Souveraineté numérique des PME', 'pages/veille/reseau.html', 'contenu/veille/veille-1.md',
