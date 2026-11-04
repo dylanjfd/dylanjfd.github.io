@@ -20,6 +20,7 @@ Portfolio de l'épreuve E5 du BTS SIO : projets, compétences, veille technologi
 - [Projet serveur web](https://dylanjoffredo.me/pages/projets/projet-1.html): Projet BTS SIO SISR de Dylan JOFFREDO : héberger son portfolio sur un serveur Debian sécurisé, en HTTPS, avec sauvegardes et supervision.
 - [Installation de systèmes sous VirtualBox](https://dylanjoffredo.me/pages/projets/projet-2.html): Projet BTS SIO SISR de Dylan JOFFREDO : six systèmes Windows et Linux installés sous VirtualBox, mis en réseau, testés et documentés.
 - [Labo : gestion et sécurisation d'un parc de PC gaming](https://dylanjoffredo.me/pages/projets/labo-parc-gaming.html): Labo de Dylan JOFFREDO (BTS SIO SISR) : déployer, restaurer et protéger 25 PC gaming avec Clonezilla, FOG Project, Unified Write Filter et EICAR.
+- [TP Active Directory : domaine, OU et GPO](https://dylanjoffredo.me/pages/projets/projet-4.html): Projet BTS SIO SISR de Dylan JOFFREDO : domaine Active Directory sous Windows Server 2025, deux postes Windows 11 intégrés et deux GPO déployées.
 
 ## Veilles technologiques
 

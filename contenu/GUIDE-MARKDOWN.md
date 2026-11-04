@@ -6,7 +6,7 @@ Tout le texte du portfolio se trouve dans ce dossier `contenu/` : **un fichier `
 |---|---|
 | Accueil (`index.html`) | `accueil.md` |
 | Projets | `projets.md` |
-| Projets détaillés | `projets/projet-1.md`, `projet-2.md`, `projet-3.md` |
+| Projets détaillés | `projets/projet-1.md`, `projet-2.md`, `projet-3.md` (modèle non publié), `projet-4.md`, `labo-parc-gaming.md` |
 | Compétences | `competences.md` |
 | Veille (liste des veilles) | `veille.md` |
 | Veilles détaillées | `veille/systeme.md`, `veille-1.md` (réseau : souveraineté numérique), `cybersecurite.md` |
@@ -191,6 +191,16 @@ récompenses: Patrimoine, Incidents, Mise à disposition
 
 La carte affiche dans l'ordre : badges, titre, résumé, « cadre · période » en petit et en gris, technologies, récompenses (3 au maximum), lien « Voir la fiche ». Récompenses en version courte : `Patrimoine`, `Incidents`, `Présence en ligne`, `Mode projet`, `Mise à disposition`, `Développement pro.` (un intitulé complet du référentiel est raccourci automatiquement). Une ligne sans « champ: » devant est ignorée et signalée dans la console du navigateur (F12). Le filtre (« Quêtes principales / secondaires / annexes ») est créé automatiquement.
 
+**Chaîne de quêtes** : quand un projet fait suite à un autre, ajoute à sa carte la ligne `suite de:` avec la fiche (ou le titre exact) de la quête précédente, et place la carte juste après celle-ci :
+
+```markdown
+### TP Active Directory : domaine, OU et GPO
+fiche: pages/projets/projet-4.html
+suite de: pages/projets/projet-2.html
+```
+
+Chaque carte de la chaîne reçoit un médaillon numéroté (1, 2…) ; son infobulle et les lecteurs d'écran indiquent la place dans la chaîne (« Quête 1 sur 2 de la chaîne, suivie par : TP Active Directory »). Le nom court est la partie du titre avant « : ». Une chaîne dorée relie les deux cartes : horizontale quand elles sont côte à côte, verticale sur mobile. Elle disparaît quand le filtre masque une des deux cartes, et sur les écrans moyens (grille à 2 colonnes) si la suite tombe sur la rangée suivante.
+
 **Page Veille** : même bloc, écrit `::: quetes veilles` : pas de ligne `type:`, ni de légende, ni de filtre. Remplace `technologies:` par `thèmes:` (ex. `thèmes: RGPD, Cloud Act, SecNumCloud`). La ligne `catégorie: système`, `réseau` ou `cybersécurité` affiche le badge de la catégorie (icône, couleur et nom écrit) ; sans elle, la carte porte le badge « Veille ».
 
 ### Page projet ou veille — `::: badges`, `::: etapes`, `::: capture`, `::: encart`, `::: navigation`
@@ -220,6 +230,14 @@ Ce qui a été fait.
 ```
 
 - Une image seule sur sa ligne devient une figure avec légende. Tant que tu n'as pas la capture, garde le bloc `::: capture` (emplacement en pointillés).
+- Fiche qui fait suite à une autre quête : sous le titre `#`, le bloc `::: suite` affiche « Suite de la quête : » suivi du lien (`::: suite Autre libellé` pour changer le libellé) :
+
+```markdown
+::: suite
+[Installation de systèmes d'exploitation sous VirtualBox](pages/projets/projet-2.html)
+:::
+```
+
 - Types d'encart : `competences`, `technologies`, `ressources` (icônes code / vidéo / document selon le texte), `coordonnees`, ou rien.
 - Mots-clés de badges : `principale`, `secondaire`, `annexe`, `veille`, `système`, `réseau`, `cybersécurité`, `terminée`, `en cours`, `prévue`, `débloqué`, `verrouillé`.
 - Avertissement bien visible (bordure rouge, icône) :

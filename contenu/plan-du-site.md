@@ -23,6 +23,7 @@ Toutes les pages du portfolio, regroupées par thème.
 - [Projets](pages/projets.html)
   - [Projet 1 : serveur web Debian en HTTPS](pages/projets/projet-1.html)
   - [Projet 2 : systèmes sous VirtualBox](pages/projets/projet-2.html)
+  - [TP Active Directory : domaine, OU et GPO](pages/projets/projet-4.html)
   - [Labo : parc de PC gaming](pages/projets/labo-parc-gaming.html)
 - [Tableau de synthèse E5](pages/tableau-e5.html)
 

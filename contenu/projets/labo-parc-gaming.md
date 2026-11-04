@@ -214,6 +214,6 @@ Lui expliquer les bonnes pratiques. [[Conseils donnés.]]
 :::
 
 ::: navigation Navigation entre les projets
-- [Projet précédent](pages/projets/projet-2.html)
+- [Projet précédent](pages/projets/projet-4.html)
 - [Retour aux projets](pages/projets.html)
 :::

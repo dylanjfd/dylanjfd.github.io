@@ -84,6 +84,16 @@
     base: svg('0 0 24 24', 'fill="none" stroke="currentColor" stroke-width="1.7"', '<ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6M5 12c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8"/>'),
     outils: svg('0 0 24 24', trait(1.7), '<rect x="3.5" y="8" width="17" height="11.5" rx="2"/><path d="M9 8V6a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 6v2M3.5 13h17M11 13v2h2v-2"/>'),
     langue: svg('0 0 24 24', trait(1.7), '<path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 16h-7l-4.5 3.5V16H5a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 5 5Z"/>'),
+
+    // Chaînes de quêtes : deux maillons (« Suite de la quête » d'une fiche)
+    chaine: svg('0 0 24 24', trait(1.8), '<rect x="2.5" y="8.5" width="11" height="7" rx="3.5"/><rect x="10.5" y="8.5" width="11" height="7" rx="3.5"/>'),
+    // Chaîne entre deux cartes du Journal de quêtes : un piton sur chaque carte, trois maillons
+    // (de face, de profil, de face) ; couleurs dans 06-pages.css (.quest-link)
+    chaineQuetes: svg('0 0 52 18', '',
+      '<circle class="quest-link__piton" cx="7" cy="9" r="3.4"/><circle class="quest-link__piton" cx="45" cy="9" r="3.4"/>'
+      + '<ellipse class="quest-link__maillon" cx="15" cy="9" rx="6" ry="4"/><ellipse class="quest-link__maillon" cx="37" cy="9" rx="6" ry="4"/>'
+      + '<rect class="quest-link__profil" x="19" y="7.6" width="14" height="2.8" rx="1.4"/>'
+      + '<path class="quest-link__reflet" d="M11.4 6.3Q15 4.7 18.6 6.3M33.4 6.3Q37 4.7 40.6 6.3"/>'),
   };
 
   // Rose des vents du hero d'accueil (décor original, masqué aux lecteurs d'écran par son conteneur)

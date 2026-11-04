@@ -155,7 +155,7 @@
     return liste;
   }
   const CLES_CARTE = ['date', 'source', 'sources', 'auteur', 'lieu', 'periode', 'duree', 'niveau'];
-  const CLES_QUETE = ['type', 'categorie', 'statut', 'fiche', 'lien', 'resume', 'cadre', 'periode', 'contexte', 'technologies', 'themes', 'recompenses', 'competences'];
+  const CLES_QUETE = ['type', 'categorie', 'statut', 'fiche', 'lien', 'suite-de', 'resume', 'cadre', 'periode', 'contexte', 'technologies', 'themes', 'recompenses', 'competences'];
 
   /**
    * Champs d'une carte projet : les lignes « clé: valeur » reconnues sont lues ; les autres lignes
@@ -441,6 +441,7 @@
       case 'legende': return legende(b);
       case 'etapes': return etapes(b);
       case 'capture': return capture(b);
+      case 'suite': return suite(b);
       case 'encart': return encart(b);
       case 'navigation': return navigation(b);
       case 'competences': return competences(b);
@@ -504,11 +505,13 @@
    * Journal de quêtes : filtre + cartes projet (type, statut, fiche, contexte, technologies, récompenses).
    * « ::: quetes veilles » : mêmes cartes, avec des thèmes, sans type ni filtre ; le badge est celui
    * de la catégorie (« catégorie: système, réseau ou cybersécurité »), sinon « Veille ».
+   * « suite de: » relie la carte à la quête précédente (voir chainerQuetes).
    */
   function quetes(b) {
     const veilles = MD.normaliserCle(b.args.split(/\s+/)[0] || '') === 'veilles';
     const FILTRES_TYPES = { secondaire: 'academique', annexe: 'personnel' };
     const ul = el('ul', { class: 'quest-grid reveal-group' });
+    const cartes = [];
     parTitres(b.enfants).filter((g) => g.titre).forEach((g) => {
       const blocs = g.blocs.slice();
       const f = extraireChampsCarte(blocs, CLES_QUETE, brut(g.titre.texte));
@@ -545,8 +548,11 @@
         ]));
       }
       if (href) article.appendChild(el('span', { class: 'card__more', 'aria-hidden': 'true' }, ['Voir la fiche ', ICO.fleche]));
-      ul.appendChild(el('li', { class: 'reveal', 'data-type': veilles ? null : FILTRES_TYPES[type] || 'entreprise' }, article));
+      const li = el('li', { class: 'reveal', 'data-type': veilles ? null : FILTRES_TYPES[type] || 'entreprise' }, article);
+      ul.appendChild(li);
+      cartes.push({ li, titre: h, nom: brut(g.titre.texte), fiche, suiteDe: valeurChamp(f, 'suite-de') });
     });
+    chainerQuetes(cartes);
     if (veilles) return ul;
     const filtres = el('div', { class: 'filters', role: 'group', 'aria-label': 'Filtrer les projets' }, [
       el('button', { class: 'filter-btn', type: 'button', 'data-filter': 'all', 'aria-pressed': 'true' }, 'Tous les projets'),
@@ -558,6 +564,46 @@
     const compteur = el('p', { class: 'filters__count', role: 'status', 'data-filter-count': true },
       `${n} projet${n > 1 ? 's' : ''} affiché${n > 1 ? 's' : ''}`);
     return [filtres, compteur, ul];
+  }
+
+  /**
+   * Chaînes de quêtes : « suite de: pages/projets/projet-2.html » (fiche ou titre de la quête précédente).
+   * Chaque quête de la chaîne reçoit un médaillon numéroté (1, 2…) avec une infobulle ; une chaîne
+   * dorée décorative part de sa carte vers celle de la quête suivante. interface.js la place :
+   * horizontale si les cartes sont côte à côte, verticale si elles sont l'une sous l'autre, sinon masquée.
+   */
+  function chainerQuetes(cartes) {
+    const nomCourt = (nom) => nom.split(/\s+:\s+/)[0]; // « TP Active Directory : domaine… » → « TP Active Directory »
+    const trouver = (valeur) => cartes.find((c) => c.fiche === valeur || MD.normaliserCle(c.nom) === MD.normaliserCle(valeur));
+    cartes.forEach((c) => {
+      if (!c.suiteDe) return;
+      const precedente = trouver(c.suiteDe);
+      if (!precedente || precedente === c) console.warn(`[Portfolio] Carte « ${c.nom} » : quête précédente « ${c.suiteDe} » introuvable dans ce bloc.`);
+      else if (precedente.suivante) console.warn(`[Portfolio] Carte « ${c.nom} » : « ${precedente.nom} » a déjà une suite (une seule par quête).`);
+      else {
+        precedente.suivante = c;
+        c.precedente = precedente;
+      }
+    });
+    cartes.filter((c) => c.suivante && !c.precedente).forEach((debut) => {
+      const chaine = [];
+      for (let c = debut; c && !chaine.includes(c); c = c.suivante) chaine.push(c);
+      chaine.forEach((c, i) => {
+        const liens = [
+          c.precedente ? `fait suite à : ${nomCourt(c.precedente.nom)}` : null,
+          c.suivante ? `suivie par : ${nomCourt(c.suivante.nom)}` : null,
+        ].filter(Boolean);
+        c.titre.after(el('span', { class: 'quest-chain', role: 'img', 'aria-label': `Quête ${i + 1} sur ${chaine.length} de la chaîne, ${liens.join(', ')}` }, [
+          el('span', { 'aria-hidden': 'true' }, String(i + 1)),
+          el('span', { class: 'quest-chain__tip', 'aria-hidden': 'true' }, MD.echapper(`Quête ${i + 1} de la chaîne — ${liens.join(' ; ')}`)),
+        ]));
+        if (i === chaine.length - 1) return;
+        const suivante = chaine[i + 1].li;
+        if (!suivante.id) suivante.id = identifiant(`quete-${chaine[i + 1].nom}`);
+        c.li.classList.add('has-quest-link');
+        c.li.appendChild(el('span', { class: 'quest-link', 'data-chain-next': suivante.id, 'aria-hidden': 'true' }, ICO.chaineQuetes));
+      });
+    });
   }
 
   /** Frise : « - date | titre | détail | statut » (statut : en cours, terminé, prévu…) */
@@ -614,6 +660,17 @@
     return el('figure', null, [
       el('div', { class: 'shot-placeholder' }, paras[0] ? ligne(texteDe(paras[0])) : ''),
       paras[1] ? el('figcaption', null, ligne(texteDe(paras[1]))) : null,
+    ]);
+  }
+
+  /** Fiche de quête : « Suite de la quête : [Titre](fiche) » (« ::: suite Autre libellé » pour changer le libellé). */
+  function suite(b) {
+    const p = b.enfants.find((x) => x.type === 'paragraphe');
+    if (!p) return null;
+    return el('p', { class: 'quest-sequel' }, [
+      ICO.chaine,
+      el('span', { class: 'quest-sequel__label' }, `${MD.echapper(b.args || 'Suite de la quête')} :`),
+      el('span', null, ligne(texteDe(p))),
     ]);
   }
 

@@ -30,7 +30,7 @@ index.html, pages/*.html      Pages du site : en-tête, menu, pied de page ; le 
 404.html                      Page affichée pour une adresse inconnue (texte : contenu/404.md)
 favicon.ico, apple-touch-icon.png  Logo (losange doré) pour les anciens navigateurs et l'écran d'accueil iPhone
 site.webmanifest              Nom et logo du site pour l'écran d'accueil Android
-pages/projets/*.html          Structure des fiches projet (projet-1 à 3, labo-parc-gaming)
+pages/projets/*.html          Structure des fiches projet (projet-1 à 4, labo-parc-gaming)
 pages/veille/*.html           Structure des fiches de veille : systeme, reseau, cybersecurite
                               (veille-1.html : ancienne adresse de reseau.html, simple redirection)
 contenu/                      TEXTE DES PAGES, un fichier Markdown par page
@@ -38,7 +38,7 @@ contenu/                      TEXTE DES PAGES, un fichier Markdown par page
   accueil.md, projets.md, competences.md, veille.md, alternance.md,
   certifications.md, tableau-e5.md, contact.md,
   mentions-legales.md, confidentialite.md, plan-du-site.md, 404.md
-  projets/projet-1.md … projet-3.md, labo-parc-gaming.md (tests liés aux veilles)
+  projets/projet-1.md … projet-4.md, labo-parc-gaming.md (tests liés aux veilles)
   veille/systeme.md, cybersecurite.md   Veilles système et cybersécurité (projet Reboot)
   veille/veille-1.md          Veille réseau « souveraineté numérique » (ne pas renommer)
                               (les trois fiches reçoivent les synthèses de /veille)

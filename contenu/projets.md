@@ -16,6 +16,9 @@ description: Projets de Dylan JOFFREDO, technicien support en alternance à Nant
     technologies: liste séparée par des virgules
     récompenses: 3 compétences E5 au maximum, en version courte, séparées par des virgules
       (Patrimoine, Incidents, Présence en ligne, Mode projet, Mise à disposition, Développement pro.)
+    suite de: (facultatif) fiche de la quête précédente, ex. pages/projets/projet-2.html
+      Les deux cartes forment une chaîne de quêtes : un médaillon numéroté (1, 2…) sur chacune
+      et une chaîne dorée entre elles. Place la suite juste après la quête précédente.
   Chaque ligne doit commencer par son nom de champ suivi de « : » ; une ligne mal écrite est ignorée.
 -->
 
@@ -50,6 +53,17 @@ résumé: Six machines virtuelles Windows et Linux installées, reliées en rés
 cadre: Projet en formation — 1re année
 période: octobre 2026
 technologies: VirtualBox, Windows 11, Windows Server 2025, Ubuntu, Linux Mint, Kali Linux
+récompenses: Patrimoine, Incidents, Mise à disposition
+
+### TP Active Directory : domaine, OU et GPO
+type: secondaire
+statut: terminée
+fiche: pages/projets/projet-4.html
+suite de: pages/projets/projet-2.html
+résumé: Un domaine Active Directory créé sur Windows Server 2025, deux postes Windows 11 intégrés et deux stratégies de groupe déployées : fond d'écran et mot de passe fort.
+cadre: Projet en formation — 1re année
+période: novembre 2026
+technologies: Windows Server 2025, Active Directory, DNS, GPO, Windows 11
 récompenses: Patrimoine, Incidents, Mise à disposition
 
 ### Labo : gestion et sécurisation d'un parc de PC gaming

@@ -4,7 +4,7 @@
    (importé par style.css ; la numérotation des sections est celle du sommaire général)
    --------------------------------------------------------------------------
    10. En-tête des pages intérieures et fil d'Ariane
-   16. Journal de quêtes (filtre et cartes projet)
+   16. Journal de quêtes (filtre, cartes projet et chaînes de quêtes)
    17. Fiche de quête (pages projet)
    18. Arbre de talents (compétences)
    19. Codex (veille technologique)
@@ -106,7 +106,7 @@
 
 
 /* ==========================================================================
-   16. Journal de quêtes (filtre et cartes projet)
+   16. Journal de quêtes (filtre, cartes projet et chaînes de quêtes)
    Quête principale = projet en entreprise ; quête secondaire = en formation ;
    quête annexe = projet personnel.
    ========================================================================== */
@@ -276,6 +276,155 @@ html:not(.js) .filters__count {
   flex-direction: column;
   gap: 0.55rem;
   font-size: 0.92rem;
+}
+
+/* Chaîne de quêtes (« suite de: » dans projets.md) : médaillon numéroté posé sur le bord
+   haut de la carte, avec son infobulle (survol, ou carte sélectionnée au clavier) */
+.quest-chain {
+  position: absolute;
+  top: 0;
+  right: clamp(1rem, 0.8rem + 0.9vw, 1.5rem);
+  z-index: 2; /* au-dessus du lien qui couvre toute la carte */
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  transform: translateY(-50%);
+  color: var(--gold-text);
+  font-family: var(--font-rpg);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: help;
+}
+
+.quest-chain::before {
+  content: "";
+  position: absolute;
+  inset: 0.32rem;
+  z-index: -1;
+  border: 1px solid var(--gold);
+  background: linear-gradient(var(--gold-soft), var(--gold-soft)), var(--surface-2);
+  transform: rotate(45deg);
+}
+
+.quest-chain__tip {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: -0.25rem;
+  width: max-content;
+  max-width: min(17rem, 75vw);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--gold-line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0.15s;
+}
+
+.quest-chain:hover .quest-chain__tip,
+.quest-card:has(.stretched-link:focus-visible) .quest-chain__tip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Chaîne dorée fixe entre deux cartes, centrée dans l'espace qui les sépare.
+   Sens choisi par interface.js (data-chain-dir) ; sans JavaScript, elle reste masquée. */
+.quest-grid > li {
+  position: relative;
+}
+
+.quest-grid > li.has-quest-link {
+  z-index: 1; /* la chaîne passe par-dessus le bord de la carte suivante */
+}
+
+.quest-link {
+  position: absolute;
+  z-index: 2;
+  display: none;
+  pointer-events: none;
+}
+
+.quest-link svg {
+  display: block;
+  width: 3.75rem;
+  height: 1.3rem;
+}
+
+.quest-link[data-chain-dir="row"] {
+  display: block;
+  top: 50%;
+  left: calc(100% + var(--chain-gap, 1.5rem) / 2);
+  transform: translate(-50%, -50%);
+}
+
+.quest-link[data-chain-dir="column"] {
+  display: block;
+  top: calc(100% + var(--chain-gap, 1.5rem) / 2);
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.quest-link__piton {
+  fill: var(--surface-2);
+  stroke: var(--gold);
+  stroke-width: 1.5;
+}
+
+.quest-link__maillon {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.8;
+}
+
+.quest-link__profil {
+  fill: var(--gold);
+}
+
+.quest-link__reflet {
+  fill: none;
+  stroke: var(--gold-hover);
+  stroke-width: 0.8;
+  stroke-linecap: round;
+  opacity: 0.8;
+}
+
+/* Fiche de quête : « Suite de la quête : … » sous le titre (bloc « ::: suite ») */
+.quest-sequel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+}
+
+.quest-sequel svg {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--gold);
+}
+
+.quest-sequel__label {
+  color: var(--gold-text);
+  font-family: var(--font-rpg);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.quest-sequel a {
+  font-weight: 600;
 }
 
 

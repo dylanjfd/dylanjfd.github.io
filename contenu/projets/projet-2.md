@@ -130,5 +130,5 @@ Clique ou fais glisser une arme vers le centre.
 
 ::: navigation Navigation entre les projets
 - [Projet précédent](pages/projets/projet-1.html)
-- [Projet suivant](pages/projets/labo-parc-gaming.html)
+- [Projet suivant](pages/projets/projet-4.html)
 :::

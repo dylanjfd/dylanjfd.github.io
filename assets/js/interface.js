@@ -7,7 +7,7 @@
     2. Menu mobile
     3. Apparition au défilement et jauges
     4. Particules lumineuses du hero (30 maximum)
-    5. Filtre du journal de quêtes (projets)
+    5. Filtre du journal de quêtes (projets) et chaînes de quêtes
     6. Aperçu des PDF (CV, tableau E5) avec bouton de téléchargement
     7. Navigation aux flèches directionnelles (pages, puis toute la page après Tab)
     8. Divers : année du pied de page, cases à compléter
@@ -255,7 +255,7 @@
   }
 
   /* ========================================================================
-     5. Filtre du journal de quêtes (projets)
+     5. Filtre du journal de quêtes (projets) et chaînes de quêtes
      Boutons [data-filter] ; cartes [data-type="entreprise" | "academique" | "personnel"].
      ======================================================================== */
   function initQuestFilter() {
@@ -279,11 +279,53 @@
         const text = `${visible} projet${visible > 1 ? 's' : ''} affiché${visible > 1 ? 's' : ''}`;
         if (count.textContent !== text) count.textContent = text;
       }
+      document.dispatchEvent(new CustomEvent('questfilterchange', { detail: { filter } })); // chaînes de quêtes
     }
 
     buttons.forEach((button) => button.addEventListener('click', () => apply(button.getAttribute('data-filter'))));
     const active = document.querySelector('[data-filter][aria-pressed="true"]');
     apply(active ? active.getAttribute('data-filter') : 'all');
+  }
+
+  /* Chaînes de quêtes : la chaîne dorée [data-chain-next] (créée par rendu.js) part de la
+     carte d'une quête vers celle de la quête suivante. Elle est horizontale si les deux cartes
+     sont côte à côte, verticale si elles sont l'une sous l'autre (mobile), et masquée sinon :
+     carte cachée par le filtre, ou cartes sur deux rangées différentes (grille à 2 colonnes).
+     Les positions utilisées (offsetLeft, offsetTop) ignorent l'animation d'apparition. */
+  function initQuestChains() {
+    const links = document.querySelectorAll('[data-chain-next]');
+    if (!links.length) return;
+    const MAX_GAP = 64; // au-delà (en px), les cartes ne sont pas voisines
+
+    function place() {
+      links.forEach((link) => {
+        const from = link.parentElement;
+        const to = document.getElementById(link.getAttribute('data-chain-next'));
+        let dir = '';
+        let gap = 0;
+        if (to && !from.hidden && !to.hidden && from.offsetParent && to.offsetParent === from.offsetParent) {
+          const dx = to.offsetLeft - (from.offsetLeft + from.offsetWidth);
+          const dy = to.offsetTop - (from.offsetTop + from.offsetHeight);
+          if (Math.abs(to.offsetTop - from.offsetTop) <= 1 && dx >= 0 && dx <= MAX_GAP) [dir, gap] = ['row', dx];
+          else if (Math.abs(to.offsetLeft - from.offsetLeft) <= 1 && dy >= 0 && dy <= MAX_GAP) [dir, gap] = ['column', dy];
+        }
+        if (dir) {
+          link.setAttribute('data-chain-dir', dir);
+          link.style.setProperty('--chain-gap', `${gap}px`);
+        } else {
+          link.removeAttribute('data-chain-dir');
+        }
+      });
+    }
+
+    place();
+    document.addEventListener('questfilterchange', place);
+    if ('ResizeObserver' in window) {
+      const observer = new ResizeObserver(place);
+      new Set(Array.from(links, (link) => link.closest('ul'))).forEach((grid) => grid && observer.observe(grid));
+    } else {
+      window.addEventListener('resize', place);
+    }
   }
 
   /* ========================================================================
@@ -609,6 +651,7 @@
       initReveal();
       initParticles();
       initQuestFilter();
+      initQuestChains();
       initPdfPreview();
       initArrowNav();
       initYear();
