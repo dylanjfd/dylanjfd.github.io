@@ -571,6 +571,9 @@
    * Chaque quête de la chaîne reçoit un médaillon numéroté (1, 2…) avec une infobulle ; une chaîne
    * dorée décorative part de sa carte vers celle de la quête suivante. interface.js la place :
    * horizontale si les cartes sont côte à côte, verticale si elles sont l'une sous l'autre, sinon masquée.
+   * Si le navigateur garde une ancienne feuille de style en cache, rien ne s'affiche de travers :
+   * le numéro et l'infobulle sont écrits par le CSS (attributs data-rang et data-bulle) et la
+   * chaîne reste cachée (hidden) tant qu'interface.js ne l'a pas placée.
    */
   function chainerQuetes(cartes) {
     const nomCourt = (nom) => nom.split(/\s+:\s+/)[0]; // « TP Active Directory : domaine… » → « TP Active Directory »
@@ -593,15 +596,15 @@
           c.precedente ? `fait suite à : ${nomCourt(c.precedente.nom)}` : null,
           c.suivante ? `suivie par : ${nomCourt(c.suivante.nom)}` : null,
         ].filter(Boolean);
-        c.titre.after(el('span', { class: 'quest-chain', role: 'img', 'aria-label': `Quête ${i + 1} sur ${chaine.length} de la chaîne, ${liens.join(', ')}` }, [
-          el('span', { 'aria-hidden': 'true' }, String(i + 1)),
-          el('span', { class: 'quest-chain__tip', 'aria-hidden': 'true' }, MD.echapper(`Quête ${i + 1} de la chaîne — ${liens.join(' ; ')}`)),
-        ]));
+        c.titre.after(el('span', {
+          class: 'quest-chain', role: 'img', 'data-rang': String(i + 1),
+          'aria-label': `Quête ${i + 1} sur ${chaine.length} de la chaîne, ${liens.join(', ')}`,
+        }, el('span', { class: 'quest-chain__tip', 'data-bulle': `Quête ${i + 1} de la chaîne — ${liens.join(' ; ')}` })));
         if (i === chaine.length - 1) return;
         const suivante = chaine[i + 1].li;
         if (!suivante.id) suivante.id = identifiant(`quete-${chaine[i + 1].nom}`);
         c.li.classList.add('has-quest-link');
-        c.li.appendChild(el('span', { class: 'quest-link', 'data-chain-next': suivante.id, 'aria-hidden': 'true' }, ICO.chaineQuetes));
+        c.li.appendChild(el('span', { class: 'quest-link', hidden: true, 'data-chain-next': suivante.id, 'aria-hidden': 'true' }, ICO.chaineQuetes));
       });
     });
   }

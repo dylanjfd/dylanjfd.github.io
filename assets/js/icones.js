@@ -88,8 +88,9 @@
     // Chaînes de quêtes : deux maillons (« Suite de la quête » d'une fiche)
     chaine: svg('0 0 24 24', trait(1.8), '<rect x="2.5" y="8.5" width="11" height="7" rx="3.5"/><rect x="10.5" y="8.5" width="11" height="7" rx="3.5"/>'),
     // Chaîne entre deux cartes du Journal de quêtes : un piton sur chaque carte, trois maillons
-    // (de face, de profil, de face) ; couleurs dans 06-pages.css (.quest-link)
-    chaineQuetes: svg('0 0 52 18', '',
+    // (de face, de profil, de face) ; couleurs dans 06-pages.css (.quest-link). Taille et trait
+    // de secours dans les attributs : jamais d'énorme forme noire si le CSS n'est pas chargé.
+    chaineQuetes: svg('0 0 52 18', 'width="60" height="21" fill="none" stroke="currentColor"',
       '<circle class="quest-link__piton" cx="7" cy="9" r="3.4"/><circle class="quest-link__piton" cx="45" cy="9" r="3.4"/>'
       + '<ellipse class="quest-link__maillon" cx="15" cy="9" rx="6" ry="4"/><ellipse class="quest-link__maillon" cx="37" cy="9" rx="6" ry="4"/>'
       + '<rect class="quest-link__profil" x="19" y="7.6" width="14" height="2.8" rx="1.4"/>'

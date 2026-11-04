@@ -303,12 +303,15 @@
         const to = document.getElementById(link.getAttribute('data-chain-next'));
         let dir = '';
         let gap = 0;
-        if (to && !from.hidden && !to.hidden && from.offsetParent && to.offsetParent === from.offsetParent) {
+        // Feuille de style de la chaîne chargée (et pas une ancienne version en cache) ?
+        const styled = getComputedStyle(link).position === 'absolute';
+        if (styled && to && !from.hidden && !to.hidden && from.offsetParent && to.offsetParent === from.offsetParent) {
           const dx = to.offsetLeft - (from.offsetLeft + from.offsetWidth);
           const dy = to.offsetTop - (from.offsetTop + from.offsetHeight);
           if (Math.abs(to.offsetTop - from.offsetTop) <= 1 && dx >= 0 && dx <= MAX_GAP) [dir, gap] = ['row', dx];
           else if (Math.abs(to.offsetLeft - from.offsetLeft) <= 1 && dy >= 0 && dy <= MAX_GAP) [dir, gap] = ['column', dy];
         }
+        link.hidden = !dir; // cachée dans le HTML : visible seulement une fois placée
         if (dir) {
           link.setAttribute('data-chain-dir', dir);
           link.style.setProperty('--chain-gap', `${gap}px`);

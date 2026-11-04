@@ -279,7 +279,9 @@ html:not(.js) .filters__count {
 }
 
 /* Chaîne de quêtes (« suite de: » dans projets.md) : médaillon numéroté posé sur le bord
-   haut de la carte, avec son infobulle (survol, ou carte sélectionnée au clavier) */
+   haut de la carte, avec son infobulle (survol, ou carte sélectionnée au clavier).
+   Le numéro (data-rang) et le texte de l'infobulle (data-bulle) sont écrits ici, par le CSS :
+   avec une ancienne feuille de style encore en cache, le médaillon reste simplement vide. */
 .quest-chain {
   position: absolute;
   top: 0;
@@ -306,6 +308,14 @@ html:not(.js) .filters__count {
   border: 1px solid var(--gold);
   background: linear-gradient(var(--gold-soft), var(--gold-soft)), var(--surface-2);
   transform: rotate(45deg);
+}
+
+.quest-chain::after {
+  content: attr(data-rang);
+}
+
+.quest-chain__tip::before {
+  content: attr(data-bulle);
 }
 
 .quest-chain__tip {
@@ -337,7 +347,8 @@ html:not(.js) .filters__count {
 }
 
 /* Chaîne dorée fixe entre deux cartes, centrée dans l'espace qui les sépare.
-   Sens choisi par interface.js (data-chain-dir) ; sans JavaScript, elle reste masquée. */
+   Sens choisi par interface.js (data-chain-dir), qui retire aussi l'attribut hidden ;
+   sans JavaScript, elle reste masquée. */
 .quest-grid > li {
   position: relative;
 }
@@ -350,6 +361,7 @@ html:not(.js) .filters__count {
   position: absolute;
   z-index: 2;
   display: none;
+  color: var(--gold);
   pointer-events: none;
 }
 
@@ -387,6 +399,7 @@ html:not(.js) .filters__count {
 
 .quest-link__profil {
   fill: var(--gold);
+  stroke: none;
 }
 
 .quest-link__reflet {
