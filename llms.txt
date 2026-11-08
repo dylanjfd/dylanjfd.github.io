@@ -9,7 +9,7 @@ Portfolio de l'épreuve E5 du BTS SIO : projets, compétences, veille technologi
 - [Accueil](https://dylanjoffredo.me/): Dylan JOFFREDO, technicien support et systèmes en alternance à Nantes (BTS SIO SISR) : projets, compétences, veille technologique et certifications.
 - [Projets](https://dylanjoffredo.me/pages/projets.html): Projets de Dylan JOFFREDO, technicien support en alternance à Nantes (BTS SIO SISR) : serveur web Debian, systèmes sous VirtualBox, parc de PC gaming.
 - [Compétences](https://dylanjoffredo.me/pages/competences.html): Compétences de Dylan JOFFREDO, technicien support en BTS SIO SISR : montage de PC, virtualisation, réseau, gestion de parc et cybersécurité, avec preuves.
-- [Veille technologique](https://dylanjoffredo.me/pages/veille.html): Veille technologique de Dylan JOFFREDO (BTS SIO SISR, Nantes) : gestion d'un parc de PC, souveraineté numérique des PME, cybersécurité des joueurs.
+- [Veille technologique](https://dylanjoffredo.me/pages/veille.html): Veille technologique de Dylan JOFFREDO (BTS SIO SISR, Nantes) : gestion du parc informatique et souveraineté numérique des PME, cybersécurité des joueurs.
 - [Alternance](https://dylanjoffredo.me/pages/alternance.html): Alternance de Dylan JOFFREDO en BTS SIO SISR : technicien support et systèmes chez MyDigitalSchool à Nantes, missions confiées et compétences E5.
 - [Certifications](https://dylanjoffredo.me/pages/certifications.html): Certifications, MOOC, langues et badges numériques de Dylan JOFFREDO, étudiant en BTS SIO SISR en alternance à Nantes, avec leurs justificatifs.
 - [Tableau de synthèse E5](https://dylanjoffredo.me/pages/tableau-e5.html): Tableau de synthèse de l'épreuve E5 du BTS SIO SISR de Dylan JOFFREDO : réalisations professionnelles et compétences du référentiel mobilisées.
@@ -24,7 +24,7 @@ Portfolio de l'épreuve E5 du BTS SIO : projets, compétences, veille technologi
 
 ## Veilles technologiques
 
-- [Gérer un parc de PC en libre-service](https://dylanjoffredo.me/pages/veille/systeme.html): Veille système BTS SIO SISR : déploiement d'images, restauration au redémarrage ou diskless pour les 25 PC d'une salle gaming. Actualités et analyse.
+- [Gérer le parc informatique d'une PME](https://dylanjoffredo.me/pages/veille/systeme.html): Veille système BTS SIO SISR : gérer le parc informatique d'une PME, bonnes pratiques (inventaire, mises à jour, sauvegardes), risques et actualités.
 - [Souveraineté numérique des PME](https://dylanjoffredo.me/pages/veille/reseau.html): Veille réseau BTS SIO SISR de Dylan JOFFREDO sur la souveraineté numérique des PME : problématique, méthode, synthèses mensuelles et sources fiables.
 - [Pourquoi les joueurs sont-ils l'une des cibles favorites des cybercriminels ?](https://dylanjoffredo.me/pages/veille/cybersecurite.html): Veille cybersécurité BTS SIO SISR : pourquoi les joueurs sont une cible favorite des cybercriminels et comment protéger une salle de jeu.
 

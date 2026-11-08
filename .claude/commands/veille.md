@@ -11,7 +11,7 @@ Tu prépares les synthèses mensuelles de mes trois veilles, à partir de mes r�
 | Lettre | Veille | Fiche où va la synthèse | Marqueurs |
 |---|---|---|---|
 | R | Réseau — Souveraineté numérique des PME | `contenu/veille/veille-1.md` | `SYNTHESES` |
-| S | Système — Gérer un parc de PC en libre-service | `contenu/veille/systeme.md` | `SYNTHESES-SYSTEME` |
+| S | Système — Gérer le parc informatique d'une PME : quelles bonnes pratiques et quels risques ? | `contenu/veille/systeme.md` | `SYNTHESES-SYSTEME` |
 | C | Cybersécurité — Pourquoi les joueurs sont-ils l'une des cibles favorites des cybercriminels ? | `contenu/veille/cybersecurite.md` | `SYNTHESES-CYBERSECURITE` |
 
 Dans les anciens e-mails « [Veille souveraineté] », les numéros n'ont pas de lettre : ils appartiennent à la veille réseau (`fetch_replies.py` les rend déjà sous la forme « R2 »).

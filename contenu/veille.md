@@ -2,7 +2,7 @@
 fil-ariane: Veille
 titre-onglet: Veille technologique
 titre-seo: Veille technologique BTS SIO SISR — Dylan JOFFREDO
-description: Veille technologique de Dylan JOFFREDO (BTS SIO SISR, Nantes) : gestion d'un parc de PC, souveraineté numérique des PME, cybersécurité des joueurs.
+description: Veille technologique de Dylan JOFFREDO (BTS SIO SISR, Nantes) : gestion du parc informatique et souveraineté numérique des PME, cybersécurité des joueurs.
 ---
 
 <!--
@@ -34,14 +34,14 @@ Ma veille part d'un projet concret : Reboot, un atelier de réparation informati
 Chaque fiche présente la problématique, les actualités suivies avec leurs sources, mes synthèses et mon analyse critique.
 
 ::: quetes veilles
-### Gérer un parc de PC en libre-service
+### Gérer le parc informatique d'une PME
 catégorie: système
 statut: en cours
 fiche: pages/veille/systeme.html
-résumé: Déploiement d'images, restauration au redémarrage ou diskless : quelle solution pour gérer les 25 PC d'une salle gaming comme Reboot ?
+résumé: Gérer le parc informatique d'une PME : quelles bonnes pratiques et quels risques ?
 cadre: Veille en formation (BTS SIO)
 période: depuis octobre 2026
-thèmes: FOG Project, Clonezilla, Unified Write Filter, Diskless
+thèmes: GLPI, Déploiement, Mises à jour, Sauvegardes, Fin de support
 récompenses: Développement pro.
 
 ### Souveraineté numérique

@@ -15,9 +15,10 @@
  *    puis ta synthèse de la semaine sur une ligne qui commence par #SEMAINE.
  *  - Le premier lundi du mois, l'e-mail rappelle de demander à Claude les synthèses du mois précédent,
  *    construites en regroupant les synthèses de la semaine (#SEMAINE) de ce mois.
- *  - Veille cybersécurité (C) : en plus des flux, des recherches Google Actualités ; la même actu reprise
- *    par plusieurs sites n'apparaît qu'une fois (« + N autres sources ») et les articles sont classés
- *    par pertinence (mots-clés menace + jeu trouvés, bonus si « joueur/gamer » est dans le titre), puis par date.
+ *  - Veilles système (S) et cybersécurité (C) : en plus des flux, des recherches Google Actualités.
+ *  - Veille cybersécurité (C) : la même actu reprise par plusieurs sites n'apparaît qu'une fois
+ *    (« + N autres sources ») et les articles sont classés par pertinence (mots-clés menace + jeu trouvés,
+ *    bonus si « joueur/gamer » est dans le titre), puis par date.
  *  - `rattrapageCyber` (à lancer une seule fois à la main) : mêmes recherches sur 90 jours, dans un e-mail
  *    à part « [Veille] Rattrapage cybersécurité », sans toucher à l'e-mail du lundi.
  *
@@ -53,7 +54,8 @@ const CONFIG = {
       ]],
     },
     {
-      nom: 'Gérer un parc de PC en libre-service', categorie: 'Système', prefixe: 'S', articlesMax: 6, actif: true,
+      nom: 'Gérer le parc informatique d\'une PME : quelles bonnes pratiques et quels risques ?',
+      categorie: 'Système', prefixe: 'S', articlesMax: 6, actif: true,
       flux: [
         { nom: 'IT-Connect',                     url: 'https://www.it-connect.fr/feed/', langue: 'FR' },
         { nom: 'LeMagIT',                        url: 'https://www.lemagit.fr/rss/ContentSyndication.xml', langue: 'FR' },
@@ -61,13 +63,36 @@ const CONFIG = {
         { nom: 'Windows IT Pro Blog (Microsoft)', url: 'https://techcommunity.microsoft.com/t5/s/gxcuf89792/rss/board?board.id=Windows-ITPro-blog', langue: 'EN' },
         { nom: 'BleepingComputer',               url: 'https://www.bleepingcomputer.com/feed/', langue: 'EN' },
       ],
+      // Recherches Google Actualités (flux RSS), comme pour la veille cybersécurité : adresse construite par
+      // urlGoogleActualites_, vrai nom du site tiré de la balise <source>, et les deux groupes de mots-clés
+      // vérifiés sur le titre (Google ne donne pas de résumé). Pas de « GLPI » en anglais : la recherche ne
+      // remonte que l'action en Bourse « GLPI » (Gaming and Leisure Properties), pas l'outil.
+      googleActualites: [
+        { requete: '"gestion de parc informatique"', langue: 'FR' },
+        { requete: 'GLPI', langue: 'FR' },
+        { requete: '"fin de support" "Windows 10"', langue: 'FR' },
+        { requete: '"Patch Tuesday"', langue: 'FR' },
+        { requete: 'Intune OR WSUS OR Autopatch', langue: 'FR' },
+        { requete: 'PME informatique', langue: 'FR' },
+        { requete: '"IT asset management"', langue: 'EN' },
+        { requete: '"Windows 10" "end of support"', langue: 'EN' },
+        { requete: '"Patch Tuesday"', langue: 'EN' },
+        { requete: 'Intune OR WSUS OR Autopatch', langue: 'EN' },
+        { requete: 'SMB "IT management" OR "endpoint management" OR "patch management"', langue: 'EN' },
+      ],
       googleAlerts: [],
-      groupesMotsCles: [[
-        'déploiement d\'images', 'image deployment', 'PXE', 'FOG Project', 'Clonezilla',
-        'Unified Write Filter', 'UWF', 'Deep Freeze', 'Reboot Restore', 'diskless', 'MDT',
-        'Microsoft Deployment Toolkit', 'Autopilot', 'Configuration Manager', 'Sysprep',
-        'gestion de parc', 'kiosk mode', 'LAN center', 'cybercafé',
-      ]],
+      groupesMotsCles: [
+        [ // parc
+          'parc informatique', 'poste de travail', 'postes', 'PC', 'ordinateurs', 'flotte', 'endpoint',
+          'Windows', 'serveur', 'PME', 'TPE', 'entreprise', 'administrateur', 'DSI', 'IT',
+        ],
+        [ // gestion
+          'inventaire', 'GLPI', 'OCS', 'déploiement', 'image', 'master', 'Autopilot', 'MDT', 'Intune', 'MDM',
+          'WSUS', 'GPO', 'mise à jour', 'update', 'correctif', 'patch', 'Patch Tuesday', 'hotpatch',
+          'fin de support', 'end of support', 'cycle de vie', 'renouvellement', 'reconditionné', 'sauvegarde',
+          'backup', 'licence', 'standardisation',
+        ],
+      ],
     },
     {
       nom: 'Pourquoi les joueurs sont-ils l\'une des cibles favorites des cybercriminels ?',

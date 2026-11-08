@@ -30,7 +30,7 @@ Toutes les pages du portfolio, regroupées par thème.
 ## Parcours et compétences
 - [Compétences](pages/competences.html)
 - [Veille technologique](pages/veille.html)
-  - [Veille système : parc de PC en libre-service](pages/veille/systeme.html)
+  - [Veille système : gérer le parc informatique d'une PME](pages/veille/systeme.html)
   - [Veille réseau : souveraineté numérique des PME](pages/veille/reseau.html)
   - [Veille cybersécurité : les joueurs ciblés](pages/veille/cybersecurite.html)
 - [Alternance](pages/alternance.html)

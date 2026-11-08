@@ -202,7 +202,7 @@ Lui expliquer les bonnes pratiques. [[Conseils donnés.]]
 
 ::: encart
 ## Codex | Veilles liées
-- **Système** : [Gérer un parc de PC en libre-service](pages/veille/systeme.html)
+- **Système** : [Gérer le parc informatique d'une PME](pages/veille/systeme.html)
 - **Cybersécurité** : [Pourquoi les joueurs sont-ils ciblés ?](pages/veille/cybersecurite.html)
 - [Mes compétences systèmes et réseaux](pages/competences.html)
 :::

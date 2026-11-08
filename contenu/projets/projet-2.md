@@ -125,7 +125,7 @@ Clique ou fais glisser une arme vers le centre.
 ::: encart
 ## Codex | Pour aller plus loin
 - [Mes compétences systèmes et réseaux](pages/competences.html)
-- [Veille système : gérer un parc de PC en libre-service](pages/veille/systeme.html)
+- [Veille système : gérer le parc informatique d'une PME](pages/veille/systeme.html)
 :::
 
 ::: navigation Navigation entre les projets
