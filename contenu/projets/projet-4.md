@@ -15,6 +15,11 @@ description: Projet BTS SIO SISR de Dylan JOFFREDO : domaine Active Directory so
   Documentation du TP : assets/docs/tp-active-directory-gpo.pdf
     Pour la remplacer, dépose le nouveau PDF dans assets/docs/ sous le même nom :
     les deux liens de cette fiche (section « Livrable » et encart « Archives ») suivent.
+  Petit secret : le bloc « ::: presentation arc » (fin de la section « Livrable ») devient
+    un arc et une cible, au-dessus du séparateur. Quand la flèche se plante dans le mille,
+    la présentation de l'oral s'ouvre en plein écran : assets/docs/tp-active-directory-gpo-presentation.pdf
+    (même principe pour la remplacer). La version modifiable (.pptx) reste dans le dépôt,
+    sans lien sur le site. La phrase n'apparaît qu'au survol de l'arc ou de la cible.
 -->
 
 # Fiche de quête · Quête secondaire | TP Active Directory : domaine, OU et GPO
@@ -91,6 +96,12 @@ La documentation complète du TP : la procédure pas à pas, illustrée de 55 fi
 
 ::: actions
 - [Consulter la documentation technique (PDF)](assets/docs/tp-active-directory-gpo.pdf)
+:::
+
+::: presentation arc
+Clique sur l'arc ou tire la corde pour viser la cible.
+
+- [Présentation orale du TP (PDF)](assets/docs/tp-active-directory-gpo-presentation.pdf)
 :::
 
 ::: encart competences

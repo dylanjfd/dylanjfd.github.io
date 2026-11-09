@@ -1,15 +1,22 @@
 /* ==========================================================================
    Portfolio BTS SIO — presentation.js
-   Petit secret de la fiche du projet 2 : une épée et un bouclier flottent
-   sur les bords de la page, juste au-dessus du séparateur. Un clic (ou
-   Entrée) sur l'une des armes, ou une arme glissée jusqu'au losange central,
-   les fait se rencontrer : flash doré, étincelles, léger tremblement, puis la
-   présentation de l'oral s'ouvre en plein écran, diapo par diapo.
+   Petit secret d'une fiche projet : la présentation de l'oral, cachée derrière
+   une animation juste au-dessus du séparateur, puis ouverte en plein écran,
+   diapo par diapo.
+   - « ::: presentation » (projet 2) : une épée et un bouclier flottent sur les
+     bords de la page. Un clic (ou Entrée) sur l'une des armes, ou une arme
+     glissée jusqu'au losange central, les fait se rencontrer : flash doré,
+     étincelles, léger tremblement.
+   - « ::: presentation arc » (projet 4) : un arc, flèche encochée, au bord
+     gauche et une cible au bord droit. Un clic (ou Entrée) sur l'arc ou la
+     cible, ou la corde tirée vers l'arrière puis relâchée : l'arc se bande, la
+     flèche vole en légère courbe et se plante dans le mille ; la cible
+     tremble, des anneaux dorés s'élargissent et quelques éclats partent.
    --------------------------------------------------------------------------
    Contenu : bloc « ::: presentation » du fichier Markdown de la page
    (la phrase d'aide + le lien du PDF). Démarrage : main.js, après rendu.js.
    Lecture du PDF : PDF.js (Mozilla, Apache 2.0), hébergé dans assets/js/pdfjs/,
-   chargé seulement quand on approche une arme.
+   chargé seulement quand on approche une arme, l'arc ou la cible.
    Styles : assets/css/08-presentation.css.
 
    SOMMAIRE
@@ -17,8 +24,10 @@
     2. Dessins de l'épée et du bouclier (SVG originaux)
     3. Rencontre des armes : clic, clavier, glisser
     4. Choc : flash, étincelles, tremblement
-    5. Diaporama : plein écran, PDF.js, navigation
-    6. Initialisation
+    5. Variante « arc » : dessins de l'arc, de la flèche et de la cible
+    6. Tir à l'arc : corde tendue, vol de la flèche, impact dans le mille
+    7. Diaporama : plein écran, PDF.js, navigation
+    8. Initialisation
    ========================================================================== */
 (function () {
   'use strict';
@@ -40,6 +49,15 @@
   // Proportions des dessins (viewBox) : pointe de l'épée, bord gauche du bouclier
   const POINTE_EPEE = 236 / 240;
   const BORD_BOUCLIER = 6 / 112;
+
+  // Variante « arc »
+  const DUREE_BANDER = 480;       // ms : la corde se tend (clic ou Entrée)
+  const DUREE_VISEE = 160;        // ms : l'arc bandé vise, immobile, avant de lâcher
+  const DUREE_CORDE = 380;        // ms : la corde lâchée vibre puis revient
+  const DUREE_RELACHER = 260;     // ms : corde lâchée trop tôt, qui revient sans tirer
+  const SEUIL_TIR = 0.3;          // part de la corde tirée à la main pour que la flèche parte
+  const DELAI_OUVERTURE_ARC = 650; // ms entre l'impact et l'ouverture de la présentation
+  const NB_ECLATS = 12;
 
   const mouvementReduit = window.matchMedia('(prefers-reduced-motion: reduce)');
   const attendre = (ms) => new Promise((resolve) => { setTimeout(resolve, ms); });
@@ -130,6 +148,7 @@
      États : repos → (glisse) → rencontre → ouvert → repos
      ======================================================================== */
   let presentation = null;   // rangée pleine largeur au-dessus du séparateur
+  let variante = 'armes';    // 'armes' (épée et bouclier) ou 'arc' (arc et cible)
   let epee = null;
   let bouclier = null;
   let sceau = null;          // losange central : point de rencontre
@@ -288,8 +307,14 @@
     });
   }
 
-  /** Après la présentation : les armes reprennent leur place et leur flottement. */
+  /** Après la présentation : tout reprend sa place (épée et bouclier, ou arc et cible). */
   function reinitialiser() {
+    if (variante === 'arc') reinitialiserArc();
+    else reinitialiserArmes();
+  }
+
+  /** Les armes reprennent leur place et leur flottement. */
+  function reinitialiserArmes() {
     etat = 'repos';
     glisse = null;
     [epee, bouclier].forEach((arme) => {
@@ -351,7 +376,429 @@
   }
 
   /* ========================================================================
-     5. Diaporama : plein écran, PDF.js, navigation
+     5. Variante « arc » : dessins de l'arc, de la flèche et de la cible
+     Couleurs dans 08-presentation.css (classes presentation__teinte-* et
+     presentation__anneau--*) : elles suivent le thème clair ou sombre.
+     L'arc est redessiné à chaque image quand la corde se tend (dessinerArc).
+     ======================================================================== */
+  // Arc (viewBox 0 0 180 200, symétrique autour de y = 100) : pour chaque point de la
+  // branche du haut, [au repos, bandé à fond]. La branche du bas est son reflet.
+  const ARC = {
+    dosControle: [[92, 34], [88, 42]],      // dos de la branche (côté cible)
+    pointeDos: [[42.5, 8.5], [35, 17.5]],
+    pointeVentre: [[37.5, 14], [30.5, 23]],
+    ventreControle: [[73, 44], [69, 51]],   // ventre de la branche (côté corde)
+    attache: [[40, 11.5], [33, 20.5]],      // attache de la corde, sous l'embout doré
+    encoche: [40, 6],                       // x du point d'encoche : la corde y est tirée, la flèche suit
+  };
+  const ARC_LARGEUR = 180;
+  const ARC_PIVOT = [72, 100];              // poignée : centre de la visée (transform-origin 40 % 50 % dans le CSS)
+  const FLECHE_POINTE = 179;                // x de la pointe de la flèche encochée, au repos
+  const FLECHE_BOITE = [36, 87, 143, 26];   // viewBox de la flèche en vol : sa pointe touche le bord droit
+  const POINTE_ENFONCEE = 17;               // la pointe disparaît dans la cible
+
+  const PIECES_FLECHE = (or, acier) => `
+      <path class="presentation__plume presentation__contour" d="M44 98.4C47.5 89 57.5 87.6 69 98.4Z" fill="url(#${or})"/>
+      <path class="presentation__plume presentation__plume--nuit" d="M44 101.6C47.5 111 57.5 112.4 69 101.6Z"/>
+      <rect class="presentation__fut" x="41" y="98.4" width="122" height="3.2" rx="1.6"/>
+      <path class="presentation__pointe presentation__contour" d="M158 93 179 100 158 107 162.5 100Z" fill="url(#${acier})"/>
+      <path class="presentation__encoche" d="M37 97h6.5v6H37l2-3Z" fill="url(#${or})"/>`;
+
+  const DEGRADES_OR = (id, x2, y2) => `
+        <linearGradient id="${id}" x1="0" y1="0" x2="${x2}" y2="${y2}">
+          <stop offset="0" class="presentation__teinte-or-clair"/>
+          <stop offset="0.55" class="presentation__teinte-or"/>
+          <stop offset="1" class="presentation__teinte-or-sombre"/>
+        </linearGradient>`;
+
+  const DEGRADE_ACIER = (id) => `
+        <linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" class="presentation__teinte-acier-clair"/>
+          <stop offset="0.5" class="presentation__teinte-acier"/>
+          <stop offset="1" class="presentation__teinte-acier-sombre"/>
+        </linearGradient>`;
+
+  const SVG_ARC = `
+    <svg viewBox="0 0 180 200" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="presentation-bois" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" class="presentation__teinte-bois-sombre"/>
+          <stop offset="0.55" class="presentation__teinte-bois"/>
+          <stop offset="1" class="presentation__teinte-bois-clair"/>
+        </linearGradient>${DEGRADES_OR('presentation-or-arc', 0, 1)}${DEGRADE_ACIER('presentation-acier-fleche')}
+      </defs>
+      <path class="presentation__bois presentation__contour" fill="url(#presentation-bois)"/>
+      <path class="presentation__bois-reflet"/>
+      <rect class="presentation__contour" x="63" y="84" width="19.5" height="32" rx="4.5" fill="url(#presentation-or-arc)"/>
+      <path class="presentation__ligature" d="M64 91h17.5M64 96.5h17.5M64 103.5h17.5M64 109h17.5"/>
+      <path class="presentation__corde"/>
+      <g class="presentation__fleche-encochee">${PIECES_FLECHE('presentation-or-arc', 'presentation-acier-fleche')}
+      </g>
+      <circle class="presentation__embout presentation__contour" r="3" fill="url(#presentation-or-arc)"/>
+      <circle class="presentation__embout presentation__contour" r="3" fill="url(#presentation-or-arc)"/>
+    </svg>`;
+
+  // Flèche en vol : mêmes pièces, avec ses propres dégradés
+  const SVG_FLECHE = `
+    <svg viewBox="${FLECHE_BOITE.join(' ')}" aria-hidden="true" focusable="false">
+      <defs>${DEGRADES_OR('presentation-or-vol', 0, 1)}${DEGRADE_ACIER('presentation-acier-vol')}
+      </defs>${PIECES_FLECHE('presentation-or-vol', 'presentation-acier-vol')}
+    </svg>`;
+
+  // Cible vue de face : anneaux or, parchemin et bleu nuit ; le mille au centre exact du dessin
+  const SVG_CIBLE = `
+    <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+      <defs>${DEGRADES_OR('presentation-or-cible', 1, 1)}
+        <radialGradient id="presentation-lueur-cible" cx="0.34" cy="0.26" r="0.72">
+          <stop offset="0" stop-color="#fff" stop-opacity="0.26"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle class="presentation__epaisseur" cx="61.6" cy="62.4" r="56"/>
+      <circle class="presentation__contour" cx="60" cy="60" r="56" fill="url(#presentation-or-cible)"/>
+      <circle class="presentation__anneau--parchemin" cx="60" cy="60" r="51"/>
+      <circle class="presentation__anneau--nuit" cx="60" cy="60" r="42"/>
+      <circle class="presentation__anneau--parchemin" cx="60" cy="60" r="33"/>
+      <circle class="presentation__anneau--nuit" cx="60" cy="60" r="24"/>
+      <circle class="presentation__contour" cx="60" cy="60" r="15" fill="url(#presentation-or-cible)"/>
+      <circle class="presentation__filet" cx="60" cy="60" r="46.5" stroke-width="0.9"/>
+      <circle class="presentation__filet" cx="60" cy="60" r="28.5" stroke-width="0.9"/>
+      <path class="presentation__gemme" d="M60 55.6 64.4 60 60 64.4 55.6 60Z"/>
+      <circle cx="60" cy="60" r="51" fill="url(#presentation-lueur-cible)"/>
+    </svg>`;
+
+  let arc = null;            // bouton de l'arc (glisser : tirer la corde)
+  let cible = null;          // bouton de la cible
+  let svgArc = null;         // tourné pour viser (autour de la poignée)
+  let bois = null;
+  let boisReflet = null;
+  let corde = null;
+  let embouts = [];
+  let flecheEncochee = null;
+  let fleche = null;         // flèche en vol, dans la rangée (cachée au repos)
+  let angleVisee = 0;        // rotation de l'arc, en radians (négatif : vers le haut)
+  let tension = null;        // corde tirée à la main : { id, x, y, course, visee, t, bouge }
+  let jetonArc = 0;          // une remise en place arrête les animations en cours
+
+  const entre = (a, b, t) => a + (b - a) * t;
+  const point = (paire, t) => [entre(paire[0][0], paire[1][0], t), entre(paire[0][1], paire[1][1], t)];
+  const reflet = ([x, y]) => [x, 200 - y];
+  const xy = ([x, y]) => `${x.toFixed(2)} ${y.toFixed(2)}`;
+  const sortie = (u) => 1 - (1 - u) ** 3;   // départ rapide, arrivée douce
+
+  /** Dessine l'arc pour une tension t (0 : repos, 1 : bandé à fond ; négative : recul de la corde). */
+  function dessinerArc(t) {
+    const dos = point(ARC.dosControle, t);
+    const pointeDos = point(ARC.pointeDos, t);
+    const pointeVentre = point(ARC.pointeVentre, t);
+    const ventre = point(ARC.ventreControle, t);
+    const attache = point(ARC.attache, t);
+    bois.setAttribute('d', `M81 100Q${xy(dos)} ${xy(pointeDos)}L${xy(pointeVentre)}Q${xy(ventre)} 64 100`
+      + `Q${xy(reflet(ventre))} ${xy(reflet(pointeVentre))}L${xy(reflet(pointeDos))}Q${xy(reflet(dos))} 81 100Z`);
+    // Reflet clair le long du dos des branches
+    const dosReflet = [dos[0] - 3.5, dos[1]];
+    boisReflet.setAttribute('d', `M77.5 96Q${xy(dosReflet)} ${xy([pointeDos[0] + 0.5, pointeDos[1] + 3])}`
+      + `M77.5 104Q${xy(reflet(dosReflet))} ${xy(reflet([pointeDos[0] + 0.5, pointeDos[1] + 3]))}`);
+    const encoche = entre(ARC.encoche[0], ARC.encoche[1], t);
+    corde.setAttribute('d', `M${xy(attache)}L${encoche.toFixed(2)} 100L${xy(reflet(attache))}`);
+    [attache, reflet(attache)].forEach((p, i) => {
+      embouts[i].setAttribute('cx', p[0].toFixed(2));
+      embouts[i].setAttribute('cy', p[1].toFixed(2));
+    });
+    flecheEncochee.setAttribute('transform', `translate(${(encoche - ARC.encoche[0]).toFixed(2)} 0)`);
+  }
+
+  /** Tourne l'arc (et sa flèche) autour de la poignée. */
+  function viser(angle) {
+    angleVisee = angle;
+    svgArc.style.transform = angle ? `rotate(${angle}rad)` : '';
+  }
+
+  /** Place d'un élément dans la rangée, sans ses transformations (flottement, zoom du survol). */
+  function boite(element) {
+    return { x: element.offsetLeft, y: element.offsetTop, l: element.offsetWidth, h: element.offsetHeight };
+  }
+
+  /** Pointe de la flèche encochée (coordonnées de la rangée) pour une tension et une visée données. */
+  function pointeEncochee(t, angle) {
+    const b = boite(arc);
+    const echelle = b.l / ARC_LARGEUR;
+    const recul = entre(ARC.encoche[0], ARC.encoche[1], t) - ARC.encoche[0];
+    const longueur = (FLECHE_POINTE + recul - ARC_PIVOT[0]) * echelle; // de la poignée à la pointe
+    return {
+      x: b.x + ARC_PIVOT[0] * echelle + longueur * Math.cos(angle),
+      y: b.y + ARC_PIVOT[1] * echelle + longueur * Math.sin(angle),
+      echelle,
+    };
+  }
+
+  function centreCible() {
+    const b = boite(cible);
+    return { x: b.x + b.l / 2, y: b.y + b.h / 2 };
+  }
+
+  /** Courbe du tir (Bézier quadratique) depuis la pointe encochée jusqu'au mille ; angle de départ. */
+  function trajectoire(t, angleArc) {
+    const fin = centreCible();
+    const depart = pointeEncochee(t, angleArc);
+    const hauteur = Math.min(60, Math.max(12, (fin.x - depart.x) * 0.1)); // légère courbe
+    const controle = { x: (depart.x + fin.x) / 2, y: Math.min(depart.y, fin.y) - hauteur };
+    return { depart, controle, fin, angle: Math.atan2(controle.y - depart.y, controle.x - depart.x) };
+  }
+
+  /** Visée : l'angle de départ de la courbe quand l'arc est bandé à fond (deux essais suffisent). */
+  function angleDeVisee() {
+    let angle = 0;
+    for (let i = 0; i < 3; i++) angle = trajectoire(1, angle).angle;
+    return angle;
+  }
+
+  /** Animation image par image (corde, visée) ; résolue à la fin, ou plus tôt si tout est remis en place. */
+  function animer(duree, chaqueImage) {
+    const ticket = jetonArc;
+    return new Promise((resolve) => {
+      const debut = performance.now();
+      const pas = (maintenant) => {
+        if (ticket !== jetonArc) {
+          resolve(false);
+          return;
+        }
+        const u = Math.min(1, (maintenant - debut) / duree);
+        chaqueImage(u);
+        if (u < 1) requestAnimationFrame(pas);
+        else resolve(true);
+      };
+      requestAnimationFrame(pas);
+    });
+  }
+
+  /* ========================================================================
+     6. Tir à l'arc : corde tendue, vol de la flèche, impact dans le mille
+     États : repos → (tension : corde tirée à la main) → tir → ouvert → repos
+     ======================================================================== */
+  /** Clic, Entrée ou Espace sur l'arc ou sur la cible. */
+  function lancerArc() {
+    if (etat !== 'repos') return;
+    if (mouvementReduit.matches) ouvrirDiaporama(); // mouvement réduit : ouverture directe
+    else tirer(0);
+  }
+
+  /** Tir complet ; « depuis » : tension de la corde tirée à la main (0 : l'arc se bande tout seul). */
+  async function tirer(depuis) {
+    if (etat === 'tir' || etat === 'ouvert') return;
+    etat = 'tir';
+    const ticket = jetonArc;
+    prechargerPdf();
+    presentation.classList.add('is-rencontre');
+    [arc, cible].forEach(poserFlotte);
+
+    // 1. La corde se tend, l'arc se bande et vise légèrement vers le haut
+    let t = depuis;
+    if (!depuis) {
+      const visee = angleDeVisee();
+      const fini = await animer(DUREE_BANDER, (u) => {
+        t = sortie(u);
+        dessinerArc(t);
+        viser(visee * t);
+      });
+      if (!fini) return;
+      await attendre(DUREE_VISEE);
+      if (ticket !== jetonArc) return;
+    }
+
+    // 2. La corde est lâchée : la flèche encochée cède la place à la flèche en vol
+    const { depart, controle, fin } = trajectoire(t, angleVisee);
+    const vol = volFleche(depart, controle, fin, angleVisee, depart.echelle);
+    flecheEncochee.style.visibility = 'hidden';
+    fleche.classList.add('is-vol');
+    const tensionLachee = t;
+    animer(DUREE_CORDE, (u) => {
+      // La corde dépasse sa position de repos, vibre et s'arrête
+      dessinerArc(u < 1 ? tensionLachee * Math.exp(-5 * u) * Math.cos(u * 3.5 * Math.PI) : 0);
+    });
+    const angleArc = angleVisee;
+    viser(0);
+    svgArc.animate([{ transform: `rotate(${angleArc}rad)` }, { transform: 'none' }], { duration: 600, easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)' });
+
+    // 3. Vol en légère courbe jusqu'au mille
+    const animation = fleche.animate(vol.images, { duration: vol.duree, easing: 'cubic-bezier(0.32, 0.08, 0.75, 1)', fill: 'forwards' });
+    await animation.finished.catch(() => {});
+    if (ticket !== jetonArc) return;
+    fleche.style.transform = vol.images[vol.images.length - 1].transform;
+    animation.cancel();
+
+    // 4. Impact, puis la présentation
+    impact(fin, vol);
+    await attendre(DELAI_OUVERTURE_ARC);
+    if (ticket === jetonArc && etat === 'tir') ouvrirDiaporama();
+  }
+
+  /**
+   * Images clés du vol : position de la pointe et orientation le long de la courbe. Au départ,
+   * la flèche garde l'angle de l'arc puis suit la courbe ; à l'arrivée, sa pointe s'enfonce.
+   */
+  function volFleche(depart, controle, fin, angleDepart, echelle) {
+    const largeur = FLECHE_BOITE[2] * echelle;
+    const hauteur = FLECHE_BOITE[3] * echelle;
+    fleche.style.width = `${largeur}px`;
+    fleche.style.height = `${hauteur}px`;
+    const angleFin = Math.atan2(fin.y - controle.y, fin.x - controle.x);
+    const bout = {
+      x: fin.x + Math.cos(angleFin) * POINTE_ENFONCEE * echelle,
+      y: fin.y + Math.sin(angleFin) * POINTE_ENFONCEE * echelle,
+    };
+    const images = [];
+    const etapes = 30;
+    let angle = angleDepart;
+    for (let i = 0; i <= etapes; i++) {
+      const s = i / etapes;
+      const x = (1 - s) ** 2 * depart.x + 2 * (1 - s) * s * controle.x + s * s * bout.x;
+      const y = (1 - s) ** 2 * depart.y + 2 * (1 - s) * s * controle.y + s * s * bout.y;
+      const tangente = Math.atan2(2 * (1 - s) * (controle.y - depart.y) + 2 * s * (bout.y - controle.y),
+        2 * (1 - s) * (controle.x - depart.x) + 2 * s * (bout.x - controle.x));
+      angle = entre(angleDepart, tangente, Math.min(1, s / 0.18));
+      images.push({ transform: `translate(${(x - largeur).toFixed(2)}px, ${(y - hauteur / 2).toFixed(2)}px) rotate(${angle.toFixed(4)}rad)` });
+    }
+    const distance = Math.hypot(bout.x - depart.x, bout.y - depart.y);
+    return { images, angle, x: bout.x - largeur, y: bout.y - hauteur / 2, duree: Math.min(620, Math.max(320, distance * 0.55)) };
+  }
+
+  /** La flèche se plante en vibrant ; la cible tremble ; anneaux dorés et éclats depuis le mille. */
+  function impact(fin, vol) {
+    fleche.classList.add('is-plantee');
+    const position = `translate(${vol.x.toFixed(2)}px, ${vol.y.toFixed(2)}px)`;
+    fleche.animate(
+      [0, 0.11, -0.08, 0.055, -0.032, 0.014, 0].map((ecart) => ({ transform: `${position} rotate(${(vol.angle + ecart).toFixed(4)}rad)` })),
+      { duration: 560, easing: 'ease-out' },
+    );
+
+    // La cible tremble autour de son centre : le mille ne bouge pas sous la flèche
+    cible.firstElementChild.animate(
+      [{ transform: 'none' }, { transform: 'rotate(-4deg) scale(0.95)' }, { transform: 'rotate(3deg) scale(1.02)' }, { transform: 'rotate(-1.5deg)' }, { transform: 'none' }],
+      { duration: 440, easing: 'ease-out' },
+    );
+
+    eclat.style.left = `${fin.x}px`;
+    eclat.style.top = `${fin.y}px`;
+    eclat.animate(
+      [{ opacity: 0.95, scale: '0.2' }, { opacity: 0.7, scale: '0.75', offset: 0.35 }, { opacity: 0, scale: '1.5' }],
+      { duration: 500, easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)' },
+    );
+
+    const ajouter = (classe) => {
+      const element = document.createElement('span');
+      element.className = classe;
+      element.style.left = `${fin.x}px`;
+      element.style.top = `${fin.y}px`;
+      presentation.appendChild(element);
+      return element;
+    };
+    const retirer = (animation, element) => animation.finished.then(() => element.remove(), () => element.remove());
+
+    [0, 120, 240].forEach((delai) => {
+      const onde = ajouter('presentation__onde');
+      retirer(onde.animate(
+        [{ scale: '0.22', opacity: 0.95 }, { scale: '2.2', opacity: 0 }],
+        { duration: 720, delay: delai, easing: 'cubic-bezier(0.15, 0.6, 0.3, 1)', fill: 'backwards' },
+      ), onde);
+    });
+
+    const portee = Math.min(1, presentation.clientHeight / 150);
+    for (let i = 0; i < NB_ECLATS; i++) {
+      const morceau = ajouter(i % 3 ? 'presentation__etincelle' : 'presentation__copeau');
+      const angle = Math.PI + (Math.random() - 0.5) * Math.PI * 1.5; // surtout vers l'arrière
+      const distance = (28 + Math.random() * 58) * portee;
+      morceau.style.rotate = `${angle}rad`;
+      retirer(morceau.animate(
+        [
+          { translate: '0 0', scale: '1', opacity: 1 },
+          { translate: `${Math.cos(angle) * distance}px ${Math.sin(angle) * distance * 0.85}px`, scale: '0.3', opacity: 0 },
+        ],
+        { duration: 380 + Math.random() * 260, easing: 'cubic-bezier(0.15, 0.7, 0.3, 1)' },
+      ), morceau);
+    }
+  }
+
+  /* Corde tirée à la main : appuyer sur l'arc, glisser vers l'arrière (la gauche), relâcher */
+  function debutTension(event) {
+    if (etat !== 'repos' || !event.isPrimary || event.button !== 0 || mouvementReduit.matches) return;
+    prechargerPdf();
+    // Course pour bander l'arc à fond : jamais plus que la place disponible jusqu'au bord de l'écran
+    const course = Math.max(16, Math.min(Math.max(32, Math.min(80, arc.offsetWidth * 0.75)), event.clientX - 6));
+    tension = { id: event.pointerId, x: event.clientX, y: event.clientY, course, visee: 0, t: 0, bouge: false };
+    arc.setPointerCapture(event.pointerId);
+  }
+
+  function pendantTension(event) {
+    if (!tension || event.pointerId !== tension.id) return;
+    const dx = event.clientX - tension.x;
+    if (!tension.bouge) {
+      if (Math.hypot(dx, event.clientY - tension.y) < SEUIL_GLISSER) return;
+      tension.bouge = true;
+      etat = 'tension';
+      arc.classList.add('is-saisie');
+      document.documentElement.classList.add('is-glisse-arme');
+      poserFlotte(arc);
+      tension.visee = angleDeVisee();
+    }
+    tension.t = Math.min(1, Math.max(0, -dx / tension.course));
+    dessinerArc(tension.t);
+    viser(tension.visee * tension.t);
+  }
+
+  function finTension(event) {
+    if (!tension || event.pointerId !== tension.id) return;
+    const { id, bouge, t } = tension;
+    tension = null;
+    arc.classList.remove('is-saisie');
+    document.documentElement.classList.remove('is-glisse-arme');
+    if (arc.hasPointerCapture(id)) arc.releasePointerCapture(id);
+    if (!bouge || etat !== 'tension') return; // simple clic : géré par l'événement click
+    ignorerClic = true;
+    if (event.type === 'pointerup' && t >= SEUIL_TIR) {
+      tirer(t);
+      return;
+    }
+    // Corde lâchée trop tôt (ou geste interrompu) : elle revient doucement, sans tirer
+    etat = 'relache';
+    const angle = angleVisee;
+    animer(DUREE_RELACHER, (u) => {
+      const k = 1 - sortie(u);
+      dessinerArc(t * k);
+      viser(angle * k);
+    }).then((fini) => {
+      if (!fini || etat !== 'relache') return;
+      reprendreFlotte(arc);
+      etat = 'repos';
+    });
+  }
+
+  /** Après la présentation : la flèche retourne sur la corde, l'arc et la cible reprennent leur place. */
+  function reinitialiserArc() {
+    etat = 'repos';
+    jetonArc++;
+    tension = null;
+    const animees = [arc, cible, fleche].flatMap((element) => element.getAnimations({ subtree: true }));
+    animees.filter((a) => !(typeof CSSAnimation === 'function' && a instanceof CSSAnimation)).forEach((a) => a.cancel());
+    fleche.classList.remove('is-vol', 'is-plantee');
+    fleche.style.transform = '';
+    flecheEncochee.style.visibility = '';
+    viser(0);
+    dessinerArc(0);
+    presentation.querySelectorAll('.presentation__onde, .presentation__etincelle, .presentation__copeau').forEach((e) => e.remove());
+    [arc, cible].forEach((element) => {
+      element.classList.remove('is-saisie');
+      reprendreFlotte(element);
+    });
+    presentation.classList.remove('is-rencontre');
+    if (!mouvementReduit.matches) {
+      presentation.classList.add('is-retour');
+      setTimeout(() => presentation.classList.remove('is-retour'), 700);
+    }
+  }
+
+  /* ========================================================================
+     7. Diaporama : plein écran, PDF.js, navigation
      → Espace, clic, Page suivante : diapo suivante ; ← Page précédente : précédente ;
      Début / Fin : première / dernière ; Échap : fermer. Sur écran tactile : glisser.
      ======================================================================== */
@@ -605,8 +1052,9 @@
   }
 
   /* ========================================================================
-     6. Initialisation
+     8. Initialisation
      ======================================================================== */
+  /** Épée et bouclier (« ::: presentation »). */
   function construire(texteAide) {
     presentation = document.createElement('div');
     presentation.className = 'presentation reveal';
@@ -645,6 +1093,57 @@
       arme.addEventListener('pointerenter', prechargerPdf, { once: true });
       arme.addEventListener('focus', prechargerPdf, { once: true });
     });
+  }
+
+  /** Arc et cible (« ::: presentation arc »). */
+  function construireArc(texteAide) {
+    presentation = document.createElement('div');
+    presentation.className = 'presentation presentation--arc reveal';
+    presentation.innerHTML = `
+      <button class="presentation__arme presentation__arme--arc" type="button" aria-label="Arc : lancer la présentation" aria-describedby="presentation-aide">
+        <span class="presentation__flotte">${SVG_ARC}</span>
+      </button>
+      <button class="presentation__arme presentation__arme--cible" type="button" aria-label="Cible : lancer la présentation" aria-describedby="presentation-aide">
+        <span class="presentation__flotte">${SVG_CIBLE}</span>
+      </button>
+      <span class="presentation__fleche" aria-hidden="true">${SVG_FLECHE}</span>
+      <span class="presentation__eclat" aria-hidden="true"></span>
+      <p class="presentation__aide" id="presentation-aide"></p>`;
+    presentation.querySelector('.presentation__aide').textContent = texteAide;
+    arc = presentation.querySelector('.presentation__arme--arc');
+    cible = presentation.querySelector('.presentation__arme--cible');
+    svgArc = arc.querySelector('svg');
+    bois = svgArc.querySelector('.presentation__bois');
+    boisReflet = svgArc.querySelector('.presentation__bois-reflet');
+    corde = svgArc.querySelector('.presentation__corde');
+    embouts = [...svgArc.querySelectorAll('.presentation__embout')];
+    flecheEncochee = svgArc.querySelector('.presentation__fleche-encochee');
+    fleche = presentation.querySelector('.presentation__fleche');
+    eclat = presentation.querySelector('.presentation__eclat');
+    dessinerArc(0);
+
+    [arc, cible].forEach((element) => {
+      element.addEventListener('click', (event) => {
+        // Le clic qui suit une corde tirée à la main est ignoré ; Entrée et Espace (detail = 0) lancent toujours
+        if (ignorerClic && event.detail !== 0) {
+          ignorerClic = false;
+          return;
+        }
+        lancerArc();
+      });
+      // PDF.js et le document sont chargés dès qu'on approche l'arc ou la cible
+      element.addEventListener('pointerenter', prechargerPdf, { once: true });
+      element.addEventListener('focus', prechargerPdf, { once: true });
+    });
+    arc.addEventListener('pointerdown', debutTension);
+    arc.addEventListener('pointermove', pendantTension);
+    arc.addEventListener('pointerup', finTension);
+    arc.addEventListener('pointercancel', finTension);
+    arc.addEventListener('lostpointercapture', finTension);
+  }
+
+  /** Écouteurs communs aux deux variantes. */
+  function ecouterPage() {
     // Un nouvel appui annule le « clic ignoré » d'un glisser précédent
     document.addEventListener('pointerdown', () => { ignorerClic = false; }, true);
 
@@ -661,15 +1160,22 @@
   }
 
   P.presentation = {
-    /** Remplace le bloc « ::: presentation » par l'épée et le bouclier, au-dessus du séparateur. */
+    /**
+     * Remplace le bloc « ::: presentation » par l'épée et le bouclier (ou, avec « arc »,
+     * par l'arc et la cible), au-dessus du séparateur.
+     */
     init() {
       const bloc = document.querySelector('.bloc-presentation');
       const lien = bloc && bloc.querySelector('a[href]');
       if (!lien) return;
       urlPdf = lien.href;
       titre = lien.textContent.replace(/\(\s*pdf\s*\)/i, '').trim() || 'Présentation';
+      variante = /\barc\b/i.test(bloc.getAttribute('data-variante') || '') ? 'arc' : 'armes';
       const paragraphe = bloc.querySelector('p');
-      construire((paragraphe && paragraphe.textContent.trim()) || 'Clique ou fais glisser une arme vers le centre.');
+      const aide = paragraphe && paragraphe.textContent.trim();
+      if (variante === 'arc') construireArc(aide || "Clique sur l'arc ou tire la corde pour viser la cible.");
+      else construire(aide || 'Clique ou fais glisser une arme vers le centre.');
+      ecouterPage();
       // Toute la largeur de la page, sous les deux colonnes de la fiche
       const fiche = bloc.closest('.section');
       if (fiche) fiche.appendChild(presentation);

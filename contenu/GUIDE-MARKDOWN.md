@@ -271,6 +271,18 @@ Clique ou fais glisser une arme vers le centre.
 
 Le bloc devient une épée et un bouclier sur les bords de la page, juste au-dessus du séparateur, sans titre ni bouton. La phrase n'apparaît qu'au survol d'une arme (ou au clavier). Quand les armes se rencontrent, le PDF du lien s'ouvre en plein écran, diapo par diapo. Le texte du lien, sans « (PDF) », sert de nom à la présentation pour les lecteurs d'écran. La page HTML doit charger `assets/css/08-presentation.css` et `assets/js/presentation.js`, comme `pages/projets/projet-2.html`.
 
+**Variante « arc »** : avec le mot `arc` après `presentation`, l'épée et le bouclier sont remplacés par un arc, flèche encochée, au bord gauche et une cible au bord droit (même emplacement, même discrétion). Un clic ou Entrée sur l'arc ou la cible, ou la corde tirée vers l'arrière (vers la gauche) puis relâchée, fait partir la flèche, qui se plante dans le mille ; la présentation s'ouvre ensuite de la même façon. Exemple : `pages/projets/projet-4.html`.
+
+```markdown
+::: presentation arc
+Clique sur l'arc ou tire la corde pour viser la cible.
+
+- [Présentation orale du TP (PDF)](assets/docs/tp-active-directory-gpo-presentation.pdf)
+:::
+```
+
+Avec « réduire les animations » activé sur l'appareil, rien ne bouge : un clic ouvre directement la présentation (les deux variantes).
+
 ### Compétences — `::: competences`
 
 ```markdown

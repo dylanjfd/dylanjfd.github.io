@@ -1,11 +1,14 @@
 /* ==========================================================================
    Portfolio BTS SIO — 08-presentation.css
-   Petit secret de la fiche du projet 2 : épée, bouclier et présentation de l'oral
-   (chargé seulement par pages/projets/projet-2.html, après style.css ;
-   la numérotation des sections est celle du sommaire général)
+   Petit secret d'une fiche projet : épée et bouclier (projet 2) ou arc et
+   cible (projet 4), puis la présentation de l'oral
+   (chargé seulement par pages/projets/projet-2.html et projet-4.html, après
+   style.css ; la numérotation des sections est celle du sommaire général)
    --------------------------------------------------------------------------
    31. Épée et bouclier (au-dessus du séparateur)
    32. Choc : flash et étincelles
+   36. Arc, flèche et cible (« ::: presentation arc »)
+   37. Impact dans le mille : anneaux dorés et éclats
    33. Diaporama plein écran
    34. Responsive, mouvement réduit et impression
    ========================================================================== */
@@ -284,6 +287,178 @@
 
 
 /* ==========================================================================
+   36. Arc, flèche et cible (« ::: presentation arc »)
+   <div class="presentation presentation--arc"> : l'arc (flèche encochée) au
+   bord gauche, la cible au bord droit. presentation.js redessine la corde et
+   les branches quand l'arc se bande, et fait voler .presentation__fleche.
+   ========================================================================== */
+.presentation--arc {
+  --arene-h: 7.6rem;
+  --arc-l: 6.6rem;                              /* arc, flèche encochée comprise */
+  --arc-h: calc(var(--arc-l) * 200 / 180);
+  --cible-l: 5.6rem;
+  /* Couleurs des dessins (thème sombre) */
+  --arc-bois-clair: #b27c4b;
+  --arc-bois: #80522d;
+  --arc-bois-sombre: #4c2e17;
+  --arc-corde: #eadfc6;
+  --arc-fut: #d9bb8c;
+  --arc-parchemin: #efe6d2;
+  --arc-nuit: #141c2e;
+}
+
+:root[data-theme="light"] .presentation--arc {
+  --arc-bois-clair: #8a5a33;
+  --arc-bois: #5f3b1f;
+  --arc-bois-sombre: #351f0f;
+  --arc-corde: #3d3324;
+  --arc-fut: #a87b46;
+  --arc-parchemin: #fffbf2;
+  --arc-nuit: #1b2438;
+}
+
+.presentation__arme--arc {
+  top: calc(50% - var(--arc-h) / 2);
+  left: var(--bord);
+  width: var(--arc-l);
+  height: var(--arc-h);
+}
+
+.presentation__arme--cible {
+  z-index: 3;
+  top: calc(50% - var(--cible-l) / 2);
+  right: var(--bord);
+  width: var(--cible-l);
+  height: var(--cible-l);
+  border-radius: 50%;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.presentation__arme--cible .presentation__flotte {
+  animation-duration: 4.2s;
+  animation-delay: -1.3s;
+}
+
+/* L'arc vise en tournant autour de sa poignée (x = 72 sur 180 dans le dessin) */
+.presentation__arme--arc svg {
+  transform-origin: 40% 50%;
+}
+
+.presentation__teinte-bois-clair { stop-color: var(--arc-bois-clair); }
+.presentation__teinte-bois { stop-color: var(--arc-bois); }
+.presentation__teinte-bois-sombre { stop-color: var(--arc-bois-sombre); }
+
+.presentation__bois-reflet {
+  fill: none;
+  stroke: #ffe9c4;
+  stroke-opacity: 0.35;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+}
+
+.presentation__corde {
+  fill: none;
+  stroke: var(--arc-corde);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.presentation__ligature {
+  fill: none;
+  stroke: #0e1320;
+  stroke-opacity: 0.45;
+  stroke-width: 1.1;
+}
+
+.presentation__fut {
+  fill: var(--arc-fut);
+}
+
+.presentation__plume--nuit {
+  fill: var(--arc-nuit);
+  stroke: var(--btn-gold-top);
+  stroke-width: 0.8;
+}
+
+.presentation__epaisseur {
+  fill: var(--arc-bois-sombre);
+}
+
+.presentation__anneau--parchemin {
+  fill: var(--arc-parchemin);
+}
+
+.presentation__anneau--nuit {
+  fill: var(--arc-nuit);
+}
+
+/* Flèche en vol : placée et orientée par presentation.js, sa pointe sert de pivot */
+.presentation__fleche {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform-origin: 100% 50%;
+}
+
+.presentation__fleche.is-vol {
+  visibility: visible;
+}
+
+.presentation__fleche svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 4px 5px rgba(0, 0, 0, 0.35));
+}
+
+/* Plantée dans le mille : la pointe disparaît dans la cible */
+.presentation__fleche.is-plantee .presentation__pointe {
+  visibility: hidden;
+}
+
+
+/* ==========================================================================
+   37. Impact dans le mille : anneaux dorés et éclats (animés par presentation.js)
+   Le flash (.presentation__eclat) et les étincelles sont ceux du choc des armes.
+   ========================================================================== */
+.presentation--arc .presentation__eclat {
+  width: 4.6rem;
+  height: 4.6rem;
+  margin: -2.3rem 0 0 -2.3rem;
+}
+
+.presentation__onde {
+  position: absolute;
+  z-index: 4;
+  width: var(--cible-l);
+  height: var(--cible-l);
+  margin: calc(var(--cible-l) / -2) 0 0 calc(var(--cible-l) / -2);
+  border: 2px solid var(--btn-gold-top);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--glow), inset 0 0 8px var(--glow);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.presentation__copeau {
+  position: absolute;
+  z-index: 5;
+  width: 0.6rem;
+  height: 2.5px;
+  margin: -1.25px 0 0 -0.3rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--arc-bois-clair), var(--arc-fut));
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
    33. Diaporama plein écran
    <dialog class="diaporama"> : une diapo à la fois, dessinée par PDF.js dans
    un <canvas>, sur fond nuit quel que soit le thème (meilleur contraste pour
@@ -454,13 +629,20 @@
 
 /* ==========================================================================
    34. Responsive, mouvement réduit et impression
-   Sur mobile, l'épée et le bouclier rapetissent et restent dans l'écran.
+   Sur mobile, l'épée et le bouclier (ou l'arc et la cible) rapetissent et
+   restent dans l'écran.
    ========================================================================== */
 @media (max-width: 63.99rem) {
   .presentation {
     --arene-h: 5.6rem;
     --epee-l: 7.8rem;
     --bouclier-l: 3.7rem;
+  }
+
+  .presentation--arc {
+    --arene-h: 6.8rem;
+    --arc-l: 5.8rem;
+    --cible-l: 4.9rem;
   }
 }
 
@@ -470,6 +652,12 @@
     --epee-l: 5.6rem;
     --bouclier-l: 2.7rem;
     --bord: 0.75rem;
+  }
+
+  .presentation--arc {
+    --arene-h: 5.8rem;
+    --arc-l: 4.8rem;
+    --cible-l: 3.9rem;
   }
 
   .presentation__aide {
@@ -483,6 +671,11 @@
     --epee-l: 4.7rem;
     --bouclier-l: 2.3rem;
     --bord: 0.5rem;
+  }
+
+  .presentation--arc {
+    --arc-l: 4.1rem;
+    --cible-l: 3.3rem;
   }
 }
 

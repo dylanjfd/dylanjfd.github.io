@@ -459,6 +459,8 @@
       case 'note': return el('div', { class: 'todo-note' }, b.enfants.map((x) => bloc(x, { simple: true })));
       case 'avertissement': return avertissement(b);
       case 'details': return details(b);
+      // Petit secret d'une fiche projet, mis en scène par presentation.js (« ::: presentation arc » : variante arc et cible)
+      case 'presentation': return el('div', { class: 'bloc-presentation', 'data-variante': b.args || null }, b.enfants.map((x) => bloc(x, ctx)));
       case 'fiche': return fiche(b);
       default: return el('div', { class: `bloc-${b.nom}` }, b.enfants.map((x) => bloc(x, ctx)));
     }

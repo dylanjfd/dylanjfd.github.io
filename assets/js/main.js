@@ -9,7 +9,7 @@
      rendu.js       construction des pages à partir de contenu/*.md
      interface.js   thème, menu mobile, apparitions, particules, filtre, flèches
      formulaire.js  formulaire de contact (page contact uniquement)
-     presentation.js  épée, bouclier et présentation de l'oral (fiche du projet 2 uniquement)
+     presentation.js  épée et bouclier (projet 2) ou arc et cible (projet 4), puis présentation de l'oral
      main.js        ce fichier : réglages CONFIG puis démarrage
    Le texte des pages se modifie dans les fichiers Markdown du dossier contenu/.
    ========================================================================== */
