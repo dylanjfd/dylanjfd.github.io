@@ -56,23 +56,8 @@ Résultat : selon une étude de la société Flare, 41 % des infections par des 
 - **Arnaques Discord** — un contact demande « tu peux tester mon jeu ? » et envoie un fichier piégé ; souvent, son propre compte a déjà été volé.
 - **Faux sites d'échange de skins** — des copies de vrais sites qui récupèrent les identifiants Steam au moment de la connexion.
 
-> **Point clé :** ces logiciels volent aussi les cookies de connexion, ce qui permet d'entrer dans un compte sans connaître le mot de passe ni le code de double authentification.
 
-## Chroniques | Les actualités suivies
 
-::: cartes
-### 41 % des infections liées au jeu vidéo
-date: 25 novembre 2025
-source: [Flare](https://flare.io/learn/resources/cybercrime-favorite-target-gamers/)
-
-Flare a analysé environ 50 000 infections par des voleurs de données : 41 % venaient d'un fichier lié au jeu vidéo, et Lumma était la famille la plus répandue.
-
-### Battlefield 6 et Black Ops 7 exigent Secure Boot et TPM 2.0
-date: 7 août 2025
-source: [TheSixthAxis](https://www.thesixthaxis.com/2025/08/07/battlefield-6-and-black-ops-7-both-need-secure-boot-and-tpm-2-0-for-pc-anti-cheat/)
-
-Pour lutter contre la triche, ces deux jeux demandent sur PC le démarrage sécurisé (Secure Boot) et la puce de sécurité TPM 2.0. [[Ce que j'en retiens pour les PC de Reboot.]]
-:::
 
 ## Entrées du codex | Synthèses
 
@@ -90,12 +75,6 @@ sources: [[Liens vers les articles]]
 <!-- SYNTHESES-CYBERSECURITE:END -->
 :::
 
-## Bilan du chroniqueur | Analyse critique et bilan
-
-[[Ce que ta veille t'a appris : comment protéger les joueurs et un lieu comme Reboot ? Tendances observées, limites des sources consultées, conséquences pour ton futur métier.]]
-
-- [[Tendance observée]]
-- [[Point de vigilance ou question ouverte]]
 
 ## Bibliothèque | Sources
 
@@ -115,13 +94,6 @@ Des organismes publics, des éditeurs de sécurité et la presse spécialisée, 
 | [Tom's Guide — Sécurité](https://www.tomsguide.fr/category/web/securite/) | Presse grand public | Rubrique sécurité d'un média high-tech : elle relaie les fuites de données et les arnaques qui touchent les particuliers, dont les joueurs ; source de relais, à recouper avec la source d'origine. |
 :::
 
-Les articles cités sur cette fiche :
-
-::: sources
-- [Flare — How Gamers Became Cybercrime's Favorite Target](https://flare.io/learn/resources/cybercrime-favorite-target-gamers/) — Société spécialisée dans la surveillance des menaces · 25 novembre 2025
-- [TheSixthAxis — Battlefield 6 et Black Ops 7 exigent Secure Boot et TPM 2.0](https://www.thesixthaxis.com/2025/08/07/battlefield-6-and-black-ops-7-both-need-secure-boot-and-tpm-2-0-for-pc-anti-cheat/) — Site d'actualité du jeu vidéo · 7 août 2025
-- [[Source sur le vol des cookies de connexion]] — [[À ajouter : l'étude de Flare n'en parle pas (piste : CERT-FR ou ANSSI)]]
-:::
 
 ## Du codex au terrain | Mise en pratique
 
