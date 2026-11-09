@@ -355,6 +355,28 @@ def analyser(message, dossier_digests=DOSSIER_DIGESTS, adresse=None, veilles=Non
     }
 
 
+def signaler_doublons(reponses):
+    """Plusieurs réponses au même e-mail de veille (même digest) : avertissement sur la plus récente.
+
+    Un avis ou une synthèse de la semaine réécrit dans une réponse suivante remplace l'ancienne
+    version : /veille garde celle de la réponse la plus récente et note toutes ces réponses comme traitées.
+    """
+    par_digest = {}
+    for reponse in reponses:
+        if reponse['digest']:
+            par_digest.setdefault(reponse['digest'], []).append(reponse)
+    for jour, groupe in par_digest.items():
+        if len(groupe) < 2:
+            continue
+        recente = max(groupe, key=lambda r: r['date'] or '')
+        autres = ', '.join(r['id'] for r in groupe if r is not recente)
+        semaine = date.fromisoformat(jour).strftime('%d/%m/%Y')
+        recente['avertissements'].append(
+            f"{len(groupe)} réponses à l'e-mail de veille de la semaine du {semaine} : celle-ci est la plus récente "
+            f"(autres : {autres}). Pour un avis ou une synthèse de la semaine écrit dans plusieurs réponses, "
+            f"garde la version de celle-ci ; note toutes ces réponses comme traitées.")
+
+
 # ---------------------------------------------------------------------------
 # Gmail (IMAP)
 # ---------------------------------------------------------------------------
@@ -427,6 +449,7 @@ def main(arguments=None):
         if reponse and reponse['id'] not in traites:
             reponses.append(reponse)
     reponses.sort(key=lambda r: r['date'] or '')
+    signaler_doublons(reponses)
     # Pour chaque lettre : la veille, sa fiche et les marqueurs entre lesquels /veille écrit ses synthèses
     resume_veilles = {p: {cle: v.get(cle) for cle in ('categorie', 'sujet', 'page', 'fichier', 'marqueurs')}
                       for p, v in veilles.items()}

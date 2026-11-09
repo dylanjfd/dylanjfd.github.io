@@ -33,6 +33,7 @@ Dans les anciens e-mails « [Veille souveraineté] », les numéros n'ont pas de
    - Identifiants manquants : rappelle-moi la section « Veille automatisée » du README (fichier `.env`) et arrête-toi.
    - Aucune réponse : dis-le et arrête-toi.
    - Signale chaque avertissement (article introuvable…). Pour un avis sans veille (`veille` vide : numéro sans lettre dans un nouvel e-mail, ou lettre inconnue), demande-moi à quelle veille il appartient avant de l'utiliser.
+   - Plusieurs réponses au même e-mail de veille (même `digest`) : pour un avis ou une synthèse de la semaine écrit dans plusieurs réponses, garde seulement la version de la réponse la plus récente ; prends le reste de chaque réponse normalement. À l'étape 5, note **toutes** ces réponses comme traitées, y compris les plus anciennes.
 
 ## 2. Reformuler mes synthèses de la semaine et mes avis
 

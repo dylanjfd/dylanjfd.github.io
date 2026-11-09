@@ -31,7 +31,7 @@ def reponse(corps, objet='Re: [Veille souveraineté] Semaine du 19/10/2026 — 3
     message['From'] = entetes.get('From', 'Moi <moi@example.com>')
     message['To'] = 'veille@example.com'
     message['Subject'] = objet
-    message['Date'] = 'Mon, 19 Oct 2026 21:12:00 +0200'
+    message['Date'] = entetes.get('Date', 'Mon, 19 Oct 2026 21:12:00 +0200')
     message['Message-ID'] = entetes.get('Message_ID', '<test@example.com>')
     for cle, valeur in entetes.items():
         if cle.startswith('X_'):
@@ -121,6 +121,30 @@ class SyntheseSemaine(unittest.TestCase):
         self.assertIsNone(resultat['synthese_semaine'])
         resultat = fr.analyser(reponse('Rien.', objet='Re: [Veille] Semaine du 02/11/2026'), DIGESTS, veilles=VEILLES)
         self.assertIn('Aucun avis « #numéro » ni synthèse « #SEMAINE » dans cette réponse.', resultat['avertissements'])
+
+
+class Doublons(unittest.TestCase):
+    @staticmethod
+    def analyser(corps, message_id, envoi, semaine='02/11/2026'):
+        objet = f'Re: [Veille] Semaine du {semaine} — Réseau 1, Système 0, Cybersécurité 0'
+        return fr.analyser(reponse(corps, objet=objet, Message_ID=message_id, Date=envoi), DIGESTS, veilles=VEILLES)
+
+    def test_avertissement_sur_la_plus_recente_seulement(self):
+        ancienne = self.analyser('#R1 premier avis\n#SEMAINE première version', '<a@example.com>',
+                                 'Mon, 02 Nov 2026 20:00:00 +0100')
+        recente = self.analyser('#R1 avis corrigé\n#SEMAINE version corrigée', '<b@example.com>',
+                                'Tue, 03 Nov 2026 09:00:00 +0100')
+        autre_semaine = self.analyser('#R1 seul', '<c@example.com>', 'Mon, 09 Nov 2026 20:00:00 +0100', '09/11/2026')
+        fr.signaler_doublons([recente, autre_semaine, ancienne])  # l'ordre de la liste ne compte pas
+
+        def doublons(r):
+            return [a for a in r['avertissements'] if "réponses à l'e-mail de veille" in a]
+
+        self.assertEqual((doublons(ancienne), doublons(autre_semaine)), ([], []))
+        self.assertEqual(len(doublons(recente)), 1)
+        self.assertTrue(doublons(recente)[0].startswith(
+            "2 réponses à l'e-mail de veille de la semaine du 02/11/2026 : celle-ci est la plus récente"))
+        self.assertIn(f"(autres : {ancienne['id']})", doublons(recente)[0])
 
 
 class AnalyseReponse(unittest.TestCase):
