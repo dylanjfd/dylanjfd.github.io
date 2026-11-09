@@ -248,6 +248,15 @@ Je ne télécharge jamais de vrai logiciel malveillant.
 :::
 ```
 
+- Partie dépliable (fermée au départ ; un clic sur le libellé doré ou sa flèche l'ouvre). Placée juste après le texte d'introduction d'une section, elle garde la même largeur que ce texte. Elle peut contenir des titres `###`, des paragraphes et des listes :
+
+```markdown
+::: details Voir comment ça marche en détail
+### Étape I | Chaque soir : la collecte
+Le texte détaillé…
+:::
+```
+
 - Liens vers un autre site (`https://…`) : ils s'ouvrent dans un nouvel onglet, ce que signalent une petite flèche ↗ et, pour les lecteurs d'écran, la mention « (nouvel onglet) ». Rien à écrire de plus.
 
 ### Présentation de l'oral — `::: presentation` (petit secret d'une fiche projet)

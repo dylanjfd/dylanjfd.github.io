@@ -41,6 +41,7 @@ Bloc 1 du BTS SIO, évalué à l'épreuve E5. Chaque compétence est mobilisée 
 | **En formation** | | | | | | | | |
 | [Portfolio de compétences (ce site)](index.html) | Formation · individuel | 2026 – 2028 | | | | | | x |
 | [Installation d'OS sous VirtualBox](pages/projets/projet-2.html) | Formation · individuel (TP) | Octobre 2026 | x | x | | | x | |
+| [TP Active Directory : domaine, OU et GPO](pages/projets/projet-4.html) | Formation · individuel (TP) | Novembre 2026 | x | x | | | x | |
 | [Serveur web personnel](pages/projets/projet-1.html) | Projet personnel · individuel | Depuis octobre 2026 | x | | x | x | | |
 | [Labo : gestion et sécurisation d'un parc de PC gaming](pages/projets/labo-parc-gaming.html) | Projet personnel · individuel | [[Période des tests]] | x | x | | | x | |
 :::

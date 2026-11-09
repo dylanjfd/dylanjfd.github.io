@@ -20,6 +20,7 @@
     fermer: svg('0 0 24 24', trait(2), '<path d="M6 6l12 12M18 6 6 18"/>'),
     fleche: svg('0 0 24 24', trait(2), '<path d="M5 12h14M13 6l6 6-6 6"/>'),
     flecheRetour: svg('0 0 24 24', trait(2), '<path d="M19 12H5M11 6l-6 6 6 6"/>'),
+    chevron: svg('0 0 24 24', trait(2), '<path d="m6 9 6 6 6-6"/>'),
 
     // Versions du CV dans la fenêtre d'aperçu (mêmes dessins que le bouton de thème de l'en-tête)
     lune: svg('0 0 24 24', trait(1.8), '<path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6Z"/>'),

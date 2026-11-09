@@ -73,16 +73,6 @@ Projet lié : [Projet serveur web](pages/projets/projet-1.html).
 - **Évolution des prix** — ce que coûte une solution souveraine pour une petite structure, comparée aux offres américaines.
 - **Cas concrets** — choix d'hébergement d'organisations, décisions de la CNIL, incidents et migrations.
 
-## Grimoire | Méthode et outils
-
-- **Alertes par mots-clés** — souveraineté numérique, cloud souverain, SecNumCloud, Cloud Act, hébergeur, RGPD, données personnelles, PME, OVHcloud, Scaleway…
-- **Flux RSS** — les sites des sources ci-dessous, lus automatiquement chaque jour.
-- **Collecte hebdomadaire par e-mail** — un script Google Apps Script garde les articles des sept derniers jours qui contiennent un mot-clé. Chaque lundi matin, je reçois un seul e-mail pour mes trois veilles (réseau, système et cybersécurité) : la section Réseau présente les huit articles les plus récents, numérotés #R1, #R2…
-- **Synthèses relues** — je réponds à l'e-mail en donnant mon avis sur les articles qui m'intéressent (« #R2 je pense que… ») et en écrivant une courte synthèse de la semaine. Au début de chaque mois, ces synthèses de la semaine, complétées par mes avis, sont regroupées et reformulées avec un assistant IA (Claude), une synthèse par veille, puis je relis et valide la synthèse avant de la publier ici.
-- **Rythme** — une synthèse par semaine, regroupée en une synthèse par mois.
-
-Le code de cette automatisation est public : [dossier veille sur GitHub](https://github.com/dylanjfd/dylanjfd.github.io/tree/main/veille).
-
 ## Entrées du codex | Synthèses
 
 Une synthèse par mois, de la plus récente à la plus ancienne : l'actualité, puis mon analyse.
@@ -137,14 +127,6 @@ Des sources reconnues, organismes publics et presse spécialisée, recoupées en
 ::: encart competences
 ## Récompenses | Compétences E5 mobilisées
 - Organiser son développement professionnel
-:::
-
-::: encart technologies
-## Équipement | Outils de veille
-- Flux RSS
-- Google Apps Script
-- Gmail
-- Claude
 :::
 
 ::: navigation Navigation entre les veilles

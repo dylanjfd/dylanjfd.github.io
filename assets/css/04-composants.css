@@ -10,6 +10,7 @@
    14. Badges, étiquettes et légendes
    15. Chapitres de l'aventure (frise chronologique)
    30. Aperçu des PDF (fenêtre du CV)
+   35. Partie dépliable (::: details)
    ========================================================================== */
 
 
@@ -613,6 +614,7 @@
 
 /* ==========================================================================
    30. Aperçu des PDF (fenêtre du CV)
+   35. Partie dépliable (::: details)
    <dialog class="pdf-viewer"> créée par interface.js : barre (titre,
    « Choisis ton CV » Nuit / Jour pour le CV, Télécharger, Fermer) puis le
    document dans le lecteur PDF du navigateur.
@@ -764,4 +766,71 @@
 :root:has(.pdf-viewer[open]) body > :not(.pdf-viewer),
 :root:has(.pdf-viewer[open]) body > :not(.pdf-viewer) * {
   animation-play-state: paused;
+}
+
+
+/* ==========================================================================
+   35. Partie dépliable (« ::: details » dans le Markdown)
+   Fermée au départ : le libellé or et sa flèche ouvrent le texte détaillé.
+   Sans cette feuille de style, le navigateur affiche son propre triangle.
+   ========================================================================== */
+.deplier {
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--gold-line);
+  text-align: left;
+}
+
+.deplier__bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 0 0.3rem;
+  color: var(--gold-text);
+  font-weight: 650;
+  list-style: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.deplier__bouton::-webkit-details-marker {
+  display: none;
+}
+
+.deplier__bouton:hover {
+  color: var(--gold-hover);
+}
+
+.deplier__bouton svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  transition: transform 0.25s ease;
+}
+
+.deplier[open] > .deplier__bouton svg {
+  transform: rotate(180deg);
+}
+
+.deplier__contenu {
+  padding-top: 1rem;
+  color: var(--text-muted);
+}
+
+.deplier__contenu h3 {
+  margin-top: 1.75rem;
+}
+
+.deplier__contenu .card__kicker + h3 {
+  margin-top: 0;
+}
+
+.deplier__contenu > :first-child {
+  margin-top: 0;
+}
+
+.deplier__contenu .card__kicker:not(:first-child) {
+  margin-top: 1.75rem;
+}
+
+.deplier__contenu strong {
+  color: var(--text);
 }

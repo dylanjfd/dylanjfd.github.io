@@ -458,6 +458,7 @@
       case 'colonnes': return colonnes(b, false);
       case 'note': return el('div', { class: 'todo-note' }, b.enfants.map((x) => bloc(x, { simple: true })));
       case 'avertissement': return avertissement(b);
+      case 'details': return details(b);
       case 'fiche': return fiche(b);
       default: return el('div', { class: `bloc-${b.nom}` }, b.enfants.map((x) => bloc(x, ctx)));
     }
@@ -682,6 +683,17 @@
     return el('div', { class: 'notice notice--warning', role: 'note' }, [
       el('p', { class: 'notice__title' }, [ICO.alerte, ligne(b.args || 'Attention')]),
       b.enfants.map((x) => bloc(x, { simple: true })),
+    ]);
+  }
+
+  /**
+   * Partie dépliable : « ::: details Libellé » (fermée au départ ; un clic sur le libellé ou la flèche
+   * l'ouvre). Le texte reste dans la page pour les moteurs de recherche.
+   */
+  function details(b) {
+    return el('details', { class: 'deplier' }, [
+      el('summary', { class: 'deplier__bouton' }, [el('span', null, ligne(b.args || 'En savoir plus')), ICO.chevron]),
+      el('div', { class: 'deplier__contenu' }, b.enfants.map((x) => bloc(x, {}))),
     ]);
   }
 
@@ -1188,6 +1200,10 @@
         const entete = el('header', { class: `section__header${t.attributs.centre ? ' section__header--center' : ''} reveal` }, titre.elements);
         while (reste.length && reste[0].type === 'paragraphe' && !RE_IMAGE.test(reste[0].lignes.join(' ').trim())) {
           entete.appendChild(el('p', { class: 'section__intro' }, ligne(texteDe(reste.shift()))));
+        }
+        // Partie dépliable juste sous l'introduction : même largeur que le texte
+        while (reste.length && reste[0].type === 'conteneur' && reste[0].nom === 'details') {
+          entete.appendChild(details(reste.shift()));
         }
         if (reste.length && reste[0].type === 'conteneur' && reste[0].nom === 'actions') {
           entete.appendChild(actions(reste.shift(), 'section__actions'));
