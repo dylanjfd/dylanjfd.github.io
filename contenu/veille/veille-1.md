@@ -89,6 +89,13 @@ Une synthèse par mois, de la plus récente à la plus ancienne : l'actualité, 
 
 ::: cartes
 <!-- SYNTHESES:START -->
+### Entrée I | Cloud de confiance : des offres concrètes, mais encore dépendantes
+date: Octobre 2026
+sources: [LeMagIT — Le cloud Bleu est là](https://www.lemagit.fr/actualites/366652544/Le-cloud-Bleu-est-la), [Next — On a testé VPS1Euro](https://next.ink/262503/on-a-teste-vps1euro-12-euro-cest-deja-beaucoup-trop-cher/), [Le Monde Informatique — G7 choisit le cloud SecNumCloud de S3NS](https://www.lemondeinformatique.fr/actualites/lire-g7-choisit-le-cloud-secnumcloud-de-s3ns-100847.html), [LeMagIT — Snowflake se rapproche de Bleu et d'Orange Business](https://www.lemagit.fr/actualites/366652398/Cloud-de-confiance-Snowflake-se-rapproche-de-Bleu-et-dOrange-Business)
+
+**Résumé :** Bleu (Orange et Capgemini) passe en production avec des garanties de service et une soixantaine de clients, G7 choisit le cloud de S3NS (Thales, sur une technologie Google Cloud) et Snowflake annonce vouloir confier l'exploitation de sa plateforme à Orange Business. À l'opposé, Next a testé VPS1Euro, un serveur à très bas prix aux nombreuses lacunes.
+
+**Mon analyse :** Ces alternatives souveraines sont encourageantes : elles permettent de garder le contrôle de ses données sans renoncer aux technologies les plus performantes, et Snowflake répond au Cloud Act en confiant l'exploitation à des équipes européennes. Mais elles reposent sur une technologie américaine (Azure, Google Cloud, Snowflake) : une dépendance demeure, notamment pour les mises à jour. Je pense que les organisations qui cherchent un cloud vraiment sécurisé attendront la qualification SecNumCloud de Bleu, prévue pour la fin de l'année, avant de s'engager. Quant à VPS1Euro, il montre qu'en visant le prix le plus bas, on peut perdre gros (mot de passe root envoyé en clair, correctifs avec des années de retard, matériel de 2013) : c'est au mieux un outil de test.
 <!-- SYNTHESES:END -->
 :::
 
