@@ -3,7 +3,7 @@ mise-en-page: fiche
 fil-ariane: Labo parc gaming
 parent: [Projets](pages/projets.html)
 titre-seo: Sécuriser un parc de PC gaming — Labo de Dylan JOFFREDO
-description: Labo de Dylan JOFFREDO (BTS SIO SISR) : déployer, restaurer et protéger 25 PC gaming avec Clonezilla, FOG Project, Unified Write Filter et EICAR.
+description: Labo de Dylan JOFFREDO (BTS SIO SISR) : déployer, restaurer et protéger 15 PC gaming avec Clonezilla, FOG Project, Unified Write Filter et EICAR.
 ---
 
 <!--
@@ -18,7 +18,7 @@ description: Labo de Dylan JOFFREDO (BTS SIO SISR) : déployer, restaurer et pro
 
 # Fiche de quête · Quête annexe | Labo : gestion et sécurisation d'un parc de PC gaming
 
-Mise en pratique de mes veilles système et cybersécurité : des tests en machines virtuelles pour gérer et protéger les 25 PC de la salle gaming de Reboot, et une procédure pour l'atelier de réparation.
+Mise en pratique de mes veilles système et cybersécurité : des tests en machines virtuelles pour gérer et protéger les 15 PC de la salle gaming de Reboot, et une procédure pour l'atelier de réparation.
 
 ::: badges
 annexe, en cours
@@ -34,7 +34,7 @@ Rôle: [[En autonomie]]
 ## Briefing de mission | Contexte
 
 ### Mission
-Préparer techniquement Reboot : une salle gaming de 25 PC en libre-service, utilisés chaque jour par des clients différents, et un atelier de réparation qui reçoit des PC infectés.
+Préparer techniquement Reboot : une salle gaming de 15 PC en libre-service, utilisés chaque jour par des clients différents, et un atelier de réparation qui reçoit des PC infectés.
 
 ### Pourquoi ce labo
 Mes veilles comparent des solutions ; ce labo les teste en machines virtuelles avant de les proposer dans un vrai lieu. Veilles liées : [veille système](pages/veille/systeme.html) et [veille cybersécurité](pages/veille/cybersecurite.html).

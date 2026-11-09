@@ -70,7 +70,7 @@ récompenses: Patrimoine, Incidents, Mise à disposition
 type: annexe
 statut: en cours
 fiche: pages/projets/labo-parc-gaming.html
-résumé: Tests en machines virtuelles pour déployer, restaurer et protéger les 25 PC de la salle gaming de Reboot, et procédure de l'atelier pour un PC infecté.
+résumé: Tests en machines virtuelles pour déployer, restaurer et protéger les 15 PC de la salle gaming de Reboot, et procédure de l'atelier pour un PC infecté.
 cadre: Projet personnel, lié à mes veilles
 période: [[depuis …]]
 technologies: Clonezilla, FOG Project, Unified Write Filter, EICAR

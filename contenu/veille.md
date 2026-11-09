@@ -27,7 +27,7 @@ description: Veille technologique de Dylan JOFFREDO (BTS SIO SISR, Nantes) : ges
 
 # Codex | Veille technologique
 
-Ma veille part d'un projet concret : Reboot, un atelier de réparation informatique avec une salle gaming de 25 PC et des contrats de maintenance pour les professionnels et les particuliers. Chaque veille suit un domaine différent de l'informatique et répond à une question que pose ce projet.
+Ma veille part d'un projet concret : Reboot, un atelier de réparation informatique avec une salle gaming de 15 PC et des contrats de maintenance pour les professionnels et les particuliers. Chaque veille suit un domaine différent de l'informatique et répond à une question que pose ce projet.
 
 ## Trois domaines | Trois veilles, trois domaines : système, réseau et cybersécurité
 
