@@ -13,7 +13,7 @@ description: Veille système BTS SIO SISR : gérer le parc informatique d'une PM
     Introduction → Problématique → Contenu (actualités datées et sourcées, analyse)
     → Synthèses → Analyse critique et bilan → Sources.
   - Chroniques : remplace « [[Ce que j'en retiens.]] » à la fin de chaque carte par ton analyse.
-  - Synthèses : une carte par mois entre les marqueurs SYNTHESES-SYSTEME, la plus récente en premier.
+  - Synthèses : une carte par mois entre les marqueurs SYNTHESES-SYSTEME, dans l'ordre chronologique (la plus récente en dernier).
     Format : « ### Entrée I | Titre », lignes date: et sources:, puis le résumé et « Mon analyse ».
     Remplace la carte à compléter par ta première synthèse. Ne supprime pas les marqueurs.
   - Les blocs « ::: encart » s'affichent dans la colonne de droite.
@@ -82,9 +82,9 @@ Ce qui arrive quand le parc n'est pas géré :
 
 ## Entrées du codex | Synthèses
 
-Une synthèse par mois, de la plus récente à la plus ancienne : l'actualité, puis mon analyse.
+Une synthèse par mois, de la plus ancienne à la plus récente : l'actualité, puis mon analyse.
 
-::: cartes
+::: cartes depliables
 <!-- SYNTHESES-SYSTEME:START -->
 ### Entrée I | Mettre à jour vite, sans perdre la maîtrise du parc
 date: Novembre 2026

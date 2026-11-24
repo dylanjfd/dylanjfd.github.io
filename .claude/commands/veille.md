@@ -77,7 +77,7 @@ sources: [Next — VPS à 1 euro](https://…), [LeMagIT — cloud de confiance]
 
 ## 5. Après mon « OK » sur les synthèses
 
-1. Pour chaque veille, dans sa fiche, ajoute la carte juste après la ligne `<!-- <marqueurs>:START -->` : `<!-- SYNTHESES:START -->` dans `contenu/veille/veille-1.md`, `<!-- SYNTHESES-SYSTEME:START -->` dans `contenu/veille/systeme.md`, `<!-- SYNTHESES-CYBERSECURITE:START -->` dans `contenu/veille/cybersecurite.md`. La plus récente en premier, avec une ligne vide entre deux cartes. S'il reste la carte à compléter (celle qui contient `[[Titre de la synthèse]]`), supprime-la. Ne touche à rien d'autre dans le fichier.
+1. Pour chaque veille, dans sa fiche, ajoute la carte juste avant la ligne `<!-- <marqueurs>:END -->` : `<!-- SYNTHESES:END -->` dans `contenu/veille/veille-1.md`, `<!-- SYNTHESES-SYSTEME:END -->` dans `contenu/veille/systeme.md`, `<!-- SYNTHESES-CYBERSECURITE:END -->` dans `contenu/veille/cybersecurite.md`. Ordre chronologique : la plus ancienne en premier (Entrée I, puis Entrée II en dessous…), donc la nouvelle carte en dernier, avec une ligne vide entre deux cartes. S'il reste la carte à compléter (celle qui contient `[[Titre de la synthèse]]`), supprime-la. Ne touche à rien d'autre dans le fichier.
 2. Lance `python veille/fetch_replies.py --marquer <id> [<id> …]` avec les `id` des réponses utilisées : elles sont notées dans `veille/processed.json`.
 3. Montre-moi `git diff` (les fiches modifiées et veille/processed.json), puis **attends mon dernier « OK »**.
 4. Après ce « OK » seulement : `git add` des fiches modifiées et de `veille/processed.json`, commit « Veille : synthèses de <mois> <année> », puis `git push`.

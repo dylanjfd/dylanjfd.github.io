@@ -122,7 +122,7 @@ Le CV suit le thème du site : un lien vers `assets/docs/cv.pdf` ouvre `cv-nuit.
 
 Chaque `## Surtitre | Titre` à l'intérieur ouvre une colonne.
 
-### Cartes — `::: cartes` (et `::: cartes numerotees`)
+### Cartes — `::: cartes` (et `::: cartes numerotees`, `::: cartes depliables`)
 
 ```markdown
 ::: cartes
@@ -135,6 +135,8 @@ Un titre en lien rend toute la carte cliquable.
 ```
 
 Juste sous le titre d'une carte, les lignes `date:` et `source:` s'affichent en petit (synthèses de veille).
+
+Avec `::: cartes depliables` (synthèses de veille), les cartes sont les unes sous les autres et fermées au départ : on ne voit que le surtitre (Entrée II), le titre et la date. Un clic sur la carte l'ouvre et affiche les sources, puis le texte.
 
 ### Fiche de personnage — `::: fiche` (accueil)
 

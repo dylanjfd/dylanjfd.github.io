@@ -12,7 +12,7 @@ description: Veille cybersécurité BTS SIO SISR : pourquoi les joueurs sont une
   Même structure que contenu/veille/systeme.md (voir les explications en tête de ce fichier).
   - Les mesures de protection de la salle, la procédure de l'atelier et les tests en machines
     virtuelles sont dans la fiche projet pages/projets/labo-parc-gaming.html.
-  - Synthèses : entre les marqueurs SYNTHESES-CYBERSECURITE, la plus récente en premier.
+  - Synthèses : entre les marqueurs SYNTHESES-CYBERSECURITE, dans l'ordre chronologique (la plus récente en dernier).
 -->
 
 # Codex · Veille cybersécurité | Pourquoi les joueurs sont-ils l'une des cibles favorites des cybercriminels ?
@@ -61,9 +61,9 @@ Résultat : selon une étude de la société Flare, 41 % des infections par des 
 
 ## Entrées du codex | Synthèses
 
-Une synthèse par mois, de la plus récente à la plus ancienne : l'actualité, puis mon analyse.
+Une synthèse par mois, de la plus ancienne à la plus récente : l'actualité, puis mon analyse.
 
-::: cartes
+::: cartes depliables
 <!-- SYNTHESES-CYBERSECURITE:START -->
 ### Entrée I | Joueurs : l'impatience et la confiance exploitées à grande échelle
 date: Novembre 2026

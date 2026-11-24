@@ -933,6 +933,78 @@ figcaption {
   font-size: 0.86rem;
 }
 
+/* Synthèses dépliables (« ::: cartes depliables ») : une carte par ligne, fermée au départ.
+   L'en-tête (surtitre, titre, date et flèche) est cliquable sur toute la largeur de la carte. */
+.codex-list {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.codex-item {
+  --codex-marge: clamp(1.25rem, 1rem + 0.9vw, 1.75rem);
+  padding: 0;
+}
+
+.codex-item__entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: var(--codex-marge);
+  list-style: none;
+  cursor: pointer;
+}
+
+.codex-item__entete::-webkit-details-marker {
+  display: none;
+}
+
+.codex-item__entete .card__kicker {
+  display: block;
+}
+
+.codex-item__entete .card__title {
+  margin-bottom: 0.35rem;
+  transition: color 0.2s;
+}
+
+.codex-item__entete:hover .card__title {
+  color: var(--gold-text);
+}
+
+.codex-item__fleche {
+  flex: none;
+  color: var(--gold-text);
+}
+
+.codex-item__fleche svg {
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  transition: transform 0.25s ease;
+}
+
+.codex-item[open] .codex-item__fleche svg {
+  transform: rotate(180deg);
+}
+
+.codex-item__contenu {
+  margin: 0 var(--codex-marge);
+  padding: 1.1rem 0 var(--codex-marge);
+  border-top: 1px solid var(--gold-line);
+}
+
+.codex-item__contenu > .codex-entry__meta {
+  margin-bottom: 1rem;
+}
+
+.codex-item__contenu > :last-child {
+  margin-bottom: 0;
+}
+
 .source-list {
   display: grid;
   gap: 0.75rem;

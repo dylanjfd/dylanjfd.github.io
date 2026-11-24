@@ -477,8 +477,12 @@
     return div;
   }
 
-  /** Grille de cartes ; « ::: cartes numerotees » ajoute un numéro dans un losange. */
+  /**
+   * Grille de cartes ; « ::: cartes numerotees » ajoute un numéro dans un losange.
+   * « ::: cartes depliables » : voir cartesDepliables.
+   */
   function cartes(b) {
+    if (/d[ée]pli/i.test(b.args)) return cartesDepliables(b);
     const numerotees = /numerot/i.test(b.args);
     const ul = el('ul', { class: 'grid grid--3 reveal-group' });
     parTitres(b.enfants).filter((g) => g.titre).forEach((g, i) => {
@@ -502,6 +506,38 @@
       ul.appendChild(el('li', { class: 'reveal' }, carte));
     });
     return ul.children.length ? ul : null; // aucune carte (ex. pas encore de synthèse) : pas de liste vide
+  }
+
+  /**
+   * « ::: cartes depliables » (synthèses de veille) : une carte par ligne, fermée au départ.
+   * Fermée, elle ne montre que le surtitre (Entrée II), le titre et la date ; un clic l'ouvre
+   * et affiche le reste : sources, puis le texte. Le texte reste dans la page pour les moteurs de recherche.
+   */
+  function cartesDepliables(b) {
+    const ul = el('ul', { class: 'codex-list reveal-group' });
+    parTitres(b.enfants).filter((g) => g.titre).forEach((g) => {
+      const t = g.titre;
+      const blocs = g.blocs.slice();
+      const meta = extraireChamps(blocs, CLES_CARTE);
+      const date = meta.find((c) => c.cle === 'date');
+      const autres = meta.filter((c) => c.cle !== 'date');
+      const entete = el('summary', { class: 'codex-item__entete' }, [
+        el('span', { class: 'codex-item__titres' }, [
+          t.surtitre ? el('span', { class: 'card__kicker' }, ligne(t.surtitre)) : null,
+          el(`h${t.niveau}`, { class: 'card__title' }, ligne(t.texte)),
+          date ? el('span', { class: 'codex-entry__meta' }, ligne(date.valeur)) : null,
+        ]),
+        el('span', { class: 'codex-item__fleche' }, ICO.chevron),
+      ]);
+      const contenu = el('div', { class: 'codex-item__contenu' });
+      if (autres.length) {
+        contenu.appendChild(el('p', { class: 'codex-entry__meta' }, autres.map((c) => el('span', null,
+          `${MD.echapper(capitale(c.libelle))} : ${ligne(c.valeur)}`))));
+      }
+      blocs.forEach((x) => ajouter(contenu, bloc(x, { classe: 'card__text' })));
+      ul.appendChild(el('li', { class: 'reveal' }, el('details', { class: 'card codex-item' }, [entete, contenu])));
+    });
+    return ul.children.length ? ul : null;
   }
 
   /**
